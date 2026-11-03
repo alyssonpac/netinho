@@ -2248,6 +2248,8 @@ body {
         <button class="ghost nav-login-btn" onclick="window.AppUI.openAuthModal('login')">Entrar</button>
         <button class="pri nav-register-btn" onclick="window.AppUI.openAuthModal('register')">Cadastre-se</button>
       </div>
+      <!-- Botão admin sempre visível para o dono do site -->
+      <button id="admin-quick-btn" onclick="window.AdminPanel && window.AdminPanel.open()" title="Painel do Administrador" style="margin-left:6px;padding:3px 9px;height:28px;font-size:11px;background:#7a4d00;color:#ffe0a0;border:1px solid #b7780a;border-radius:5px;cursor:pointer;font-weight:600;display:flex;align-items:center;gap:4px;">⚙️ Admin</button>
     </div>
   </header>
 
@@ -2981,17 +2983,29 @@ window.NETO_DATA = {
     }
 
     loadUsers() {
+      let users = [...INITIAL_USERS];
       try {
         const stored = localStorage.getItem(USERS_KEY);
         if (stored) {
           const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            users = parsed;
+          }
         }
       } catch (e) {
         console.warn('Erro ao carregar lista de usuários:', e);
       }
-      localStorage.setItem(USERS_KEY, JSON.stringify(INITIAL_USERS));
-      return [...INITIAL_USERS];
+      // Garante que o admin SEMPRE existe (mesmo com cache antigo no localStorage)
+      const adminExists = users.some(u => u.email.toLowerCase() === 'admin@netoinvest.com');
+      if (!adminExists) {
+        users.unshift(INITIAL_USERS[0]);
+      } else {
+        // Garante que o admin existente tem isAdmin: true
+        const idx = users.findIndex(u => u.email.toLowerCase() === 'admin@netoinvest.com');
+        if (idx !== -1) users[idx] = { ...users[idx], isAdmin: true, isVip: true };
+      }
+      localStorage.setItem(USERS_KEY, JSON.stringify(users));
+      return users;
     }
 
     saveUsers() {
@@ -5175,6 +5189,10 @@ window.AdminPanel = {
             <p style="text-align:center;font-size:12px;color:var(--muted);">
               Não tem conta? <a href="javascript:void(0)" onclick="window.AppUI.switchTab('register')" style="color:var(--accent);font-weight:600;">Criar agora</a>
             </p>
+            <div style="border-top:1px solid var(--border);padding-top:10px;text-align:center;">
+              <p style="font-size:11px;color:var(--muted);margin-bottom:6px;">Acesso do Administrador</p>
+              <button onclick="(function(){var e=document.getElementById('login-email');var p=document.getElementById('login-password');if(e)e.value='admin@netoinvest.com';if(p)p.value='admin';window.AppUI.handleLogin();})()" style="width:100%;height:34px;font-size:12px;background:#7a4d00;color:#ffe0a0;border:1px solid #b7780a;border-radius:6px;cursor:pointer;font-weight:600;">⚙️ Entrar como Administrador</button>
+            </div>
           </div>
 
           <div id="modal-register-form" style="display:${initialTab === 'register' ? 'flex' : 'none'};flex-direction:column;gap:14px;">
