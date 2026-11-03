@@ -2038,6 +2038,155 @@ body {
   border-radius: 4px;
 }
 
+
+/* ==========================================================================
+   Painel do Administrador (Gestão de Assinantes & Automação de Pagamento)
+   ========================================================================== */
+
+.modal-admin {
+  max-width: 980px !important;
+  width: 95% !important;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 26px !important;
+  border-radius: var(--r-lg) !important;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.admin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 99px;
+  background: var(--gold-soft);
+  color: var(--warn);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 18px;
+}
+
+.admin-tab-btn {
+  padding: 8px 18px;
+  border: none;
+  background: transparent;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.admin-tab-btn:hover {
+  color: var(--ink);
+}
+
+.admin-tab-btn.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  font-weight: 600;
+}
+
+.admin-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.admin-kpi-card {
+  background: var(--sunk);
+  padding: 12px 14px;
+  border-radius: var(--r);
+  border: 1px solid var(--line);
+}
+
+.admin-kpi-card small {
+  font-size: 10.5px;
+  color: var(--muted);
+  display: block;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.admin-kpi-card b {
+  font-size: 20px;
+  font-family: var(--f-display);
+  color: var(--ink);
+  margin-top: 2px;
+  display: block;
+}
+
+.admin-tbl-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  margin-top: 12px;
+  background: var(--surface);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+.admin-table th {
+  background: var(--sunk);
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 600;
+  border-bottom: 1px solid var(--line);
+}
+
+.admin-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+.admin-table tr:hover {
+  background: rgba(241, 245, 249, 0.7);
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.status-badge.vip {
+  background: var(--good-soft);
+  color: var(--good);
+}
+
+.status-badge.free {
+  background: var(--sunk);
+  color: var(--muted);
+}
 </style>
 </head>
 <body>
@@ -2790,10 +2939,22 @@ window.NETO_DATA = {
   // Usuários padrão de demonstração
   const INITIAL_USERS = [
     {
+      id: 'usr_admin',
+      name: 'Administrador (Você)',
+      email: 'admin@netoinvest.com',
+      password: 'admin',
+      isAdmin: true,
+      isVip: true,
+      plan: 'vitalicio',
+      joinedAt: '2026-11-01T00:00:00.000Z',
+      expiresAt: '2099-12-31T23:59:59.000Z'
+    },
+    {
       id: 'usr_demo_vip',
       name: 'Membro Pro Demo',
       email: 'membro@netoinvest.com',
       password: '123',
+      isAdmin: false,
       isVip: true,
       plan: 'anual',
       joinedAt: '2026-11-01T10:00:00.000Z',
@@ -2804,6 +2965,7 @@ window.NETO_DATA = {
       name: 'Visitante Grátis',
       email: 'visitante@netoinvest.com',
       password: '123',
+      isAdmin: false,
       isVip: false,
       plan: null,
       joinedAt: '2026-11-02T12:00:00.000Z',
@@ -2982,6 +3144,118 @@ window.NETO_DATA = {
     logout() {
       this.saveSession(null);
       return { success: true };
+    }
+
+    // --- Métodos de Gestão Administrativa de Assinantes ---
+    getAllUsers() {
+      return [...this.users];
+    }
+
+    toggleUserVip(userId) {
+      const user = this.users.find(u => u.id === userId);
+      if (!user) return { success: false, error: 'Usuário não encontrado' };
+
+      user.isVip = !user.isVip;
+      if (user.isVip && !user.plan) {
+        user.plan = 'anual';
+        user.expiresAt = new Date(Date.now() + 365*24*60*60*1000).toISOString();
+      }
+      this.saveUsers();
+      if (this.currentUser && this.currentUser.id === user.id) {
+        this.saveSession({ ...user });
+      }
+      this.notifyListeners();
+      return { success: true, user };
+    }
+
+    setUserPlan(userId, plan) {
+      const user = this.users.find(u => u.id === userId);
+      if (!user) return { success: false, error: 'Usuário não encontrado' };
+
+      user.plan = plan;
+      user.isVip = true;
+      const days = plan === 'mensal' ? 30 : plan === 'anual' ? 365 : 36500;
+      user.expiresAt = new Date(Date.now() + days*24*60*60*1000).toISOString();
+
+      this.saveUsers();
+      if (this.currentUser && this.currentUser.id === user.id) {
+        this.saveSession({ ...user });
+      }
+      this.notifyListeners();
+      return { success: true, user };
+    }
+
+    deleteUser(userId) {
+      if (userId === 'usr_admin') {
+        return { success: false, error: 'Não é possível excluir o usuário administrador principal.' };
+      }
+      this.users = this.users.filter(u => u.id !== userId);
+      this.saveUsers();
+      return { success: true };
+    }
+
+    adminCreateUser({ name, email, password, plan, isVip }) {
+      const cleanEmail = String(email || '').trim().toLowerCase();
+      if (this.users.some(u => u.email.toLowerCase() === cleanEmail)) {
+        return { success: false, error: 'E-mail já cadastrado.' };
+      }
+
+      const days = plan === 'mensal' ? 30 : plan === 'anual' ? 365 : 36500;
+      const newUser = {
+        id: 'usr_' + Date.now(),
+        name: name.trim(),
+        email: cleanEmail,
+        password: password || '123456',
+        isAdmin: false,
+        isVip: !!isVip,
+        plan: isVip ? (plan || 'anual') : null,
+        joinedAt: new Date().toISOString(),
+        expiresAt: isVip ? new Date(Date.now() + days*24*60*60*1000).toISOString() : null
+      };
+
+      this.users.unshift(newUser);
+      this.saveUsers();
+      return { success: true, user: newUser };
+    }
+
+    // --- Automação: Liberação Automática por Webhook / API ---
+    processWebhookPayment({ email, name, plan, provider, transactionId }) {
+      const cleanEmail = String(email || '').trim().toLowerCase();
+      let user = this.users.find(u => u.email.toLowerCase() === cleanEmail);
+
+      const planChosen = plan || 'anual';
+      const days = planChosen === 'mensal' ? 30 : planChosen === 'anual' ? 365 : 36500;
+      const expiresAt = new Date(Date.now() + days*24*60*60*1000).toISOString();
+
+      if (user) {
+        // Usuário já existe: ativa VIP instantaneamente
+        user.isVip = true;
+        user.plan = planChosen;
+        user.expiresAt = expiresAt;
+        user.lastPayment = { provider, transactionId, date: new Date().toISOString() };
+      } else {
+        // Usuário novo: cria a conta já liberada
+        user = {
+          id: 'usr_' + Date.now(),
+          name: name ? name.trim() : cleanEmail.split('@')[0],
+          email: cleanEmail,
+          password: 'vip' + Math.floor(1000 + Math.random()*9000), // senha inicial
+          isAdmin: false,
+          isVip: true,
+          plan: planChosen,
+          joinedAt: new Date().toISOString(),
+          expiresAt: expiresAt,
+          lastPayment: { provider, transactionId, date: new Date().toISOString() }
+        };
+        this.users.unshift(user);
+      }
+
+      this.saveUsers();
+      if (this.currentUser && this.currentUser.email.toLowerCase() === cleanEmail) {
+        this.saveSession({ ...user });
+      }
+      this.notifyListeners();
+      return { success: true, user };
     }
   }
 
@@ -4390,6 +4664,407 @@ window.BVMFFinanceService = {
   }
 };
 
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Painel do Administrador (Gestão de Assinantes & Automação de Pagamentos)
+// ──────────────────────────────────────────────────────────────────────────────
+window.AdminPanel = {
+  currentTab: 'subscribers', // 'subscribers' | 'payments' | 'webhook_sim'
+  searchTerm: '',
+
+  open(initialTab = 'subscribers') {
+    this.close();
+    this.currentTab = initialTab;
+
+    const modalEl = document.createElement('div');
+    modalEl.id = 'admin-panel-modal';
+    modalEl.className = 'modal-backdrop';
+    modalEl.innerHTML = `
+      <div class="modal-card modal-admin" role="dialog" aria-modal="true">
+        <div class="admin-header">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="admin-badge">Painel de Controle</span>
+              <h2 style="font-size:22px;margin:0;">Administração Neto Invest</h2>
+            </div>
+            <p style="font-size:12.5px;color:var(--muted);margin-top:4px;">
+              Gestão de assinantes, controle de acessos VIP e integração com API de pagamentos.
+            </p>
+          </div>
+          <button class="x" onclick="window.AdminPanel.close()">✕</button>
+        </div>
+
+        <div class="admin-tabs">
+          <button class="admin-tab-btn ${this.currentTab === 'subscribers' ? 'active' : ''}" onclick="window.AdminPanel.switchTab('subscribers')">
+            👥 Assinantes (${window.AuthService ? window.AuthService.getAllUsers().length : 0})
+          </button>
+          <button class="admin-tab-btn ${this.currentTab === 'payments' ? 'active' : ''}" onclick="window.AdminPanel.switchTab('payments')">
+            💳 Gateway & Chaves de Pagamento
+          </button>
+          <button class="admin-tab-btn ${this.currentTab === 'webhook_sim' ? 'active' : ''}" onclick="window.AdminPanel.switchTab('webhook_sim')">
+            ⚡ Automação de Compras (Webhook)
+          </button>
+        </div>
+
+        <div id="admin-tab-content">
+          ${this.renderTabContent()}
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modalEl);
+  },
+
+  close() {
+    const modal = document.getElementById('admin-panel-modal');
+    if (modal) modal.remove();
+  },
+
+  switchTab(tab) {
+    this.currentTab = tab;
+    document.querySelectorAll('.admin-tab-btn').forEach((b, i) => {
+      b.classList.toggle('active', (i === 0 && tab === 'subscribers') || (i === 1 && tab === 'payments') || (i === 2 && tab === 'webhook_sim'));
+    });
+    const container = document.getElementById('admin-tab-content');
+    if (container) container.innerHTML = this.renderTabContent();
+  },
+
+  renderTabContent() {
+    if (this.currentTab === 'subscribers') return this.renderSubscribersTab();
+    if (this.currentTab === 'payments') return this.renderPaymentsTab();
+    if (this.currentTab === 'webhook_sim') return this.renderWebhookTab();
+    return '';
+  },
+
+  renderSubscribersTab() {
+    const users = window.AuthService ? window.AuthService.getAllUsers() : [];
+    const total = users.length;
+    const vips = users.filter(u => u.isVip).length;
+    const mensais = users.filter(u => u.isVip && u.plan === 'mensal').length;
+    const anuais = users.filter(u => u.isVip && u.plan === 'anual').length;
+    const mrr = (mensais * 39.90) + (anuais * 29.90);
+
+    const filtered = users.filter(u => {
+      if (!this.searchTerm) return true;
+      const term = this.searchTerm.toLowerCase();
+      return u.name.toLowerCase().includes(term) || u.email.toLowerCase().includes(term);
+    });
+
+    return `
+      <div class="admin-kpis">
+        <div class="admin-kpi-card">
+          <small>Total Cadastrados</small>
+          <b>${total}</b>
+        </div>
+        <div class="admin-kpi-card">
+          <small>Assinantes VIP</small>
+          <b style="color:var(--good);">${vips}</b>
+        </div>
+        <div class="admin-kpi-card">
+          <small>Receita Recorrente</small>
+          <b style="color:var(--accent);">R$ ${mrr.toFixed(2).replace('.', ',')}/mês</b>
+        </div>
+        <div class="admin-kpi-card">
+          <small>Conversão VIP</small>
+          <b>${total > 0 ? Math.round((vips/total)*100) : 0}%</b>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;">
+        <input type="text" placeholder="Buscar por nome ou e-mail..." value="${this.searchTerm}" oninput="window.AdminPanel.search(this.value)" style="flex:1;max-width:320px;height:34px;font-size:12.5px;">
+        <button class="pri" style="height:34px;font-size:12.5px;" onclick="window.AdminPanel.openCreateUserModal()">
+          + Cadastrar Novo Assinante
+        </button>
+      </div>
+
+      <div class="admin-tbl-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Usuário</th>
+              <th>E-mail</th>
+              <th>Plano</th>
+              <th>Status VIP</th>
+              <th>Expira em</th>
+              <th style="text-align:right;">Ações de Acesso</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${filtered.map(u => `
+              <tr>
+                <td>
+                  <b>${u.name}</b> ${u.isAdmin ? '<span class="admin-badge" style="font-size:9.5px;padding:1px 5px;">ADMIN</span>' : ''}
+                </td>
+                <td style="color:var(--muted);">${u.email}</td>
+                <td>
+                  <span style="text-transform:capitalize;font-weight:500;">${u.plan || 'Nenhum'}</span>
+                </td>
+                <td>
+                  <span class="status-badge ${u.isVip ? 'vip' : 'free'}">
+                    ${u.isVip ? '● VIP Ativo' : '○ Bloqueado'}
+                  </span>
+                </td>
+                <td style="font-size:11.5px;color:var(--muted);">
+                  ${u.expiresAt ? new Date(u.expiresAt).toLocaleDateString('pt-BR') : '—'}
+                </td>
+                <td style="text-align:right;">
+                  <button class="${u.isVip ? 'ghost' : 'pri'}" style="padding:4px 8px;font-size:11px;height:26px;" onclick="window.AdminPanel.toggleVip('${u.id}')">
+                    ${u.isVip ? 'Bloquear Acesso' : 'Liberar VIP'}
+                  </button>
+                  <button class="ghost" style="padding:4px 8px;font-size:11px;height:26px;" onclick="window.AdminPanel.changePlan('${u.id}')">
+                    Plano
+                  </button>
+                  ${!u.isAdmin ? `
+                    <button class="ghost" style="padding:4px 6px;font-size:11px;height:26px;color:var(--bad);" onclick="window.AdminPanel.deleteUser('${u.id}')" title="Excluir">
+                      ✕
+                    </button>
+                  ` : ''}
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  },
+
+  renderPaymentsTab() {
+    const cfg = window.ApiService ? window.ApiService.getConfig() : {};
+    return `
+      <div style="background:var(--sunk);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:18px;">
+        <h3 style="font-size:15px;margin:0 0 6px;">Configuração do Gateway de Pagamento</h3>
+        <p style="font-size:12.5px;color:var(--muted);margin:0;">
+          Defina sua conta do Asaas, Mercado Pago, Stripe ou Kiwify para processar vendas e receber direto via PIX.
+        </p>
+      </div>
+
+      <form onsubmit="window.AdminPanel.savePaymentConfig(event)" style="display:flex;flex-direction:column;gap:14px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="form-group">
+            <label>Plataforma de Pagamento</label>
+            <select id="adm-provider" style="width:100%">
+              <option value="asaas" ${cfg.paymentProvider === 'asaas' ? 'selected' : ''}>Asaas (Recomendado para PIX & Boletos)</option>
+              <option value="mercadopago" ${cfg.paymentProvider === 'mercadopago' ? 'selected' : ''}>Mercado Pago</option>
+              <option value="kiwify" ${cfg.paymentProvider === 'kiwify' ? 'selected' : ''}>Kiwify Webhook</option>
+              <option value="stripe" ${cfg.paymentProvider === 'stripe' ? 'selected' : ''}>Stripe</option>
+              <option value="custom" ${cfg.paymentProvider === 'custom' ? 'selected' : ''}>Webhook Próprio</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Ambiente de Operação</label>
+            <select id="adm-env" style="width:100%">
+              <option value="production" ${cfg.environment === 'production' ? 'selected' : ''}>Produção (Vendas Reais)</option>
+              <option value="sandbox" ${cfg.environment === 'sandbox' ? 'selected' : ''}>Sandbox (Modo Teste)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Chave de API / Token Secreto da sua Conta</label>
+          <input type="text" id="adm-key" value="${cfg.apiKey || ''}" placeholder="Cole seu token gerado no painel da plataforma">
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="form-group">
+            <label>Sua Chave Pix para Recebimentos</label>
+            <input type="text" id="adm-pix" value="${cfg.pixKey || 'netoinvest.contato@pagamentos.com.br'}" placeholder="CNPJ, E-mail ou Telefone">
+          </div>
+
+          <div class="form-group">
+            <label>URL de Notificação / Webhook</label>
+            <input type="url" id="adm-endpoint" value="${cfg.endpointUrl || ''}" placeholder="https://seusite.com.br/api/webhook">
+          </div>
+        </div>
+
+        <div id="adm-test-result" style="display:none;padding:10px;border-radius:6px;font-size:12.5px;"></div>
+
+        <div style="display:flex;gap:10px;margin-top:8px;">
+          <button type="button" class="ghost" style="flex:1;" onclick="window.AdminPanel.testConnection()">
+            Testar Conexão com Gateway
+          </button>
+          <button type="submit" class="pri" style="flex:1;">
+            Salvar Configurações de Pagamento
+          </button>
+        </div>
+      </form>
+    `;
+  },
+
+  renderWebhookTab() {
+    return `
+      <div style="background:var(--accent-soft);border:1px solid rgba(27,95,184,0.2);border-radius:var(--r);padding:16px;margin-bottom:18px;">
+        <h3 style="font-size:15px;margin:0 0 6px;color:var(--accent);">Como Funciona a Automação de Compras?</h3>
+        <p style="font-size:13px;color:var(--ink);line-height:1.6;margin:0;">
+          Quando o cliente paga via PIX ou Cartão no checkout, a plataforma (Asaas/Kiwify/Mercado Pago) envia uma notificação automática chamada <b>Webhook</b>. O sistema reconhece o pagamento aprovado, cria o usuário e <b>libera o acesso VIP instantaneamente</b>.
+        </p>
+      </div>
+
+      <div class="panel" style="padding:18px;margin-bottom:16px;">
+        <h4 style="font-size:14px;margin:0 0 10px;">Simulador de Notificação de Compra Aprovada</h4>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">
+          Use este simulador para testar a liberação automática sem precisar gastar dinheiro real:
+        </p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px;">
+          <div>
+            <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px;">E-mail do Comprador</label>
+            <input type="email" id="sim-email" placeholder="cliente@teste.com" style="width:100%;font-size:12.5px;">
+          </div>
+          <div>
+            <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px;">Nome do Comprador</label>
+            <input type="text" id="sim-name" placeholder="Nome do Cliente" style="width:100%;font-size:12.5px;">
+          </div>
+          <div>
+            <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px;">Plano Comprado</label>
+            <select id="sim-plan" style="width:100%;font-size:12.5px;">
+              <option value="anual">Anual PRO (R$ 358,80)</option>
+              <option value="mensal">Mensal (R$ 39,90)</option>
+              <option value="vitalicio">Vitalício VIP (R$ 890,00)</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="pri" style="height:36px;font-size:13px;width:100%;" onclick="window.AdminPanel.simulateWebhook()">
+          ⚡ Disparar Webhook e Liberar Acesso Automaticamente
+        </button>
+
+        <div id="sim-webhook-result" style="display:none;margin-top:12px;padding:12px;border-radius:6px;font-size:12.5px;"></div>
+      </div>
+    `;
+  },
+
+  search(val) {
+    this.searchTerm = val;
+    const content = document.getElementById('admin-tab-content');
+    if (content) content.innerHTML = this.renderSubscribersTab();
+  },
+
+  toggleVip(userId) {
+    const res = window.AuthService.toggleUserVip(userId);
+    if (res.success) {
+      window.AppUI.showToast(`Status VIP atualizado para: ${res.user.name}`);
+      this.switchTab('subscribers');
+    }
+  },
+
+  changePlan(userId) {
+    const newPlan = prompt('Escolha o plano (mensal, anual ou vitalicio):', 'anual');
+    if (newPlan && ['mensal', 'anual', 'vitalicio'].includes(newPlan.toLowerCase())) {
+      const res = window.AuthService.setUserPlan(userId, newPlan.toLowerCase());
+      if (res.success) {
+        window.AppUI.showToast(`Plano alterado para ${newPlan} com sucesso!`);
+        this.switchTab('subscribers');
+      }
+    }
+  },
+
+  deleteUser(userId) {
+    if (confirm('Tem certeza que deseja excluir este usuário?')) {
+      const res = window.AuthService.deleteUser(userId);
+      if (res.success) {
+        window.AppUI.showToast('Usuário excluído!');
+        this.switchTab('subscribers');
+      } else {
+        alert(res.error);
+      }
+    }
+  },
+
+  openCreateUserModal() {
+    const name = prompt('Nome completo do assinante:');
+    if (!name) return;
+    const email = prompt('E-mail do assinante:');
+    if (!email) return;
+    const password = prompt('Senha de acesso:', '123456');
+    const isVip = confirm('Deseja liberar acesso VIP imediatamente?');
+    const plan = isVip ? (prompt('Plano (mensal, anual ou vitalicio):', 'anual') || 'anual') : null;
+
+    const res = window.AuthService.adminCreateUser({ name, email, password, plan, isVip });
+    if (res.success) {
+      window.AppUI.showToast(`Assinante ${name} cadastrado com sucesso!`);
+      this.switchTab('subscribers');
+    } else {
+      alert(res.error);
+    }
+  },
+
+  savePaymentConfig(e) {
+    e.preventDefault();
+    const provider = document.getElementById('adm-provider')?.value;
+    const key = document.getElementById('adm-key')?.value;
+    const pix = document.getElementById('adm-pix')?.value;
+    const endpoint = document.getElementById('adm-endpoint')?.value;
+    const env = document.getElementById('adm-env')?.value;
+
+    window.ApiService && window.ApiService.saveConfig({
+      paymentProvider: provider,
+      apiKey: key,
+      pixKey: pix,
+      endpointUrl: endpoint,
+      environment: env
+    });
+
+    window.AppUI.showToast('Configurações de pagamento salvas!');
+  },
+
+  async testConnection() {
+    const resBox = document.getElementById('adm-test-result');
+    if (!resBox) return;
+    resBox.style.display = 'block';
+    resBox.style.background = 'var(--sunk)';
+    resBox.style.color = 'var(--ink)';
+    resBox.textContent = 'Testando conexão com a plataforma de pagamentos...';
+
+    const res = window.ApiService ? await window.ApiService.testConnection() : { success: false, message: 'ApiService indisponível' };
+    if (res.success) {
+      resBox.style.background = 'var(--good-soft)';
+      resBox.style.color = 'var(--good)';
+      resBox.textContent = `✓ ${res.message}`;
+    } else {
+      resBox.style.background = 'var(--bad-soft)';
+      resBox.style.color = 'var(--bad)';
+      resBox.textContent = `✕ ${res.message}`;
+    }
+  },
+
+  simulateWebhook() {
+    const email = (document.getElementById('sim-email')?.value || '').trim();
+    const name = (document.getElementById('sim-name')?.value || '').trim();
+    const plan = document.getElementById('sim-plan')?.value || 'anual';
+    const resBox = document.getElementById('sim-webhook-result');
+
+    if (!email) {
+      alert('Informe o e-mail para simular o pagamento.');
+      return;
+    }
+
+    const res = window.AuthService.processWebhookPayment({
+      email,
+      name: name || 'Cliente Webhook',
+      plan,
+      provider: 'asaas_webhook',
+      transactionId: 'tx_' + Date.now()
+    });
+
+    if (res.success) {
+      resBox.style.display = 'block';
+      resBox.style.background = 'var(--good-soft)';
+      resBox.style.color = 'var(--good)';
+      resBox.innerHTML = `
+        <b>✓ Pagamento Aprovado com Sucesso!</b><br>
+        O acesso VIP para <b>${res.user.email}</b> foi liberado automaticamente no plano <b>${res.user.plan.toUpperCase()}</b>.<br>
+        <span style="font-size:11px;color:var(--muted);">Expira em: ${new Date(res.user.expiresAt).toLocaleDateString('pt-BR')}</span>
+      `;
+      window.AppUI.showToast(`Acesso VIP liberado para ${res.user.email}!`);
+      // Atualiza aba se estiver aberta
+      setTimeout(() => {
+        const btn = document.querySelector('.admin-tab-btn');
+        if (btn) btn.textContent = `👥 Assinantes (${window.AuthService.getAllUsers().length})`;
+      }, 300);
+    }
+  }
+};
+
 // ──────────────────────────────────────────────────────────────────────────────
 // AppUI - Navegação Fluida em Página Única (Mesma Janela)
 // ──────────────────────────────────────────────────────────────────────────────
@@ -4424,10 +5099,13 @@ window.BVMFFinanceService = {
     }
 
     initEvents() {
-      // Atalho discreto Ctrl+Shift+P para configurações de pagamento
+      // Atalhos discretos: Ctrl+Shift+A (Painel Admin) e Ctrl+Shift+P (Pagamentos)
       document.addEventListener('keydown', e => {
+        if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+          window.AdminPanel && window.AdminPanel.open();
+        }
         if (e.ctrlKey && e.shiftKey && (e.key === 'P' || e.key === 'p')) {
-          this.openApiSettingsModal();
+          window.AdminPanel && window.AdminPanel.open('payments');
         }
       });
     }
@@ -4443,6 +5121,11 @@ window.BVMFFinanceService = {
             <span class="user-avatar">${user.name.charAt(0).toUpperCase()}</span>
             <span style="font-weight:600;font-size:12.5px;">${user.name.split(' ')[0]}</span>
             <span class="plan-pill ${isVip ? 'vip' : 'free'}">${isVip ? 'VIP' : 'Grátis'}</span>
+            ${user.isAdmin ? `
+              <button class="pri" onclick="window.AdminPanel && window.AdminPanel.open()" style="padding:3px 9px;height:24px;font-size:11px;background:#B7780A;border-color:#B7780A;" title="Painel do Administrador">
+                ⚙️ Admin
+              </button>
+            ` : ''}
             <button class="ghost logout-btn" onclick="window.AuthService.logout()" title="Encerrar Sessão" style="padding:2px 6px;height:24px;font-size:11px;">
               Sair
             </button>
