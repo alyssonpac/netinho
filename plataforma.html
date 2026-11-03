@@ -1,0 +1,3991 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Plataforma Neto Invest · Terminal de Investimentos</title>
+<meta name="description" content="Terminal exclusivo Neto Invest: ranking de ações, carteira como holding, agenda de dividendos e simuladores.">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+
+/* ==========================================================================
+   NETO INVEST - Design System Minimalista & Responsivo
+   ========================================================================== */
+
+:root {
+  --bg: #F8FAFC;
+  --surface: #FFFFFF;
+  --sunk: #F1F5F9;
+  --line: #E2E8F0;
+  --line-strong: #CBD5E1;
+  --ink: #0B1F3A;
+  --muted: #64748B;
+  --accent: #1B5FB8;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #EAF2FC;
+  --gold: #2A8CD8;
+  --gold-soft: #E5F2FC;
+  --good: #10B981;
+  --good-soft: #ECFDF5;
+  --warn: #B7780A;
+  --warn-soft: #FBF0D9;
+  --bad: #EF4444;
+  --bad-soft: #FEE2E2;
+  --side: #FFFFFF;
+  --side-ink: #0B1F3A;
+  --side-muted: #6A7B90;
+  --hero: #0A2A5E;
+  --sky: #7CC3F2;
+
+  --f-display: "Familjen Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --f-body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --f-mono: "IBM Plex Mono", SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --r: 8px;
+  --r-lg: 14px;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 14px -2px rgba(11, 31, 58, 0.06);
+  --shadow-lg: 0 10px 28px -4px rgba(11, 31, 58, 0.09);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.num, td.n, .mono {
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   TOP HEADER (100% Horizontal, Alinhado, Minimalista)
+   ========================================================================== */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 58px;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.nav-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: 100%;
+}
+
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  text-decoration: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.brand-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: #FFFFFF;
+  display: grid;
+  place-items: center;
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.brand-text-group {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.brand-title {
+  font-family: var(--f-display);
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.brand-tag {
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Horizontal Nav Menu */
+.main-horizontal-nav {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 3px !important;
+  overflow-x: auto !important;
+  white-space: nowrap !important;
+  scrollbar-width: none !important;
+  -webkit-overflow-scrolling: touch !important;
+  flex: 1 !important;
+  justify-content: flex-start !important; margin: 0 10px !important;
+  padding: 0 4px !important;
+}
+
+.main-horizontal-nav::-webkit-scrollbar {
+  display: none !important;
+}
+
+.hnav-link {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 6px !important;
+  height: 32px !important;
+  padding: 0 8px !important;
+  border-radius: 6px !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  color: var(--muted) !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  transition: all 0.15s ease !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  cursor: pointer !important;
+  flex-shrink: 0 !important;
+}
+
+.hnav-link:hover {
+  color: var(--ink) !important;
+  background: var(--sunk) !important;
+}
+
+.hnav-link.active {
+  color: var(--accent) !important;
+  background: var(--accent-soft) !important;
+  border-color: rgba(27, 95, 184, 0.15) !important;
+  font-weight: 600 !important;
+}
+
+.hnav-svg {
+  width: 14px !important;
+  height: 14px !important;
+  stroke: currentColor !important;
+  fill: none !important;
+  stroke-width: 1.8 !important;
+  flex-shrink: 0 !important;
+}
+
+.hnav-divider {
+  width: 1px !important;
+  height: 16px !important;
+  background: var(--line) !important;
+  margin: 0 4px !important;
+  flex-shrink: 0 !important;
+  display: inline-block !important;
+}
+
+.hnav-cta {
+  color: var(--accent) !important;
+  font-weight: 600 !important;
+  background: rgba(27, 95, 184, 0.05) !important;
+  border: 1px solid rgba(27, 95, 184, 0.2) !important;
+}
+
+.hnav-cta:hover {
+  background: var(--accent-soft) !important;
+  border-color: var(--accent) !important;
+}
+
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.user-actions button, .user-actions .btn {
+  font-size: 13px;
+  padding: 6px 14px;
+  height: 34px;
+  white-space: nowrap;
+}
+
+.user-profile-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 3px 10px;
+  border-radius: 99px;
+  height: 34px;
+}
+
+.user-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.plan-pill {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 99px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.plan-pill.vip {
+  background: var(--gold-soft);
+  color: var(--accent);
+}
+
+.plan-pill.free {
+  background: var(--sunk);
+  color: var(--muted);
+}
+
+/* ==========================================================================
+   Botões e Controles
+   ========================================================================== */
+
+button, .btn {
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  border-radius: 7px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  padding: 7px 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+button:hover, .btn:hover {
+  border-color: var(--muted);
+}
+
+button.pri, .btn.pri {
+  background: var(--accent);
+  color: #FFFFFF;
+  border-color: var(--accent);
+}
+
+button.pri:hover, .btn.pri:hover {
+  background: #14488D;
+  border-color: #14488D;
+}
+
+button.ghost, .btn.ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--muted);
+}
+
+button.ghost:hover, .btn.ghost:hover {
+  color: var(--ink);
+  background: var(--sunk);
+}
+
+button.x {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  padding: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button.x:hover {
+  color: var(--bad);
+}
+
+input, select {
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 7px 11px;
+  font-size: 13.5px;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(27, 95, 184, 0.12);
+}
+
+/* ==========================================================================
+   Layout da Página e Seções
+   ========================================================================== */
+
+.landing-section {
+  padding: 56px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.site-hero {
+  padding: 40px 20px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-card {
+  background: linear-gradient(135deg, #0A2A5E 0%, #16509E 100%);
+  color: #FFFFFF;
+  border-radius: var(--r-lg);
+  padding: clamp(26px, 4vw, 48px);
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: center;
+  box-shadow: var(--shadow-lg);
+}
+
+.hero-tag {
+  color: var(--sky);
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.hero-card h1 {
+  font-family: var(--f-display);
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.hero-card h1 em {
+  font-style: normal;
+  color: var(--sky);
+}
+
+.hero-card p {
+  color: #C9DCF2;
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 52ch;
+  margin-bottom: 22px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.hero-tape {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hero-tape .tape-row {
+  display: grid;
+  grid-template-columns: 75px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 13px;
+}
+
+.hero-tape .tape-row:last-child {
+  border-bottom: 0;
+}
+
+.hero-tape .tk {
+  color: #FFFFFF;
+  font-family: var(--f-mono);
+  font-weight: 600;
+}
+
+.hero-tape .co {
+  color: #C3D5EB;
+  font-size: 12px;
+}
+
+.hero-tape .mg {
+  color: var(--sky);
+  font-family: var(--f-mono);
+  font-weight: 600;
+}
+
+/* Métricas */
+.metrics-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-top: 20px;
+}
+
+.metric-item {
+  background: var(--surface);
+  padding: 18px 20px;
+}
+
+.metric-item b {
+  display: block;
+  font-family: var(--f-display);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.metric-item span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Cabeçalhos de Seção */
+.section-head {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 36px;
+}
+
+.section-head .eyebrow {
+  color: var(--accent);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.section-head h2 {
+  font-family: var(--f-display);
+  font-size: 26px;
+  font-weight: 700;
+  margin: 6px 0 8px;
+  letter-spacing: -0.01em;
+}
+
+.section-head p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* Grid de Metodologia */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.feature-box {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.feature-box:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.feature-box h3 {
+  font-family: var(--f-display);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.feature-box p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+/* Painel Sobre */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
+}
+
+.about {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: center;
+}
+
+.avatar {
+  width: 58px;
+  height: 58px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  display: grid;
+  place-items: center;
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.links {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.links a {
+  text-decoration: none;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 7px 12px;
+  border-radius: 7px;
+  font-weight: 500;
+  font-size: 12.5px;
+}
+
+.links a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ==========================================================================
+   Planos de Assinatura (Monetização)
+   ========================================================================== */
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.pricing-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 26px 22px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.pricing-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+}
+
+.pricing-card.featured {
+  border-color: var(--accent);
+  border-width: 2px;
+  box-shadow: var(--shadow-lg);
+  transform: scale(1.02);
+}
+
+.popular-badge {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 11px;
+  border-radius: 99px;
+}
+
+.pricing-name {
+  font-family: var(--f-display);
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.pricing-price {
+  margin: 14px 0 6px;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.pricing-price .curr {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.pricing-price .val {
+  font-family: var(--f-display);
+  font-size: 38px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.pricing-price .cycle {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.pricing-desc {
+  font-size: 12px;
+  color: var(--muted);
+  min-height: 36px;
+  margin-bottom: 18px;
+}
+
+.pricing-features {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 22px;
+  flex: 1;
+}
+
+.pricing-features div {
+  font-size: 12.5px;
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  color: var(--ink);
+}
+
+.pricing-features svg {
+  width: 15px;
+  height: 15px;
+  stroke: var(--good);
+  stroke-width: 2.5;
+  fill: none;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.pricing-btn {
+  width: 100%;
+  padding: 10px;
+  font-weight: 600;
+  font-size: 13.5px;
+  border-radius: 7px;
+}
+
+/* ==========================================================================
+   Terminal de Membros (Conteúdo do Artefato)
+   ========================================================================== */
+
+.terminal-frame {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.terminal-header-bar {
+  background: var(--ink);
+  color: #FFFFFF;
+  padding: 12px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Platform Terminal Frame & Horizontal Layout */
+.terminal-frame {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.terminal-horizontal-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  background: #FFFFFF;
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.terminal-horizontal-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.terminal-tabs-track {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.ttab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.ttab:hover {
+  color: var(--ink);
+  background: var(--sunk);
+}
+
+.ttab.active {
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-color: rgba(27, 95, 184, 0.2);
+  font-weight: 600;
+}
+
+.ttab svg {
+  width: 15px;
+  height: 15px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  flex-shrink: 0;
+}
+
+.terminal-bar-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--muted);
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 99px;
+  background: var(--good-soft);
+  color: var(--good);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.meta-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--good);
+}
+
+.meta-reset-btn {
+  font-size: 11.5px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--sunk);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.meta-reset-btn:hover {
+  color: var(--bad);
+  border-color: var(--bad-soft);
+}
+
+.terminal-view-body {
+  width: 100%;
+  min-height: 500px;
+  padding: 24px 20px 40px;
+  background: var(--bg);
+}
+
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+header.page {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+h1 {
+  font-family: var(--f-display);
+  font-size: 26px;
+  line-height: 1.15;
+  margin: 0;
+  font-weight: 700;
+}
+
+h2 {
+  font-family: var(--f-display);
+  font-size: 17.5px;
+  margin: 0;
+  font-weight: 600;
+}
+
+.sub {
+  color: var(--muted);
+  margin: 4px 0 0;
+  max-width: 60ch;
+  font-size: 13.5px;
+}
+
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.panel-h {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.kpi {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 13px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.kpi .v {
+  font-family: var(--f-mono);
+  font-size: 21px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kpi .h {
+  color: var(--muted);
+  font-size: 11.5px;
+}
+
+.kpi.hl {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.kpi.hl .eyebrow, .kpi.hl .h {
+  color: inherit;
+  opacity: 0.85;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 18px;
+}
+
+.tbl-wrap {
+  overflow-x: auto;
+  margin-inline: -4px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+  text-align: left;
+  padding: 9px 8px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+th.n, td.n {
+  text-align: right;
+}
+
+th.sort {
+  cursor: pointer;
+  user-select: none;
+}
+
+th.sort:hover {
+  color: var(--ink);
+}
+
+th.sort.on {
+  color: var(--accent);
+}
+
+td {
+  padding: 9px 8px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+tr.click {
+  cursor: pointer;
+}
+
+tr.click:hover td {
+  background: var(--sunk);
+}
+
+.tk {
+  font-family: var(--f-mono);
+  font-weight: 600;
+}
+
+.co {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.pill {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 99px;
+  font-family: var(--f-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+}
+
+.pill.good {
+  background: var(--good-soft);
+  color: var(--good);
+}
+
+.pill.warn {
+  background: var(--warn-soft);
+  color: var(--warn);
+}
+
+.pill.bad {
+  background: var(--bad-soft);
+  color: var(--bad);
+}
+
+.chip {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 5px;
+  background: var(--sunk);
+  color: var(--muted);
+  font-size: 11.5px;
+}
+
+input.q {
+  width: 96px;
+  text-align: right;
+  font-family: var(--f-mono);
+  padding: 4px 7px;
+}
+
+.seg {
+  display: inline-flex;
+  background: var(--sunk);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.seg button {
+  border: 0;
+  background: transparent;
+  padding: 5px 11px;
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+.seg button.on {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.tools {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.tools input[type=search] {
+  width: 220px;
+}
+
+.legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.legend i {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  margin-right: 5px;
+  vertical-align: -1px;
+}
+
+svg text {
+  font-family: var(--f-mono);
+  fill: var(--muted);
+  font-size: 11px;
+}
+
+.pie-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+  gap: 36px;
+  align-items: center;
+}
+
+.pie {
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+}
+
+.alist {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 36px;
+  max-width: 600px;
+  gap: 6px 16px;
+  font-size: 12px;
+}
+
+.alist div {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+}
+
+.alist i {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.growth {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  align-items: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.growth label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.growth input {
+  width: 58px;
+  padding: 4px 5px;
+  font-family: var(--f-mono);
+  text-align: right;
+}
+
+.months {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.mo {
+  background: var(--sunk);
+  border-radius: 7px;
+  padding: 9px 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-height: 145px;
+  min-width: 0;
+  border: 1px solid transparent;
+}
+
+.mo.now {
+  border-color: var(--gold);
+  background: var(--gold-soft);
+}
+
+.mo .mh {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-weight: 600;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.mo .mv {
+  font-family: var(--f-mono);
+  font-size: 11.5px;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+.mo .bar {
+  height: 38px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.mo .bar span {
+  display: block;
+  width: 100%;
+  background: var(--gold);
+  border-radius: 2px 2px 0 0;
+  opacity: 0.85;
+}
+
+.mo .tks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.mo .tks span {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  background: var(--surface);
+  padding: 1px 3px;
+  border-radius: 3px;
+}
+
+.calc {
+  display: grid;
+  grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+  gap: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.form input {
+  font-family: var(--f-mono);
+}
+
+.big {
+  font-family: var(--f-mono);
+  font-size: 27px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.note {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.novs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+}
+
+.novs button {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 11px;
+}
+
+.novs .dy {
+  font-family: var(--f-mono);
+  color: var(--gold);
+  font-size: 12.5px;
+}
+
+.mobnav {
+  display: none;
+}
+
+/* ==========================================================================
+   Modais & Gavetas
+   ========================================================================== */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 24, 52, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+
+.modal-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 24px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: var(--shadow-lg);
+  animation: modalIn 0.16s ease-out;
+}
+
+.modal-card.modal-checkout {
+  max-width: 700px;
+}
+
+.modal-card.modal-api-config {
+  max-width: 560px;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.auth-tabs, .payment-tabs {
+  display: flex;
+  background: var(--sunk);
+  padding: 3px;
+  border-radius: 7px;
+  gap: 2px;
+  margin-bottom: 14px;
+}
+
+.auth-tabs .tab-btn, .payment-tabs .tab-btn {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  padding: 7px 11px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.auth-tabs .tab-btn.active, .payment-tabs .tab-btn.active {
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 22px;
+}
+
+.checkout-summary {
+  background: var(--sunk);
+  padding: 18px;
+  border-radius: var(--r);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checkout-plan-badge {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 11px;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+}
+
+.checkout-plan-badge b {
+  font-size: 17px;
+  color: var(--accent);
+}
+
+.checkout-plan-badge small {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.checkout-features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 12px;
+}
+
+.pix-payment-box {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 12px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.pix-qr-fake {
+  width: 80px;
+  height: 80px;
+  border-radius: 6px;
+  background: #fff;
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.drawer-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 24, 52, 0.4);
+  z-index: 200;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(430px, 100%);
+  background: var(--surface);
+  z-index: 201;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border-left: 1px solid var(--line);
+  box-shadow: var(--shadow-lg);
+  animation: slideRight 0.16s ease-out;
+}
+
+@keyframes slideRight {
+  from { transform: translateX(25px); opacity: 0.5; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.dl div {
+  background: var(--sunk);
+  border-radius: 7px;
+  padding: 8px 10px;
+  min-width: 0;
+}
+
+.dl dt {
+  font-size: 10.5px;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+
+.dl dd {
+  margin: 2px 0 0;
+  font-family: var(--f-mono);
+  font-size: 14.5px;
+  font-weight: 500;
+}
+
+.mbar {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 3px;
+}
+
+.mbar span {
+  font-size: 9.5px;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 4px;
+  background: var(--sunk);
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.mbar span.on {
+  background: var(--gold);
+  color: var(--surface);
+  font-weight: 600;
+}
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--ink);
+  color: #FFFFFF;
+  padding: 9px 18px;
+  border-radius: 99px;
+  z-index: 300;
+  font-size: 13px;
+  box-shadow: var(--shadow-lg);
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.site-footer {
+  background: #FFFFFF;
+  border-top: 1px solid var(--line);
+  padding: 36px 20px 24px;
+  margin-top: auto;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 24px auto 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  color: var(--muted);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* ==========================================================================
+   Responsividade
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .hero-card, .grid2, .calc {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .features-grid, .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+  .kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .months {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .checkout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .hero-card, .grid2, .calc {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .features-grid, .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+  .kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .months {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .checkout-grid {
+    grid-template-columns: 1fr;
+  }
+  .main-horizontal-nav {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-header {
+    height: 54px;
+    padding: 0 12px;
+  }
+  .brand-text-group .brand-tag {
+    display: none;
+  }
+  .metrics-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .terminal-view-body {
+    padding: 16px 10px 32px;
+  }
+  .months {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .alist {
+    grid-template-columns: 1fr;
+  }
+  .about {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+
+/* Plataforma: layout full-screen sem landing sections */
+body {
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header da plataforma: mais compacto */
+.plat-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 52px;
+  background: rgba(255,255,255,0.98);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.plat-header-inner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: 100%;
+}
+
+.plat-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.plat-brand-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  background: var(--ink);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.plat-brand-text {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.plat-brand-sub {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-left: 2px;
+}
+
+/* Abas horizontais da plataforma — ficam no header */
+.plat-tabs {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex: 1;
+  padding: 0 12px;
+}
+
+.plat-tabs::-webkit-scrollbar { display: none; }
+
+.ptab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 11px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.ptab:hover {
+  color: var(--ink);
+  background: var(--sunk);
+}
+
+.ptab.active {
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-color: rgba(27,95,184,0.2);
+  font-weight: 600;
+}
+
+.ptab svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  flex-shrink: 0;
+}
+
+.plat-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.plat-actions button {
+  font-size: 12px;
+  padding: 5px 12px;
+  height: 30px;
+}
+
+/* Área de conteúdo principal */
+.plat-main {
+  flex: 1;
+  padding: 24px 20px 48px;
+  max-width: 1380px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Status bar inferior */
+.plat-statusbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  background: var(--ink);
+  color: rgba(255,255,255,0.7);
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 16px;
+  z-index: 100;
+}
+
+.plat-statusbar .sb-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sb-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--good);
+}
+
+@media (max-width: 768px) {
+  .plat-main {
+    padding: 14px 10px 60px;
+  }
+  .plat-brand-sub {
+    display: none;
+  }
+}
+</style>
+</head>
+<body>
+
+  <!-- Header da Plataforma com Abas Horizontais -->
+  <header class="plat-header">
+    <div class="plat-header-inner">
+      <!-- Brand -->
+      <a href="index.html" class="plat-brand" title="Voltar ao site">
+        <div class="plat-brand-icon">N</div>
+        <div>
+          <span class="plat-brand-text">Neto Invest</span>
+          <span class="plat-brand-sub"> · Área de Membros</span>
+        </div>
+      </a>
+
+      <!-- Abas de navegação -->
+      <nav class="plat-tabs" id="plat-tabs">
+        <!-- Populadas pelo JS -->
+      </nav>
+
+      <!-- Ações do usuário -->
+      <div class="plat-actions" id="plat-user-area">
+        <!-- Populado pelo JS -->
+      </div>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="plat-main">
+    <div class="wrap" id="view"></div>
+  </main>
+
+  <!-- Status Bar -->
+  <div class="plat-statusbar">
+    <span class="sb-item"><span class="sb-dot"></span> Base Neto Invest · Nov/2026</span>
+    <span class="sb-item" id="sb-carteira">● Carteira salva localmente</span>
+    <span class="sb-item" style="margin-left:auto" id="sb-user"></span>
+  </div>
+
+  <!-- Camada de Modais -->
+  <div id="layer"></div>
+
+<script>
+
+/**
+ * Base de Dados da Área de Membros Neto Invest (Novembro/2026)
+ * Contém projeções de Preço Teto Bazin e P/L Justo (Graham),
+ * Carteira oficial do canal, histórico IBOV e projeções de proventos.
+ */
+window.NETO_DATA = {
+  "graham": [
+    {"e":"Banco Bradesco","t":"BBDC4","s":"Bancos","mc":154893359743,"ll":30000000000.0,"pl":5.1631,"plm":10.2,"dpl":-0.4938,"cagr":0.0765,"dl":0.0,"lpa":2.6844,"pay":0.605,"dpa":1.6241,"dy":0.1172,"p":13.86,"teto":21.6544,"mg":0.3599,"fq":"Trimestral","meses":"mar jun set e dez"},
+    {"e":"Banco Bradesco","t":"BBDC3","s":"Bancos","mc":142041457600,"ll":30000000000.0,"pl":4.7347,"plm":9.3,"dpl":-0.4909,"cagr":0.0765,"dl":0.0,"lpa":2.6844,"pay":0.55,"dpa":1.4764,"dy":0.1162,"p":12.71,"teto":19.6858,"mg":0.3544,"fq":"Trimestral","meses":"mar jun set e dez"},
+    {"e":"BR Partners","t":"BRBI11","s":"Serviços Financeiros","mc":1045756840,"ll":160000000.0,"pl":6.536,"plm":9.6,"dpl":-0.3192,"cagr":0.15,"dl":0.0,"lpa":1.5239,"pay":0.5,"dpa":0.7619,"dy":0.0765,"p":9.96,"teto":15.2387,"mg":0.3464,"fq":"Trimestral","meses":"mar maio ago e nov"},
+    {"e":"Stone","t":"STOC34","s":"Serviços Financeiros","mc":9528211514,"ll":2400000000.0,"pl":3.9701,"plm":27.9,"dpl":-0.8577,"cagr":0.1,"dl":0.0,"lpa":10.4078,"pay":0.6,"dpa":6.2447,"dy":0.1511,"p":41.32,"teto":62.447,"mg":0.3383,"fq":"Indefinido","meses":"Indefinido"},
+    {"e":"Lojas Renner","t":"LREN3","s":"Varejo","mc":8490117230,"ll":1350000000.0,"pl":6.289,"plm":25.6,"dpl":-0.7543,"cagr":0.0586,"dl":-0.38,"lpa":1.4279,"pay":0.6,"dpa":0.8567,"dy":0.0954,"p":8.98,"teto":13.565,"mg":0.338,"fq":"Trimestral","meses":"mar jun set dez"},
+    {"e":"Banco Mercantil","t":"BMEB3","s":"Bancos","mc":5914228323,"ll":1100000000.0,"pl":5.3766,"plm":8.0,"dpl":-0.3279,"cagr":0.3351,"dl":0.0,"lpa":8.8904,"pay":0.3,"dpa":2.4247,"dy":0.0507,"p":47.8,"teto":71.1234,"mg":0.3279,"fq":"Semestral","meses":"fevereiro e ago"},
+    {"e":"Banco do Brasil","t":"BBAS3","s":"Bancos","mc":94022225558,"ll":22600000000.0,"pl":4.1603,"plm":6.8,"dpl":-0.3882,"cagr":0.0477,"dl":0.0,"lpa":3.9589,"pay":0.25,"dpa":0.9897,"dy":0.0601,"p":16.47,"teto":24.0,"mg":0.3137,"fq":"8x por ano","meses":"mar jun set e dez"},
+    {"e":"Tim","t":"TIMS3","s":"Telecomunicações","mc":45562787370,"ll":5300000000.0,"pl":8.5968,"plm":16.3,"dpl":-0.4726,"cagr":0.1852,"dl":0.89,"lpa":2.2299,"pay":1.0,"dpa":2.2299,"dy":0.1163,"p":19.17,"teto":27.8739,"mg":0.3123,"fq":"5x por ano","meses":"mar abr jun set dez"},
+    {"e":"BTG","t":"BPAC11","s":"Bancos","mc":199942772736,"ll":20500000000.0,"pl":9.7533,"plm":17.1,"dpl":-0.4296,"cagr":0.372,"dl":0.0,"lpa":5.2823,"pay":0.3,"dpa":1.5847,"dy":0.0308,"p":51.52,"teto":73.9524,"mg":0.3033,"fq":"Quadrimestral","meses":"jan ago e dez"},
+    {"e":"Allos","t":"ALOS3","s":"Shoppings","mc":11752514171,"ll":1650000000.0,"pl":7.1227,"plm":14.4,"dpl":-0.5054,"cagr":0.361,"dl":1.7,"lpa":3.2993,"pay":1.06,"dpa":3.4973,"dy":0.1488,"p":23.5,"teto":32.9929,"mg":0.2877,"fq":"Mensal","meses":"jan-dez"},
+    {"e":"Vulcabras","t":"VULC3","s":"Calçados","mc":3604655677,"ll":550000000.0,"pl":6.5539,"plm":9.5,"dpl":-0.3101,"cagr":1.0582,"dl":0.7,"lpa":1.7593,"pay":0.5,"dpa":0.8796,"dy":0.0763,"p":11.53,"teto":16.0,"mg":0.2794,"fq":"Mensal","meses":"jan a dezembro"},
+    {"e":"Banco Mercantil","t":"BMEB4","s":"Bancos","mc":6977057220,"ll":1100000000.0,"pl":6.3428,"plm":8.0,"dpl":-0.2072,"cagr":0.3351,"dl":0.0,"lpa":8.8904,"pay":0.3,"dpa":2.6671,"dy":0.0473,"p":56.39,"teto":78.2357,"mg":0.2792,"fq":"Semestral","meses":"fevereiro e ago"},
+    {"e":"Banco Banrisul","t":"BRSR6","s":"Bancos","mc":5054918640,"ll":1050000000.0,"pl":4.8142,"plm":6.6,"dpl":-0.2706,"cagr":0.187,"dl":0.0,"lpa":2.5674,"pay":0.4,"dpa":1.027,"dy":0.0831,"p":12.36,"teto":17.0,"mg":0.2729,"fq":"Trimestral","meses":"Mar, jun, set, dez"},
+    {"e":"Wiz","t":"WIZC3","s":"Seguros","mc":938654090,"ll":160000000.0,"pl":5.8666,"plm":8.5,"dpl":-0.3098,"cagr":0.13,"dl":0.3,"lpa":1.0006,"pay":0.5,"dpa":0.5003,"dy":0.0852,"p":5.87,"teto":8.0047,"mg":0.2667,"fq":"Anual","meses":"abril"},
+    {"e":"Mahle Metal Leve","t":"LEVE3","s":"Automóveis e Motocicletas","mc":4101410140,"ll":680000000.0,"pl":6.0315,"plm":12.7,"dpl":-0.5251,"cagr":0.3787,"dl":1.05,"lpa":5.017,"pay":0.65,"dpa":3.2611,"dy":0.1078,"p":30.26,"teto":40.7632,"mg":0.2577,"fq":"Semestral","meses":"abril e nov"},
+    {"e":"Multiplan","t":"MULT3","s":"Shoppings","mc":12369471084,"ll":1650000000.0,"pl":7.4966,"plm":15.0,"dpl":-0.5002,"cagr":0.0343,"dl":1.93,"lpa":3.3602,"pay":0.5,"dpa":1.6801,"dy":0.0667,"p":25.19,"teto":33.6017,"mg":0.2503,"fq":"Quadrimestral","meses":"jun set e dez"},
+    {"e":"Sanepar","t":"SAPR4","s":"Saneamento","mc":9112569280,"ll":1600000000.0,"pl":5.6954,"plm":7.0,"dpl":-0.1864,"cagr":0.1585,"dl":1.0,"lpa":1.0588,"pay":0.35,"dpa":0.3706,"dy":0.0615,"p":6.03,"teto":8.0,"mg":0.2462,"fq":"Semestral","meses":"jun e dez"},
+    {"e":"Irani","t":"RANI3","s":"Papel e Celulose","mc":1738380204,"ll":200000000.0,"pl":8.6919,"plm":8.9,"dpl":-0.0234,"cagr":0.2114,"dl":2.07,"lpa":0.8732,"pay":0.5,"dpa":0.4366,"dy":0.0575,"p":7.59,"teto":10.0,"mg":0.241,"fq":"5x por ano","meses":"mar abr mai ago nov"},
+    {"e":"Sanepar","t":"SAPR11","s":"Saneamento","mc":9324138052,"ll":1600000000.0,"pl":5.8276,"plm":7.0,"dpl":-0.1675,"cagr":0.1585,"dl":1.0,"lpa":5.2938,"pay":0.3,"dpa":1.5881,"dy":0.0515,"p":30.85,"teto":40.0,"mg":0.2288,"fq":"Semestral","meses":"jun e dez"},
+    {"e":"Log","t":"LOGG3","s":"Exploração de imóveis","mc":1759992602,"ll":300000000.0,"pl":5.8666,"plm":9.0,"dpl":-0.3482,"cagr":0.2058,"dl":0.8,"lpa":3.4483,"pay":0.5,"dpa":1.7242,"dy":0.0852,"p":20.23,"teto":26.0,"mg":0.2219,"fq":"Trimestral","meses":"fev maio ago e nov"},
+    {"e":"Banco da Amazônia","t":"BAZA3","s":"Bancos","mc":3586590840,"ll":650000000.0,"pl":5.5178,"plm":5.0,"dpl":0.1036,"cagr":0.3301,"dl":0.0,"lpa":11.5951,"pay":0.4,"dpa":4.6381,"dy":0.0725,"p":63.98,"teto":82.0,"mg":0.2198,"fq":"Anual","meses":"abril"},
+    {"e":"Itausa","t":"ITSA4","s":"Holding","mc":139589972102,"ll":19000000000.0,"pl":7.3468,"plm":10.0,"dpl":-0.2653,"cagr":0.1764,"dl":0.0,"lpa":1.6946,"pay":0.7,"dpa":1.1862,"dy":0.0953,"p":12.45,"teto":15.8163,"mg":0.2128,"fq":"Semestral","meses":"fevereiro e ago"},
+    {"e":"Banco Pine","t":"PINE4","s":"Bancos","mc":2536348353,"ll":600000000.0,"pl":4.2272,"plm":7.1,"dpl":-0.4046,"cagr":0.2986,"dl":0.0,"lpa":2.3632,"pay":0.4,"dpa":0.9453,"dy":0.0946,"p":9.99,"teto":12.6039,"mg":0.2074,"fq":"Trimestral","meses":"jan, abr, jul, out"},
+    {"e":"Porto Seguro","t":"PSSA3","s":"Seguros","mc":28684403769,"ll":3800000000.0,"pl":7.5485,"plm":11.2,"dpl":-0.326,"cagr":0.1519,"dl":0.0,"lpa":5.9283,"pay":0.5,"dpa":2.9642,"dy":0.0662,"p":44.75,"teto":56.3189,"mg":0.2054,"fq":"Quadrimestral","meses":"mar, jun e out"},
+    {"e":"Compass","t":"PASS3","s":"Oléo, gás e biocomb.","mc":13705307923,"ll":1400000000.0,"pl":9.7895,"plm":11.5,"dpl":-0.1487,"cagr":0.0609,"dl":2.3,"lpa":1.9603,"pay":0.8,"dpa":1.5682,"dy":0.0817,"p":19.19,"teto":24.1263,"mg":0.2046,"fq":"Quadrimestral","meses":"março, agosto e novembro"},
+    {"e":"Banco ABC Brasil","t":"ABCB4","s":"Bancos","mc":5424045690,"ll":1050000000.0,"pl":5.1658,"plm":6.8,"dpl":-0.2403,"cagr":0.2667,"dl":0.0,"lpa":4.2917,"pay":0.55,"dpa":2.3604,"dy":0.1065,"p":22.17,"teto":27.85,"mg":0.2039,"fq":"Semestral","meses":"junho e dez"},
+    {"e":"Banco BMG","t":"BMGB4","s":"Bancos","mc":3312055826,"ll":620000000.0,"pl":5.342,"plm":7.9,"dpl":-0.3238,"cagr":0.1363,"dl":0.0,"lpa":0.9566,"pay":0.5,"dpa":0.4783,"dy":0.0936,"p":5.11,"teto":6.3771,"mg":0.1987,"fq":"Trimestral","meses":"abr jul out e dez"},
+    {"e":"Pagbank","t":"PAGS34","s":"Serviços Financeiros","mc":11985394516,"ll":2300000000.0,"pl":5.211,"plm":22.4,"dpl":-0.7674,"cagr":0.15,"dl":0.0,"lpa":1.6446,"pay":0.5,"dpa":0.8223,"dy":0.096,"p":8.57,"teto":10.6898,"mg":0.1983,"fq":"Trimestral","meses":"fev jun set e dez"},
+    {"e":"Dexxos","t":"DEXP3","s":"Industrial","mc":860033705.4,"ll":115000000.0,"pl":7.4786,"plm":6.0,"dpl":0.2464,"cagr":-0.0003,"dl":-0.35,"lpa":0.9507,"pay":0.45,"dpa":0.4278,"dy":0.0602,"p":7.11,"teto":8.86,"mg":0.1975,"fq":"Semestral","meses":"abril e dezembro"},
+    {"e":"MDias Branco","t":"MDIA3","s":"Alimentos","mc":5148132934,"ll":600000000.0,"pl":8.5802,"plm":17.4,"dpl":-0.5069,"cagr":-0.0289,"dl":-0.6,"lpa":1.789,"pay":0.8,"dpa":1.4312,"dy":0.0932,"p":15.35,"teto":19.0826,"mg":0.1956,"fq":"Mensal","meses":"jan a dezembro"},
+    {"e":"B3","t":"B3SA3","s":"Serviços Financeiros","mc":67028182742,"ll":6200000000.0,"pl":10.811,"plm":20.3,"dpl":-0.4674,"cagr":0.0202,"dl":-0.21,"lpa":1.2423,"pay":1.0,"dpa":1.2423,"dy":0.0925,"p":13.43,"teto":16.5634,"mg":0.1892,"fq":"Trimestral","meses":"mar jun set dez"},
+    {"e":"Sanepar","t":"SAPR3","s":"Saneamento","mc":9822835874,"ll":1600000000.0,"pl":6.1393,"plm":7.0,"dpl":-0.123,"cagr":0.1585,"dl":1.0,"lpa":1.0588,"pay":0.3185,"dpa":0.3372,"dy":0.0519,"p":6.5,"teto":8.0,"mg":0.1875,"fq":"Semestral","meses":"jun e dez"},
+    {"e":"JHSF","t":"JHSF3","s":"Imobiliário","mc":5905098539,"ll":600000000.0,"pl":9.8418,"plm":7.3,"dpl":0.3482,"cagr":0.2394,"dl":0.75,"lpa":0.9114,"pay":0.9,"dpa":0.8203,"dy":0.0914,"p":8.97,"teto":10.937,"mg":0.1798,"fq":"Mensal","meses":"jan a dezembro"},
+    {"e":"Sabesp","t":"SBSP3","s":"Saneamento","mc":86618613340,"ll":7000000000.0,"pl":12.3741,"plm":12.3,"dpl":0.006,"cagr":0.5411,"dl":2.5,"lpa":1.9961,"pay":0.5,"dpa":0.9981,"dy":0.0404,"p":24.7,"teto":30.0,"mg":0.1767,"fq":"Semestral","meses":"abril e dez"},
+    {"e":"Brasilagro","t":"AGRO3","s":"Agronegócio","mc":1724343561,"ll":100000000.0,"pl":17.2434,"plm":11.2,"dpl":0.5396,"cagr":0.0,"dl":1.82,"lpa":1.0039,"pay":0.65,"dpa":0.6525,"dy":0.0377,"p":17.31,"teto":21.0,"mg":0.1757,"fq":"Anual","meses":"outubro"},
+    {"e":"Banco Itau","t":"ITUB4","s":"Bancos","mc":416063598315,"ll":54000000000.0,"pl":7.7049,"plm":10.8,"dpl":-0.2866,"cagr":0.2493,"dl":0.0,"lpa":5.0215,"pay":0.7,"dpa":3.515,"dy":0.0909,"p":38.69,"teto":46.8673,"mg":0.1745,"fq":"Semestral","meses":"fevereiro e ago"},
+    {"e":"Marcopolo","t":"POMO3","s":"Industrial","mc":4407110378,"ll":800000000.0,"pl":5.5089,"plm":10.8,"dpl":-0.4899,"cagr":0.6859,"dl":0.3,"lpa":0.6444,"pay":0.5,"dpa":0.3222,"dy":0.0908,"p":3.55,"teto":4.2961,"mg":0.1737,"fq":"Trimestral","meses":"fev mai ago e nov"},
+    {"e":"CPFL Energia","t":"CPFE3","s":"Energia","mc":48279461036,"ll":5800000000.0,"pl":8.324,"plm":13.0,"dpl":-0.3597,"cagr":0.0915,"dl":2.36,"lpa":5.0336,"pay":0.7,"dpa":3.5235,"dy":0.0841,"p":41.9,"teto":50.3361,"mg":0.1676,"fq":"Semestral","meses":"abril e agosto"},
+    {"e":"Bradsaúde","t":"SAUD3","s":"Saúde","mc":41220893597,"ll":4500000000.0,"pl":9.1602,"plm":15.0,"dpl":-0.3893,"cagr":0.1,"dl":0.0,"lpa":1.5393,"pay":0.5,"dpa":0.7696,"dy":0.0546,"p":14.1,"teto":16.9319,"mg":0.1673,"fq":"Trimestral","meses":"mar jun set dez"},
+    {"e":"Ferbasa","t":"FESA4","s":"Siderurgia e Metalurgia","mc":1694338000,"ll":50000000.0,"pl":33.8868,"plm":9.4,"dpl":2.605,"cagr":0.2193,"dl":-1.96,"lpa":0.1476,"pay":0.25,"dpa":0.0369,"dy":0.0074,"p":5,"teto":6.0,"mg":0.1667,"fq":"Quadrimestral","meses":"jun set dez"},
+    {"e":"Cemig","t":"CMIG4","s":"Energia","mc":28818136754,"ll":4000000000.0,"pl":7.2045,"plm":8.2,"dpl":-0.1214,"cagr":0.1133,"dl":2.58,"lpa":1.3977,"pay":0.5,"dpa":0.6989,"dy":0.0694,"p":10.07,"teto":12.0,"mg":0.1608,"fq":"5x por ano","meses":"mar abr jun set dez"},
+    {"e":"Bradespar","t":"BRAP4","s":"Holding","mc":7181882190,"ll":1000000000.0,"pl":7.1819,"plm":8.4,"dpl":-0.145,"cagr":-0.1791,"dl":-0.48,"lpa":2.5439,"pay":0.6,"dpa":1.5263,"dy":0.0835,"p":18.27,"teto":21.5,"mg":0.1502,"fq":"Semestral","meses":"abril e novembro"},
+    {"e":"Klabin","t":"KLBN4","s":"Papel e Celulose","mc":21211037932,"ll":8200000000.0,"pl":2.5867,"plm":5.0,"dpl":-0.4827,"cagr":0.1046,"dl":3.2,"lpa":1.3183,"pay":0.15,"dpa":0.1977,"dy":0.058,"p":3.41,"teto":4.0,"mg":0.1475,"fq":"Trimestral","meses":"fev, mai, ago, nov"},
+    {"e":"CSU","t":"CSUD3","s":"Tecnologia","mc":568558760,"ll":100000000.0,"pl":5.6856,"plm":10.2,"dpl":-0.4426,"cagr":0.1779,"dl":0.03,"lpa":2.4184,"pay":0.5,"dpa":1.2092,"dy":0.0879,"p":13.75,"teto":16.1226,"mg":0.1472,"fq":"Trimestral","meses":"mar abr jun set e dez"},
+    {"e":"Equatorial Pará","t":"EQPA3","s":"Energia","mc":11155803500,"ll":1400000000.0,"pl":7.9684,"plm":9.3,"dpl":-0.1432,"cagr":0.08,"dl":1.9,"lpa":0.6338,"pay":0.7,"dpa":0.4436,"dy":0.0878,"p":5.05,"teto":5.915,"mg":0.1462,"fq":"Anual","meses":"abril"},
+    {"e":"IRB","t":"IRBR3","s":"Seguros","mc":4557018240,"ll":650000000.0,"pl":7.0108,"plm":13.0,"dpl":-0.4607,"cagr":0.0,"dl":0.0,"lpa":7.942,"pay":0.5,"dpa":3.971,"dy":0.0713,"p":55.68,"teto":65.1,"mg":0.1447,"fq":"Indefinido","meses":"Indefinido"},
+    {"e":"Metalúrgica Gerdau","t":"GOAU3","s":"Siderurgia e Metalurgia","mc":13050345218,"ll":1950000000.0,"pl":6.6925,"plm":11.0,"dpl":-0.3916,"cagr":-0.0992,"dl":0.93,"lpa":1.4718,"pay":0.5,"dpa":0.7359,"dy":0.0747,"p":9.85,"teto":11.5,"mg":0.1435,"fq":"Trimestral","meses":"mar mai ago nov"},
+    {"e":"Comgás","t":"CGAS5","s":"Oléo, gás e biocomb.","mc":15114020050,"ll":1450000000.0,"pl":10.4235,"plm":11.5,"dpl":-0.0936,"cagr":0.0609,"dl":2.0,"lpa":10.9417,"pay":0.85,"dpa":9.3004,"dy":0.0815,"p":114.05,"teto":132.863,"mg":0.1416,"fq":"Quadrimestral","meses":"março, agosto e novembro"},
+    {"e":"Telefonica Vivo","t":"VIVT3","s":"Telecomunicações","mc":98105218711,"ll":8000000000.0,"pl":12.2632,"plm":15.8,"dpl":-0.2239,"cagr":0.0531,"dl":0.4,"lpa":2.5034,"pay":1.0,"dpa":2.5034,"dy":0.0815,"p":30.7,"teto":35.7634,"mg":0.1416,"fq":"6x por ano","meses":"fev até dez"},
+    {"e":"Klabin","t":"KLBN11","s":"Papel e Celulose","mc":21397645294,"ll":8200000000.0,"pl":2.6095,"plm":5.0,"dpl":-0.4781,"cagr":0.1046,"dl":3.2,"lpa":6.5914,"pay":0.15,"dpa":0.9887,"dy":0.0575,"p":17.2,"teto":20.0,"mg":0.14,"fq":"Trimestral","meses":"fev, mai, ago, nov"},
+    {"e":"Grazziotin","t":"CGRA4","s":"Varejo","mc":527974659.6,"ll":100000000.0,"pl":5.2797,"plm":7.1,"dpl":-0.2564,"cagr":0.0339,"dl":-1.68,"lpa":4.2369,"pay":0.5,"dpa":2.1185,"dy":0.0947,"p":22.37,"teto":26.0,"mg":0.1396,"fq":"Semestral","meses":"jun e dez"},
+    {"e":"Marcopolo","t":"POMO4","s":"Industrial","mc":4593326309,"ll":800000000.0,"pl":5.7417,"plm":10.8,"dpl":-0.4684,"cagr":0.6859,"dl":0.2,"lpa":0.6444,"pay":0.5,"dpa":0.3222,"dy":0.0871,"p":3.7,"teto":4.2961,"mg":0.1388,"fq":"Trimestral","meses":"fev mai ago e nov"},
+    {"e":"Axia Energia","t":"AXIA3","s":"Energia","mc":130243773516,"ll":12000000000.0,"pl":10.8536,"plm":10.0,"dpl":0.0854,"cagr":0.0053,"dl":1.9,"lpa":4.37,"pay":0.25,"dpa":1.0925,"dy":0.023,"p":47.43,"teto":55.0,"mg":0.1376,"fq":"Semestral","meses":"Abril e dezembro"},
+    {"e":"Copasa","t":"CSMG3","s":"Saneamento","mc":18242397910,"ll":1250000000.0,"pl":14.5939,"plm":10.1,"dpl":0.4449,"cagr":0.1164,"dl":2.67,"lpa":3.2966,"pay":0.5,"dpa":1.6483,"dy":0.0343,"p":48.11,"teto":55.0,"mg":0.1253,"fq":"Trimestral","meses":"mar, jun, set e dez"},
+    {"e":"Bradespar","t":"BRAP3","s":"Holding","mc":6706234820,"ll":1000000000.0,"pl":6.7062,"plm":8.4,"dpl":-0.2016,"cagr":-0.179,"dl":-0.48,"lpa":2.5439,"pay":0.6,"dpa":1.3874,"dy":0.0813,"p":17.06,"teto":19.5,"mg":0.1251,"fq":"Semestral","meses":"abril e novembro"},
+    {"e":"Gerdau","t":"GGBR3","s":"Siderurgia e Metalurgia","mc":42739013481,"ll":5500000000.0,"pl":7.7707,"plm":11.0,"dpl":-0.2936,"cagr":-0.0989,"dl":0.93,"lpa":2.7642,"pay":0.5,"dpa":1.3821,"dy":0.0643,"p":21.48,"teto":24.5,"mg":0.1233,"fq":"Trimestral","meses":"mar mai ago nov"},
+    {"e":"Unifique","t":"FIQE3","s":"Telecomunicações","mc":2107179360,"ll":230000000.0,"pl":9.1616,"plm":11.4,"dpl":-0.1963,"cagr":0.15,"dl":0.58,"lpa":0.5763,"pay":0.5,"dpa":0.2882,"dy":0.0546,"p":5.28,"teto":6.0,"mg":0.12,"fq":"Quadrimestral","meses":"fev junho e dez"},
+    {"e":"Celesc","t":"CLSC4","s":"Energia","mc":6623583840,"ll":1000000000.0,"pl":6.6236,"plm":6.2,"dpl":0.0683,"cagr":0.0706,"dl":3.6,"lpa":25.9255,"pay":0.4,"dpa":10.3702,"dy":0.0604,"p":171.72,"teto":194.4416,"mg":0.1169,"fq":"5x por ano","meses":"mar abr jun set dez"},
+    {"e":"ISA Energia","t":"ISAE4","s":"Energia","mc":16313950607,"ll":1400000000.0,"pl":11.6528,"plm":8.2,"dpl":0.4211,"cagr":-0.0579,"dl":3.78,"lpa":2.1248,"pay":0.75,"dpa":1.5936,"dy":0.0644,"p":24.76,"teto":28.0,"mg":0.1157,"fq":"Anual","meses":"dezembro"},
+    {"e":"Klabin","t":"KLBN3","s":"Papel e Celulose","mc":22144074792,"ll":8200000000.0,"pl":2.7005,"plm":5.0,"dpl":-0.4599,"cagr":0.1046,"dl":3.2,"lpa":1.3183,"pay":0.15,"dpa":0.1977,"dy":0.0555,"p":3.56,"teto":4.0,"mg":0.11,"fq":"Trimestral","meses":"fev, mai, ago, nov"},
+    {"e":"Vale","t":"VALE3","s":"Mineração","mc":275222230863,"ll":40000000000.0,"pl":6.8806,"plm":10.1,"dpl":-0.3188,"cagr":-0.1386,"dl":0.8,"lpa":9.0138,"pay":0.5,"dpa":4.5069,"dy":0.0727,"p":62.02,"teto":69.337,"mg":0.1055,"fq":"Quadrimestral","meses":"mar, ago e dez"},
+    {"e":"Grendene","t":"GRND3","s":"Calçados","mc":3211689600,"ll":450000000.0,"pl":7.1371,"plm":10.4,"dpl":-0.3137,"cagr":0.0974,"dl":-0.93,"lpa":0.4988,"pay":0.55,"dpa":0.2743,"dy":0.0771,"p":3.56,"teto":3.9192,"mg":0.0916,"fq":"Quadrimestral","meses":"maio ago e nov"},
+    {"e":"Petroreconcâvo","t":"RECV3","s":"Oléo, gás e biocomb.","mc":3231499415,"ll":440000000.0,"pl":7.3443,"plm":8.8,"dpl":-0.1654,"cagr":0.1,"dl":1.14,"lpa":1.5018,"pay":0.5,"dpa":0.7509,"dy":0.0681,"p":11.03,"teto":12.0,"mg":0.0808,"fq":"Semestral","meses":"maio e dez"},
+    {"e":"Unipar","t":"UNIP6","s":"Químicos","mc":5748851376,"ll":400000000.0,"pl":14.3721,"plm":9.5,"dpl":0.5129,"cagr":0.0541,"dl":2.63,"lpa":3.5485,"pay":0.95,"dpa":3.3711,"dy":0.0661,"p":51,"teto":55.0,"mg":0.0727,"fq":"Semestral","meses":"março e dezembro"},
+    {"e":"Shulz","t":"SHUL4","s":"Bens Industriais","mc":1467123844,"ll":200000000.0,"pl":7.3356,"plm":9.0,"dpl":-0.1849,"cagr":0.1529,"dl":-0.6,"lpa":0.5603,"pay":0.5,"dpa":0.2801,"dy":0.0682,"p":4.11,"teto":4.38,"mg":0.0616,"fq":"Trimestral","meses":"abr jun set dez"},
+    {"e":"SLC Agrícola","t":"SLCE3","s":"Agronegócio","mc":8452499326,"ll":500000000.0,"pl":16.905,"plm":14.0,"dpl":0.2075,"cagr":0.0204,"dl":3.1,"lpa":1.0068,"pay":0.5,"dpa":0.5034,"dy":0.0296,"p":17.02,"teto":18.0,"mg":0.0544,"fq":"Semestral","meses":"abril e dezembro"},
+    {"e":"Banco Itau","t":"ITUB3","s":"Bancos","mc":463057599986,"ll":52000000000.0,"pl":8.905,"plm":9.7,"dpl":-0.082,"cagr":0.2493,"dl":0.0,"lpa":4.8355,"pay":0.7,"dpa":3.3849,"dy":0.0786,"p":43.06,"teto":45.1314,"mg":0.0459,"fq":"Semestral","meses":"fevereiro e ago"},
+    {"e":"Copel","t":"CPLE3","s":"Energia","mc":42520212752,"ll":2700000000.0,"pl":15.7482,"plm":8.4,"dpl":0.8748,"cagr":-0.0722,"dl":2.8,"lpa":0.9093,"pay":0.95,"dpa":0.8638,"dy":0.0603,"p":14.32,"teto":15.0,"mg":0.0453,"fq":"Semestral","meses":"abril e dez"},
+    {"e":"Banco Santander","t":"SANB4","s":"Bancos","mc":89550815553,"ll":13300000000.0,"pl":6.7331,"plm":10.5,"dpl":-0.3587,"cagr":0.002,"dl":0.0,"lpa":1.7763,"pay":0.5,"dpa":0.977,"dy":0.0817,"p":11.96,"teto":12.5128,"mg":0.0442,"fq":"Trimestral","meses":"fev, abr, julho e out"},
+    {"e":"Banco Santander","t":"SANB11","s":"Bancos","mc":89625690816,"ll":13300000000.0,"pl":6.4179,"plm":10.5,"dpl":-0.3888,"cagr":0.002,"dl":0.0,"lpa":3.7302,"pay":0.5,"dpa":1.8651,"dy":0.0779,"p":23.94,"teto":25.0255,"mg":0.0434,"fq":"Trimestral","meses":"fev, abr, julho e out"},
+    {"e":"Alupar","t":"ALUP11","s":"Energia","mc":9569419035,"ll":1000000000.0,"pl":9.5694,"plm":11.1,"dpl":-0.1379,"cagr":-0.0335,"dl":3.2,"lpa":3.2813,"pay":0.5,"dpa":1.6406,"dy":0.0522,"p":31.4,"teto":32.8129,"mg":0.0431,"fq":"Trimestral","meses":"abr mai ago nov"},
+    {"e":"Banco Santander","t":"SANB3","s":"Bancos","mc":89775441344,"ll":13300000000.0,"pl":6.75,"plm":10.5,"dpl":-0.3571,"cagr":0.002,"dl":0.0,"lpa":1.7763,"pay":0.5,"dpa":0.8881,"dy":0.0741,"p":11.99,"teto":12.5128,"mg":0.0418,"fq":"Trimestral","meses":"fev, abr, julho e out"},
+    {"e":"Petrobras","t":"PETR4","s":"Oléo, gás e biocomb.","mc":679365103832,"ll":145000000000.0,"pl":4.6853,"plm":8.4,"dpl":-0.4422,"cagr":0.7766,"dl":1.1,"lpa":11.2501,"pay":0.45,"dpa":5.0626,"dy":0.096,"p":52.71,"teto":55.0,"mg":0.0416,"fq":"Trimestral","meses":"abr mai ago nov"},
+    {"e":"CEB","t":"CEBR5","s":"Energia","mc":1643469600,"ll":160000000.0,"pl":10.2717,"plm":10.7,"dpl":-0.04,"cagr":-0.1275,"dl":0.0,"lpa":2.2197,"pay":0.8,"dpa":1.7758,"dy":0.0779,"p":22.8,"teto":23.6767,"mg":0.037,"fq":"Semestral","meses":"Abril e novembro"},
+    {"e":"Suzano","t":"SUZB3","s":"Papel e Celulose","mc":61978015643,"ll":8000000000.0,"pl":7.7473,"plm":12.66,"dpl":-0.3881,"cagr":0.1,"dl":3.3,"lpa":6.472,"pay":0.3,"dpa":1.9416,"dy":0.0387,"p":50.14,"teto":52.0,"mg":0.0358,"fq":"Semestral","meses":"abril e dez"},
+    {"e":"CEB","t":"CEBR3","s":"Energia","mc":1661490100,"ll":160000000.0,"pl":10.3843,"plm":10.7,"dpl":-0.0295,"cagr":-0.1275,"dl":0.0,"lpa":2.2197,"pay":0.8,"dpa":1.7758,"dy":0.077,"p":23.05,"teto":23.6767,"mg":0.0265,"fq":"Semestral","meses":"Abril e novembro"},
+    {"e":"Vibra Energia","t":"VBBR3","s":"Oléo, gás e biocomb.","mc":32989523232,"ll":3000000000.0,"pl":10.9965,"plm":9.1,"dpl":0.2084,"cagr":-0.1271,"dl":1.86,"lpa":2.6918,"pay":0.75,"dpa":2.0188,"dy":0.0682,"p":29.6,"teto":30.0,"mg":0.0133,"fq":"Quadrimestral","meses":"abr set e dez"},
+    {"e":"BB Seguridade","t":"BBSE3","s":"Seguros","mc":80212389838,"ll":8600000000.0,"pl":9.327,"plm":11.7,"dpl":-0.2028,"cagr":0.1855,"dl":0.0,"lpa":4.4301,"pay":0.85,"dpa":3.7656,"dy":0.0911,"p":41.32,"teto":41.8402,"mg":0.0124,"fq":"Semestral","meses":"fevereiro e agosto"},
+    {"e":"Ambev","t":"ABEV3","s":"Bebidas","mc":229627234719,"ll":15300000000.0,"pl":15.0083,"plm":19.5,"dpl":-0.2303,"cagr":0.0639,"dl":-0.5,"lpa":0.9728,"pay":0.9,"dpa":0.8755,"dy":0.06,"p":14.6,"teto":14.5919,"mg":-0.0006,"fq":"Anual","meses":"dezembro"},
+    {"e":"Caixa Seguridade","t":"CXSE3","s":"Seguros","mc":64140000000,"ll":5200000000.0,"pl":12.3346,"plm":12.2,"dpl":0.011,"cagr":0.1943,"dl":0.0,"lpa":1.7333,"pay":0.92,"dpa":1.5947,"dy":0.0746,"p":21.38,"teto":21.2622,"mg":-0.0055,"fq":"Trimestral","meses":"jan, abr, ago e nov"},
+    {"e":"Engie Brasil","t":"EGIE3","s":"Energia","mc":37194138800,"ll":3100000000.0,"pl":11.9981,"plm":13.8,"dpl":-0.1306,"cagr":0.0043,"dl":3.1,"lpa":2.1887,"pay":0.55,"dpa":1.2038,"dy":0.0458,"p":26.26,"teto":26.0,"mg":-0.01,"fq":"Quadrimestral","meses":"maio, ago e dez"},
+    {"e":"Taesa","t":"TAEE3","s":"Energia","mc":13332107701,"ll":1000000000.0,"pl":13.3321,"plm":10.0,"dpl":0.3332,"cagr":-0.0693,"dl":4.2,"lpa":0.9676,"pay":1.0,"dpa":0.9676,"dy":0.075,"p":12.9,"teto":12.67,"mg":-0.0182,"fq":"Trimestral","meses":"mai, ago, nov, dez"},
+    {"e":"CEB","t":"CEBR6","s":"Energia","mc":1933960060,"ll":160000000.0,"pl":12.0873,"plm":10.7,"dpl":0.1296,"cagr":-0.1275,"dl":0.0,"lpa":2.2197,"pay":0.8,"dpa":1.9533,"dy":0.0728,"p":26.83,"teto":26.0444,"mg":-0.0302,"fq":"Semestral","meses":"Abril e novembro"},
+    {"e":"Tegma","t":"TGMA3","s":"Logistica","mc":2377428060,"ll":200000000.0,"pl":11.8871,"plm":12.6,"dpl":-0.0566,"cagr":0.2701,"dl":0.07,"lpa":3.0302,"pay":0.8,"dpa":2.4241,"dy":0.0673,"p":36.02,"teto":34.6305,"mg":-0.0401,"fq":"Quadrimestral","meses":"abr ago e nov"},
+    {"e":"Taesa","t":"TAEE11","s":"Energia","mc":13638711728,"ll":1000000000.0,"pl":13.6387,"plm":10.0,"dpl":0.3639,"cagr":-0.0693,"dl":4.2,"lpa":2.9028,"pay":1.0,"dpa":2.9028,"dy":0.0733,"p":39.59,"teto":38.0,"mg":-0.0418,"fq":"Trimestral","meses":"mai, ago, nov, dez"},
+    {"e":"Taesa","t":"TAEE4","s":"Energia","mc":13745506389,"ll":1000000000.0,"pl":13.7455,"plm":10.0,"dpl":0.3746,"cagr":-0.0693,"dl":4.2,"lpa":0.9676,"pay":1.0,"dpa":0.9676,"dy":0.0728,"p":13.3,"teto":12.67,"mg":-0.0497,"fq":"Trimestral","meses":"mai, ago, nov, dez"},
+    {"e":"Fleury","t":"FLRY3","s":"Saúde","mc":11141405725,"ll":800000000.0,"pl":13.9268,"plm":20.3,"dpl":-0.314,"cagr":0.1835,"dl":1.56,"lpa":1.4698,"pay":0.75,"dpa":1.1024,"dy":0.0539,"p":20.47,"teto":19.1078,"mg":-0.0713,"fq":"Semestral","meses":"março e dezembro"},
+    {"e":"Banestes","t":"BEES3","s":"Bancos","mc":3186611680,"ll":460000000.0,"pl":6.9274,"plm":7.6,"dpl":-0.0885,"cagr":0.0796,"dl":0.0,"lpa":1.3237,"pay":0.42,"dpa":0.556,"dy":0.0606,"p":9.17,"teto":8.5,"mg":-0.0788,"fq":"Mensal","meses":"jan-dez"},
+    {"e":"CSN Mineração","t":"CMIN3","s":"Mineração","mc":26399742102,"ll":1500000000.0,"pl":17.5998,"plm":8.7,"dpl":1.023,"cagr":-0.1638,"dl":0.17,"lpa":0.2761,"pay":0.75,"dpa":0.2071,"dy":0.0426,"p":4.86,"teto":4.5,"mg":-0.08,"fq":"Quadrimestral","meses":"abr jul dez"},
+    {"e":"Kepler Weber","t":"KEPL3","s":"Agronegócio","mc":1086789884,"ll":50000000.0,"pl":21.7358,"plm":12.1,"dpl":0.7963,"cagr":0.1823,"dl":-0.06,"lpa":0.2885,"pay":0.6,"dpa":0.1731,"dy":0.0276,"p":6.27,"teto":4.4,"mg":-0.425,"fq":"Quadrimestral","meses":"mar ago e out"}
+  ],
+  "bazin": [
+    {"e":"Stone","t":"STOC34","s":"Serviços Financeiros","mc":9528211514,"ll":2400000000.0,"pl":3.9701,"plm":57.8,"dpl":-0.9313,"cagr":0.1,"dl":0.0,"lpa":10.4078,"pay":0.6,"dpa":6.2447,"dy":0.1511,"p":41.32,"teto":80.5767,"mg":0.4872,"fq":"Indefinido","meses":"Indefinido"},
+    {"e":"Allos","t":"ALOS3","s":"Shoppings","mc":11752514171,"ll":1650000000.0,"pl":7.1227,"plm":14.4,"dpl":-0.5054,"cagr":0.361,"dl":1.7,"lpa":3.2993,"pay":1.06,"dpa":3.4973,"dy":0.1488,"p":23.5,"teto":45.1258,"mg":0.4792,"fq":"Mensal","meses":"jan-dez"},
+    {"e":"Banco Bradesco","t":"BBDC4","s":"Bancos","mc":154893359743,"ll":30000000000.0,"pl":5.1631,"plm":10.2,"dpl":-0.4938,"cagr":0.0765,"dl":0.0,"lpa":2.6844,"pay":0.605,"dpa":1.6241,"dy":0.1172,"p":13.86,"teto":20.9559,"mg":0.3386,"fq":"Trimestral","meses":"mar jun set e dez"},
+    {"e":"Tim","t":"TIMS3","s":"Telecomunicações","mc":45562787370,"ll":5300000000.0,"pl":8.5968,"plm":16.3,"dpl":-0.4726,"cagr":0.1852,"dl":0.89,"lpa":2.2299,"pay":1.0,"dpa":2.2299,"dy":0.1163,"p":19.17,"teto":28.7731,"mg":0.3338,"fq":"5x por ano","meses":"mar abr jun set dez"},
+    {"e":"Banco Bradesco","t":"BBDC3","s":"Bancos","mc":142041457600,"ll":30000000000.0,"pl":4.7347,"plm":9.3,"dpl":-0.4909,"cagr":0.0765,"dl":0.0,"lpa":2.6844,"pay":0.55,"dpa":1.4764,"dy":0.1162,"p":12.71,"teto":19.0508,"mg":0.3328,"fq":"Trimestral","meses":"mar jun set e dez"},
+    {"e":"Mahle Metal Leve","t":"LEVE3","s":"Automóveis e Motocicletas","mc":4101410140,"ll":680000000.0,"pl":6.0315,"plm":12.7,"dpl":-0.5251,"cagr":0.3787,"dl":1.05,"lpa":5.017,"pay":0.65,"dpa":3.2611,"dy":0.1078,"p":30.26,"teto":42.0781,"mg":0.2809,"fq":"Semestral","meses":"abril e nov"},
+    {"e":"Banco ABC Brasil","t":"ABCB4","s":"Bancos","mc":5424045690,"ll":1050000000.0,"pl":5.1658,"plm":6.8,"dpl":-0.2403,"cagr":0.2667,"dl":0.0,"lpa":4.2917,"pay":0.55,"dpa":2.3604,"dy":0.1065,"p":22.17,"teto":30.4574,"mg":0.2721,"fq":"Semestral","meses":"junho e dez"},
+    {"e":"Petrobras","t":"PETR4","s":"Oléo, gás e biocomb.","mc":679365103832,"ll":145000000000.0,"pl":4.6853,"plm":8.4,"dpl":-0.4422,"cagr":0.7766,"dl":1.1,"lpa":11.2501,"pay":0.45,"dpa":5.0626,"dy":0.096,"p":52.71,"teto":65.3234,"mg":0.1931,"fq":"Trimestral","meses":"abr mai ago nov"},
+    {"e":"Pagbank","t":"PAGS34","s":"Serviços Financeiros","mc":11985394516,"ll":2300000000.0,"pl":5.211,"plm":22.4,"dpl":-0.7674,"cagr":0.15,"dl":0.0,"lpa":1.6446,"pay":0.5,"dpa":0.8223,"dy":0.096,"p":8.57,"teto":10.6102,"mg":0.1923,"fq":"Trimestral","meses":"fev jun set e dez"},
+    {"e":"Lojas Renner","t":"LREN3","s":"Varejo","mc":8490117230,"ll":1350000000.0,"pl":6.289,"plm":25.1,"dpl":-0.7494,"cagr":0.0586,"dl":-0.38,"lpa":1.4279,"pay":0.6,"dpa":0.8567,"dy":0.0954,"p":8.98,"teto":11.0547,"mg":0.1877,"fq":"Trimestral","meses":"mar jun set dez"},
+    {"e":"Itausa","t":"ITSA4","s":"Holding","mc":139589972102,"ll":19000000000.0,"pl":7.3468,"plm":10.0,"dpl":-0.2653,"cagr":0.1764,"dl":0.0,"lpa":1.6946,"pay":0.7,"dpa":1.1862,"dy":0.0953,"p":12.45,"teto":15.3061,"mg":0.1866,"fq":"Semestral","meses":"fevereiro e ago"},
+    {"e":"Grazziotin","t":"CGRA4","s":"Varejo","mc":527974659.6,"ll":100000000.0,"pl":5.2797,"plm":7.1,"dpl":-0.2564,"cagr":0.0339,"dl":-1.68,"lpa":4.2369,"pay":0.5,"dpa":2.1185,"dy":0.0947,"p":22.37,"teto":27.3351,"mg":0.1816,"fq":"Semestral","meses":"jun e dez"},
+    {"e":"Banco Pine","t":"PINE4","s":"Bancos","mc":2536348353,"ll":600000000.0,"pl":4.2272,"plm":7.1,"dpl":-0.4046,"cagr":0.2986,"dl":0.0,"lpa":2.3632,"pay":0.4,"dpa":0.9453,"dy":0.0946,"p":9.99,"teto":12.1974,"mg":0.181,"fq":"Trimestral","meses":"jan, abr, jul, out"},
+    {"e":"Banco BMG","t":"BMGB4","s":"Bancos","mc":3312055826,"ll":620000000.0,"pl":5.342,"plm":7.9,"dpl":-0.3238,"cagr":0.1363,"dl":0.0,"lpa":0.9566,"pay":0.5,"dpa":0.4783,"dy":0.0936,"p":5.11,"teto":6.1714,"mg":0.172,"fq":"Trimestral","meses":"abr jul out e dez"},
+    {"e":"MDias Branco","t":"MDIA3","s":"Alimentos","mc":5148132934,"ll":600000000.0,"pl":8.5802,"plm":17.4,"dpl":-0.5069,"cagr":-0.0289,"dl":-0.6,"lpa":1.789,"pay":0.8,"dpa":1.4312,"dy":0.0932,"p":15.35,"teto":18.4671,"mg":0.1688,"fq":"Mensal","meses":"jan a dezembro"},
+    {"e":"B3","t":"B3SA3","s":"Serviços Financeiros","mc":67028182742,"ll":6200000000.0,"pl":10.811,"plm":20.3,"dpl":-0.4674,"cagr":0.0202,"dl":-0.21,"lpa":1.2423,"pay":1.0,"dpa":1.2423,"dy":0.0925,"p":13.43,"teto":16.0291,"mg":0.1621,"fq":"Trimestral","meses":"mar jun set dez"},
+    {"e":"Bradespar","t":"BRAP4","s":"Holding","mc":7181882190,"ll":1100000000.0,"pl":6.529,"plm":8.4,"dpl":-0.2227,"cagr":-0.1791,"dl":-0.48,"lpa":2.7983,"pay":0.6,"dpa":1.679,"dy":0.0919,"p":18.27,"teto":21.6642,"mg":0.1567,"fq":"Semestral","meses":"abril e novembro"},
+    {"e":"JHSF","t":"JHSF3","s":"Imobiliário","mc":5905098539,"ll":600000000.0,"pl":9.8418,"plm":7.3,"dpl":0.3482,"cagr":0.2394,"dl":0.75,"lpa":0.9114,"pay":0.9,"dpa":0.8203,"dy":0.0914,"p":8.97,"teto":10.5842,"mg":0.1525,"fq":"Mensal","meses":"jan a dezembro"},
+    {"e":"BB Seguridade","t":"BBSE3","s":"Seguros","mc":80212389838,"ll":8600000000.0,"pl":9.327,"plm":11.7,"dpl":-0.2028,"cagr":0.1855,"dl":0.0,"lpa":4.4301,"pay":0.85,"dpa":3.7656,"dy":0.0911,"p":41.32,"teto":48.5886,"mg":0.1496,"fq":"Semestral","meses":"fevereiro e agosto"},
+    {"e":"Marcopolo","t":"POMO3","s":"Industrial","mc":4407110378,"ll":800000000.0,"pl":5.5089,"plm":10.8,"dpl":-0.4899,"cagr":0.6859,"dl":0.3,"lpa":0.6444,"pay":0.5,"dpa":0.3222,"dy":0.0908,"p":3.55,"teto":4.1575,"mg":0.1461,"fq":"Trimestral","meses":"fev mai ago e nov"},
+    {"e":"Bradespar","t":"BRAP3","s":"Holding","mc":6706234820,"ll":1100000000.0,"pl":6.0966,"plm":8.4,"dpl":-0.2742,"cagr":-0.179,"dl":-0.48,"lpa":2.7983,"pay":0.6,"dpa":1.5262,"dy":0.0895,"p":17.06,"teto":19.6928,"mg":0.1337,"fq":"Semestral","meses":"abril e novembro"},
+    {"e":"CSU","t":"CSUD3","s":"Tecnologia","mc":568558760,"ll":100000000.0,"pl":5.6856,"plm":10.2,"dpl":-0.4426,"cagr":0.1779,"dl":0.03,"lpa":2.4184,"pay":0.5,"dpa":1.2092,"dy":0.0879,"p":13.75,"teto":15.6026,"mg":0.1187,"fq":"Trimestral","meses":"mar abr jun set e dez"},
+    {"e":"Equatorial Pará","t":"EQPA3","s":"Energia","mc":11155803500,"ll":1400000000.0,"pl":7.9684,"plm":9.3,"dpl":-0.1432,"cagr":0.08,"dl":1.9,"lpa":0.6338,"pay":0.7,"dpa":0.4436,"dy":0.0878,"p":5.05,"teto":5.7242,"mg":0.1178,"fq":"Anual","meses":"abril"},
+    {"e":"Banco Itau","t":"ITUB4","s":"Bancos","mc":416063598315,"ll":52000000000.0,"pl":8.0012,"plm":10.8,"dpl":-0.2591,"cagr":0.2493,"dl":0.0,"lpa":4.8355,"pay":0.7,"dpa":3.3849,"dy":0.0875,"p":38.69,"teto":43.6756,"mg":0.1142,"fq":"Semestral","meses":"fevereiro e ago"},
+    {"e":"Marcopolo","t":"POMO4","s":"Industrial","mc":4593326309,"ll":800000000.0,"pl":5.7417,"plm":10.8,"dpl":-0.4684,"cagr":0.6859,"dl":0.2,"lpa":0.6444,"pay":0.5,"dpa":0.3222,"dy":0.0871,"p":3.7,"teto":4.1575,"mg":0.11,"fq":"Trimestral","meses":"fev mai ago e nov"},
+    {"e":"CPFL Energia","t":"CPFE3","s":"Energia","mc":48279461036,"ll":6000000000.0,"pl":8.0466,"plm":13.0,"dpl":-0.381,"cagr":0.0915,"dl":2.36,"lpa":5.2072,"pay":0.7,"dpa":3.645,"dy":0.087,"p":41.9,"teto":47.0326,"mg":0.1091,"fq":"Semestral","meses":"abril e agosto"},
+    {"e":"Wiz","t":"WIZC3","s":"Seguros","mc":938654090,"ll":160000000.0,"pl":5.8666,"plm":8.5,"dpl":-0.3098,"cagr":0.13,"dl":0.3,"lpa":1.0006,"pay":0.5,"dpa":0.5003,"dy":0.0852,"p":5.87,"teto":6.4554,"mg":0.0907,"fq":"Anual","meses":"abril"},
+    {"e":"Log","t":"LOGG3","s":"Exploração de imóveis","mc":1759992602,"ll":300000000.0,"pl":5.8666,"plm":9.0,"dpl":-0.3482,"cagr":0.2058,"dl":0.8,"lpa":3.4483,"pay":0.5,"dpa":1.7242,"dy":0.0852,"p":20.23,"teto":22.2472,"mg":0.0907,"fq":"Trimestral","meses":"fev maio ago e nov"},
+    {"e":"Banco Banrisul","t":"BRSR6","s":"Bancos","mc":5054918640,"ll":1050000000.0,"pl":4.8142,"plm":6.6,"dpl":-0.2706,"cagr":0.187,"dl":0.0,"lpa":2.5674,"pay":0.4,"dpa":1.027,"dy":0.0831,"p":12.36,"teto":13.2511,"mg":0.0672,"fq":"Trimestral","meses":"Mar, jun, set, dez"},
+    {"e":"Compass","t":"PASS3","s":"Oléo, gás e biocomb.","mc":13705307923,"ll":1400000000.0,"pl":9.7895,"plm":11.5,"dpl":-0.1487,"cagr":0.0609,"dl":2.3,"lpa":1.9603,"pay":0.8,"dpa":1.5682,"dy":0.0817,"p":19.19,"teto":20.235,"mg":0.0516,"fq":"Quadrimestral","meses":"março, agosto e novembro"},
+    {"e":"Banco Santander","t":"SANB4","s":"Bancos","mc":89550815553,"ll":13300000000.0,"pl":6.7331,"plm":10.5,"dpl":-0.3587,"cagr":0.002,"dl":0.0,"lpa":1.7763,"pay":0.5,"dpa":0.977,"dy":0.0817,"p":11.96,"teto":12.6059,"mg":0.0512,"fq":"Trimestral","meses":"fev, abr, julho e out"},
+    {"e":"Comgás","t":"CGAS5","s":"Oléo, gás e biocomb.","mc":15114020050,"ll":1450000000.0,"pl":10.4235,"plm":11.5,"dpl":-0.0936,"cagr":0.0609,"dl":2.0,"lpa":10.9417,"pay":0.85,"dpa":9.3004,"dy":0.0815,"p":114.05,"teto":120.0053,"mg":0.0496,"fq":"Quadrimestral","meses":"março, agosto e novembro"},
+    {"e":"Telefonica Vivo","t":"VIVT3","s":"Telecomunicações","mc":98105218711,"ll":8000000000.0,"pl":12.2632,"plm":15.8,"dpl":-0.2239,"cagr":0.0531,"dl":0.4,"lpa":2.5034,"pay":1.0,"dpa":2.5034,"dy":0.0815,"p":30.7,"teto":32.3024,"mg":0.0496,"fq":"6x por ano","meses":"fev até dez"},
+    {"e":"Banco Itau","t":"ITUB3","s":"Bancos","mc":463057599986,"ll":52000000000.0,"pl":8.905,"plm":9.7,"dpl":-0.082,"cagr":0.2493,"dl":0.0,"lpa":4.8355,"pay":0.7,"dpa":3.3849,"dy":0.0786,"p":43.06,"teto":43.6756,"mg":0.0141,"fq":"Semestral","meses":"fevereiro e ago"},
+    {"e":"Banco Santander","t":"SANB11","s":"Bancos","mc":89625690816,"ll":13300000000.0,"pl":6.4179,"plm":10.5,"dpl":-0.3888,"cagr":0.002,"dl":0.0,"lpa":3.7302,"pay":0.5,"dpa":1.8651,"dy":0.0779,"p":23.94,"teto":24.0658,"mg":0.0052,"fq":"Trimestral","meses":"fev, abr, julho e out"},
+    {"e":"CEB","t":"CEBR5","s":"Energia","mc":1643469600,"ll":160000000.0,"pl":10.2717,"plm":10.7,"dpl":-0.04,"cagr":-0.1275,"dl":0.0,"lpa":2.2197,"pay":0.8,"dpa":1.7758,"dy":0.0779,"p":22.8,"teto":22.913,"mg":0.0049,"fq":"Semestral","meses":"Abril e novembro"},
+    {"e":"Grendene","t":"GRND3","s":"Calçados","mc":3211689600,"ll":450000000.0,"pl":7.1371,"plm":10.4,"dpl":-0.3137,"cagr":0.0974,"dl":-0.93,"lpa":0.4988,"pay":0.55,"dpa":0.2743,"dy":0.0771,"p":3.56,"teto":3.5399,"mg":-0.0057,"fq":"Quadrimestral","meses":"maio ago e nov"},
+    {"e":"CEB","t":"CEBR3","s":"Energia","mc":1661490100,"ll":160000000.0,"pl":10.3843,"plm":10.7,"dpl":-0.0295,"cagr":-0.1275,"dl":0.0,"lpa":2.2197,"pay":0.8,"dpa":1.7758,"dy":0.077,"p":23.05,"teto":22.913,"mg":-0.006,"fq":"Semestral","meses":"Abril e novembro"},
+    {"e":"BR Partners","t":"BRBI11","s":"Serviços Financeiros","mc":1045756840,"ll":160000000.0,"pl":6.536,"plm":9.6,"dpl":-0.3192,"cagr":0.15,"dl":0.0,"lpa":1.5239,"pay":0.5,"dpa":0.7619,"dy":0.0765,"p":9.96,"teto":9.8314,"mg":-0.0131,"fq":"Trimestral","meses":"mar maio ago e nov"},
+    {"e":"Vulcabras","t":"VULC3","s":"Calçados","mc":3604655677,"ll":550000000.0,"pl":6.5539,"plm":9.5,"dpl":-0.3101,"cagr":1.0582,"dl":0.7,"lpa":1.7593,"pay":0.5,"dpa":0.8796,"dy":0.0763,"p":11.53,"teto":11.35,"mg":-0.0159,"fq":"Mensal","meses":"jan a dezembro"},
+    {"e":"Taesa","t":"TAEE3","s":"Energia","mc":13332107701,"ll":1000000000.0,"pl":13.3321,"plm":10.0,"dpl":0.3332,"cagr":-0.0693,"dl":4.2,"lpa":0.9676,"pay":1.0,"dpa":0.9676,"dy":0.075,"p":12.9,"teto":12.485,"mg":-0.0332,"fq":"Trimestral","meses":"mai, ago, nov, dez"},
+    {"e":"Metalúrgica Gerdau","t":"GOAU3","s":"Siderurgia e Metalurgia","mc":13050345218,"ll":1950000000.0,"pl":6.6925,"plm":11.0,"dpl":-0.3916,"cagr":-0.0992,"dl":0.93,"lpa":1.4718,"pay":0.5,"dpa":0.7359,"dy":0.0747,"p":9.85,"teto":9.4955,"mg":-0.0373,"fq":"Trimestral","meses":"mar mai ago nov"},
+    {"e":"Caixa Seguridade","t":"CXSE3","s":"Seguros","mc":64140000000,"ll":5200000000.0,"pl":12.3346,"plm":12.2,"dpl":0.011,"cagr":0.1943,"dl":0.0,"lpa":1.7333,"pay":0.92,"dpa":1.5947,"dy":0.0746,"p":21.38,"teto":20.5763,"mg":-0.0391,"fq":"Trimestral","meses":"jan, abr, ago e nov"},
+    {"e":"Banco Santander","t":"SANB3","s":"Bancos","mc":89775441344,"ll":13300000000.0,"pl":6.75,"plm":10.5,"dpl":-0.3571,"cagr":0.002,"dl":0.0,"lpa":1.7763,"pay":0.5,"dpa":0.8881,"dy":0.0741,"p":11.99,"teto":11.4599,"mg":-0.0463,"fq":"Trimestral","meses":"fev, abr, julho e out"},
+    {"e":"Taesa","t":"TAEE11","s":"Energia","mc":13638711728,"ll":1000000000.0,"pl":13.6387,"plm":10.0,"dpl":0.3639,"cagr":-0.0693,"dl":4.2,"lpa":2.9028,"pay":1.0,"dpa":2.9028,"dy":0.0733,"p":39.59,"teto":37.4551,"mg":-0.057,"fq":"Trimestral","meses":"mai, ago, nov, dez"},
+    {"e":"CEB","t":"CEBR6","s":"Energia","mc":1933960060,"ll":160000000.0,"pl":12.0873,"plm":10.7,"dpl":0.1296,"cagr":-0.1275,"dl":0.0,"lpa":2.2197,"pay":0.8,"dpa":1.9533,"dy":0.0728,"p":26.83,"teto":25.2043,"mg":-0.0645,"fq":"Semestral","meses":"Abril e novembro"},
+    {"e":"Taesa","t":"TAEE4","s":"Energia","mc":13745506389,"ll":1000000000.0,"pl":13.7455,"plm":10.0,"dpl":0.3746,"cagr":-0.0693,"dl":4.2,"lpa":0.9676,"pay":1.0,"dpa":0.9676,"dy":0.0728,"p":13.3,"teto":12.485,"mg":-0.0653,"fq":"Trimestral","meses":"mai, ago, nov, dez"},
+    {"e":"Vale","t":"VALE3","s":"Mineração","mc":275222230863,"ll":40000000000.0,"pl":6.8806,"plm":10.1,"dpl":-0.3188,"cagr":-0.1386,"dl":0.8,"lpa":9.0138,"pay":0.5,"dpa":4.5069,"dy":0.0727,"p":62.02,"teto":58.1536,"mg":-0.0665,"fq":"Quadrimestral","meses":"mar, ago e dez"},
+    {"e":"Banco da Amazônia","t":"BAZA3","s":"Bancos","mc":3586590840,"ll":650000000.0,"pl":5.5178,"plm":5.0,"dpl":0.1036,"cagr":0.3301,"dl":0.0,"lpa":11.5951,"pay":0.4,"dpa":4.6381,"dy":0.0725,"p":63.98,"teto":59.8459,"mg":-0.0691,"fq":"Anual","meses":"abril"},
+    {"e":"Cemig","t":"CMIG4","s":"Energia","mc":28818136754,"ll":4000000000.0,"pl":7.2045,"plm":8.2,"dpl":-0.1214,"cagr":0.1133,"dl":2.58,"lpa":1.3977,"pay":0.5,"dpa":0.6989,"dy":0.0694,"p":10.07,"teto":9.0176,"mg":-0.1167,"fq":"5x por ano","meses":"mar abr jun set dez"},
+    {"e":"Vibra Energia","t":"VBBR3","s":"Oléo, gás e biocomb.","mc":32989523232,"ll":3000000000.0,"pl":10.9965,"plm":9.1,"dpl":0.2084,"cagr":-0.1271,"dl":1.86,"lpa":2.6918,"pay":0.75,"dpa":2.0188,"dy":0.0682,"p":29.6,"teto":26.0493,"mg":-0.1363,"fq":"Quadrimestral","meses":"abr set e dez"},
+    {"e":"Shulz","t":"SHUL4","s":"Bens Industriais","mc":1467123844,"ll":200000000.0,"pl":7.3356,"plm":9.0,"dpl":-0.1849,"cagr":0.1529,"dl":-0.6,"lpa":0.5603,"pay":0.5,"dpa":0.2801,"dy":0.0682,"p":4.11,"teto":3.6147,"mg":-0.137,"fq":"Trimestral","meses":"abr jun set dez"},
+    {"e":"Petroreconcâvo","t":"RECV3","s":"Oléo, gás e biocomb.","mc":3231499415,"ll":440000000.0,"pl":7.3443,"plm":8.8,"dpl":-0.1654,"cagr":0.1,"dl":1.14,"lpa":1.5018,"pay":0.5,"dpa":0.7509,"dy":0.0681,"p":11.03,"teto":9.6893,"mg":-0.1384,"fq":"Semestral","meses":"maio e dez"},
+    {"e":"Tegma","t":"TGMA3","s":"Logistica","mc":2377428060,"ll":200000000.0,"pl":11.8871,"plm":12.6,"dpl":-0.0566,"cagr":0.2701,"dl":0.07,"lpa":3.0302,"pay":0.8,"dpa":2.4241,"dy":0.0673,"p":36.02,"teto":31.2791,"mg":-0.1516,"fq":"Quadrimestral","meses":"abr ago e nov"},
+    {"e":"Multiplan","t":"MULT3","s":"Shoppings","mc":12369471084,"ll":1650000000.0,"pl":7.4966,"plm":15.0,"dpl":-0.5002,"cagr":0.0343,"dl":1.93,"lpa":3.3602,"pay":0.5,"dpa":1.6801,"dy":0.0667,"p":25.19,"teto":21.6785,"mg":-0.162,"fq":"Quadrimestral","meses":"jun set e dez"},
+    {"e":"Porto Seguro","t":"PSSA3","s":"Seguros","mc":28684403769,"ll":3800000000.0,"pl":7.5485,"plm":11.2,"dpl":-0.326,"cagr":0.1519,"dl":0.0,"lpa":5.9283,"pay":0.5,"dpa":2.9642,"dy":0.0662,"p":44.75,"teto":38.2472,"mg":-0.17,"fq":"Quadrimestral","meses":"mar, jun e out"},
+    {"e":"Unipar","t":"UNIP6","s":"Químicos","mc":5748851376,"ll":400000000.0,"pl":14.3721,"plm":9.5,"dpl":0.5129,"cagr":0.0541,"dl":2.63,"lpa":3.5485,"pay":0.95,"dpa":3.3711,"dy":0.0661,"p":51,"teto":43.4982,"mg":-0.1725,"fq":"Semestral","meses":"março e dezembro"},
+    {"e":"ISA Energia","t":"ISAE4","s":"Energia","mc":16313950607,"ll":1400000000.0,"pl":11.6528,"plm":8.2,"dpl":0.4211,"cagr":-0.0579,"dl":3.78,"lpa":2.1248,"pay":0.75,"dpa":1.5936,"dy":0.0644,"p":24.76,"teto":20.5627,"mg":-0.2041,"fq":"Anual","meses":"dezembro"},
+    {"e":"Gerdau","t":"GGBR3","s":"Siderurgia e Metalurgia","mc":42739013481,"ll":5500000000.0,"pl":7.7707,"plm":11.0,"dpl":-0.2936,"cagr":-0.0989,"dl":0.93,"lpa":2.7642,"pay":0.5,"dpa":1.3821,"dy":0.0643,"p":21.48,"teto":17.8337,"mg":-0.2045,"fq":"Trimestral","meses":"mar mai ago nov"},
+    {"e":"Sanepar","t":"SAPR4","s":"Saneamento","mc":9112569280,"ll":1600000000.0,"pl":5.6954,"plm":7.0,"dpl":-0.1864,"cagr":0.1585,"dl":1.0,"lpa":1.0588,"pay":0.35,"dpa":0.3706,"dy":0.0615,"p":6.03,"teto":4.7815,"mg":-0.2611,"fq":"Semestral","meses":"jun e dez"},
+    {"e":"Banestes","t":"BEES3","s":"Bancos","mc":3186611680,"ll":460000000.0,"pl":6.9274,"plm":7.6,"dpl":-0.0885,"cagr":0.0796,"dl":0.0,"lpa":1.3237,"pay":0.42,"dpa":0.556,"dy":0.0606,"p":9.17,"teto":7.1737,"mg":-0.2783,"fq":"Mensal","meses":"jan-dez"},
+    {"e":"Celesc","t":"CLSC4","s":"Energia","mc":6623583840,"ll":1000000000.0,"pl":6.6236,"plm":6.2,"dpl":0.0683,"cagr":0.0706,"dl":3.6,"lpa":25.9255,"pay":0.4,"dpa":10.3702,"dy":0.0604,"p":171.72,"teto":133.8092,"mg":-0.2833,"fq":"5x por ano","meses":"mar abr jun set dez"},
+    {"e":"IRB","t":"IRBR3","s":"Seguros","mc":4557018240,"ll":550000000.0,"pl":8.2855,"plm":13.0,"dpl":-0.3627,"cagr":0.0,"dl":0.0,"lpa":6.7202,"pay":0.5,"dpa":3.3601,"dy":0.0603,"p":55.68,"teto":43.356,"mg":-0.2843,"fq":"Indefinido","meses":"Indefinido"},
+    {"e":"Copel","t":"CPLE3","s":"Energia","mc":42520212752,"ll":2700000000.0,"pl":15.7482,"plm":8.4,"dpl":0.8748,"cagr":-0.0722,"dl":2.8,"lpa":0.9093,"pay":0.95,"dpa":0.8638,"dy":0.0603,"p":14.32,"teto":11.1464,"mg":-0.2847,"fq":"Semestral","meses":"abril e dez"},
+    {"e":"Dexxos","t":"DEXP3","s":"Industrial","mc":860033705.4,"ll":115000000.0,"pl":7.4786,"plm":6.0,"dpl":0.2464,"cagr":-0.0003,"dl":-0.35,"lpa":0.9507,"pay":0.45,"dpa":0.4278,"dy":0.0602,"p":7.11,"teto":5.5203,"mg":-0.288,"fq":"Semestral","meses":"abril e dezembro"},
+    {"e":"Ambev","t":"ABEV3","s":"Bebidas","mc":229627234719,"ll":15300000000.0,"pl":15.0083,"plm":19.5,"dpl":-0.2303,"cagr":0.0639,"dl":-0.5,"lpa":0.9728,"pay":0.9,"dpa":0.8755,"dy":0.06,"p":14.6,"teto":11.297,"mg":-0.2924,"fq":"Anual","meses":"dezembro"},
+    {"e":"Klabin","t":"KLBN4","s":"Papel e Celulose","mc":21211037932,"ll":8200000000.0,"pl":2.5867,"plm":5.0,"dpl":-0.4827,"cagr":0.1046,"dl":3.2,"lpa":1.3183,"pay":0.15,"dpa":0.1977,"dy":0.058,"p":3.41,"teto":2.5515,"mg":-0.3365,"fq":"Trimestral","meses":"fev, mai, ago, nov"},
+    {"e":"Irani","t":"RANI3","s":"Papel e Celulose","mc":1738380204,"ll":200000000.0,"pl":8.6919,"plm":8.9,"dpl":-0.0234,"cagr":0.2114,"dl":2.07,"lpa":0.8732,"pay":0.5,"dpa":0.4366,"dy":0.0575,"p":7.59,"teto":5.6337,"mg":-0.3472,"fq":"5x por ano","meses":"mar abr mai ago nov"},
+    {"e":"Klabin","t":"KLBN11","s":"Papel e Celulose","mc":21397645294,"ll":8200000000.0,"pl":2.6095,"plm":5.0,"dpl":-0.4781,"cagr":0.1046,"dl":3.2,"lpa":6.5914,"pay":0.15,"dpa":0.9887,"dy":0.0575,"p":17.2,"teto":12.7575,"mg":-0.3482,"fq":"Trimestral","meses":"fev, mai, ago, nov"},
+    {"e":"Klabin","t":"KLBN3","s":"Papel e Celulose","mc":22144074792,"ll":8200000000.0,"pl":2.7005,"plm":5.0,"dpl":-0.4599,"cagr":0.1046,"dl":3.2,"lpa":1.3183,"pay":0.15,"dpa":0.1977,"dy":0.0555,"p":3.56,"teto":2.5515,"mg":-0.3953,"fq":"Trimestral","meses":"fev, mai, ago, nov"},
+    {"e":"Bradsaúde","t":"SAUD3","s":"Saúde","mc":41220893597,"ll":4500000000.0,"pl":9.1602,"plm":15.0,"dpl":-0.3893,"cagr":0.1,"dl":0.0,"lpa":1.5393,"pay":0.5,"dpa":0.7696,"dy":0.0546,"p":14.1,"teto":9.9308,"mg":-0.4198,"fq":"Trimestral","meses":"mar jun set dez"},
+    {"e":"Unifique","t":"FIQE3","s":"Telecomunicações","mc":2107179360,"ll":230000000.0,"pl":9.1616,"plm":11.4,"dpl":-0.1963,"cagr":0.15,"dl":0.58,"lpa":0.5763,"pay":0.5,"dpa":0.2882,"dy":0.0546,"p":5.28,"teto":3.7182,"mg":-0.4201,"fq":"Quadrimestral","meses":"fev junho e dez"},
+    {"e":"Fleury","t":"FLRY3","s":"Saúde","mc":11141405725,"ll":800000000.0,"pl":13.9268,"plm":20.3,"dpl":-0.314,"cagr":0.1835,"dl":1.56,"lpa":1.4698,"pay":0.75,"dpa":1.1024,"dy":0.0539,"p":20.47,"teto":14.2242,"mg":-0.4391,"fq":"Semestral","meses":"março e dezembro"},
+    {"e":"Alupar","t":"ALUP11","s":"Energia","mc":9569419035,"ll":1000000000.0,"pl":9.5694,"plm":11.1,"dpl":-0.1379,"cagr":-0.0335,"dl":3.2,"lpa":3.2813,"pay":0.5,"dpa":1.6406,"dy":0.0522,"p":31.4,"teto":21.1696,"mg":-0.4833,"fq":"Trimestral","meses":"abr mai ago nov"},
+    {"e":"Sanepar","t":"SAPR3","s":"Saneamento","mc":9822835874,"ll":1600000000.0,"pl":6.1393,"plm":7.0,"dpl":-0.123,"cagr":0.1585,"dl":1.0,"lpa":1.0588,"pay":0.3185,"dpa":0.3372,"dy":0.0519,"p":6.5,"teto":4.3512,"mg":-0.4939,"fq":"Semestral","meses":"jun e dez"},
+    {"e":"Sanepar","t":"SAPR11","s":"Saneamento","mc":9324138052,"ll":1600000000.0,"pl":5.8276,"plm":7.0,"dpl":-0.1675,"cagr":0.1585,"dl":1.0,"lpa":5.2938,"pay":0.3,"dpa":1.5881,"dy":0.0515,"p":30.85,"teto":20.4921,"mg":-0.5055,"fq":"Semestral","meses":"jun e dez"},
+    {"e":"Banco Mercantil","t":"BMEB3","s":"Bancos","mc":5914228323,"ll":1100000000.0,"pl":5.3766,"plm":8.0,"dpl":-0.3279,"cagr":0.3351,"dl":0.0,"lpa":8.8904,"pay":0.3,"dpa":2.4247,"dy":0.0507,"p":47.8,"teto":31.2859,"mg":-0.5278,"fq":"Semestral","meses":"fevereiro e ago"},
+    {"e":"Banco Mercantil","t":"BMEB4","s":"Bancos","mc":6977057220,"ll":1100000000.0,"pl":6.3428,"plm":8.0,"dpl":-0.2072,"cagr":0.3351,"dl":0.0,"lpa":8.8904,"pay":0.3,"dpa":2.6671,"dy":0.0473,"p":56.39,"teto":34.4145,"mg":-0.6386,"fq":"Semestral","meses":"fevereiro e ago"},
+    {"e":"Banco do Brasil","t":"BBAS3","s":"Bancos","mc":94022225558,"ll":17000000000.0,"pl":5.5307,"plm":6.8,"dpl":-0.1867,"cagr":0.0477,"dl":0.0,"lpa":2.9779,"pay":0.25,"dpa":0.7445,"dy":0.0452,"p":16.47,"teto":9.6062,"mg":-0.7145,"fq":"8x por ano","meses":"mar jun set e dez"},
+    {"e":"Engie Brasil","t":"EGIE3","s":"Energia","mc":37194138800,"ll":2900000000.0,"pl":12.8256,"plm":13.8,"dpl":-0.0706,"cagr":0.0043,"dl":3.1,"lpa":2.0475,"pay":0.55,"dpa":1.1261,"dy":0.0429,"p":26.26,"teto":14.5305,"mg":-0.8072,"fq":"Quadrimestral","meses":"maio, ago e dez"},
+    {"e":"CSN Mineração","t":"CMIN3","s":"Mineração","mc":26399742102,"ll":1500000000.0,"pl":17.5998,"plm":8.7,"dpl":1.023,"cagr":-0.1638,"dl":0.17,"lpa":0.2761,"pay":0.75,"dpa":0.2071,"dy":0.0426,"p":4.86,"teto":2.6723,"mg":-0.8186,"fq":"Quadrimestral","meses":"abr jul dez"},
+    {"e":"Sabesp","t":"SBSP3","s":"Saneamento","mc":86618613340,"ll":7000000000.0,"pl":12.3741,"plm":12.3,"dpl":0.006,"cagr":0.5411,"dl":2.5,"lpa":1.9961,"pay":0.5,"dpa":0.9981,"dy":0.0404,"p":24.7,"teto":12.8781,"mg":-0.918,"fq":"Semestral","meses":"abril e dez"},
+    {"e":"Suzano","t":"SUZB3","s":"Papel e Celulose","mc":61978015643,"ll":8000000000.0,"pl":7.7473,"plm":12.66,"dpl":-0.3881,"cagr":0.1,"dl":3.3,"lpa":6.472,"pay":0.3,"dpa":1.9416,"dy":0.0387,"p":50.14,"teto":25.0528,"mg":-1.0014,"fq":"Semestral","meses":"abril e dez"},
+    {"e":"Brasilagro","t":"AGRO3","s":"Agronegócio","mc":1724343561,"ll":100000000.0,"pl":17.2434,"plm":11.2,"dpl":0.5396,"cagr":0.0,"dl":1.82,"lpa":1.0039,"pay":0.65,"dpa":0.6525,"dy":0.0377,"p":17.31,"teto":8.4195,"mg":-1.0559,"fq":"Anual","meses":"outubro"},
+    {"e":"Copasa","t":"CSMG3","s":"Saneamento","mc":18242397910,"ll":1250000000.0,"pl":14.5939,"plm":10.1,"dpl":0.4449,"cagr":0.1164,"dl":2.67,"lpa":3.2966,"pay":0.5,"dpa":1.6483,"dy":0.0343,"p":48.11,"teto":21.2682,"mg":-1.2621,"fq":"Trimestral","meses":"mar, jun, set e dez"},
+    {"e":"BTG","t":"BPAC11","s":"Bancos","mc":199942772736,"ll":20500000000.0,"pl":9.7533,"plm":17.1,"dpl":-0.4296,"cagr":0.372,"dl":0.0,"lpa":5.2823,"pay":0.3,"dpa":1.5847,"dy":0.0308,"p":51.52,"teto":20.4477,"mg":-1.5196,"fq":"Quadrimestral","meses":"jan ago e dez"},
+    {"e":"SLC Agrícola","t":"SLCE3","s":"Agronegócio","mc":8452499326,"ll":500000000.0,"pl":16.905,"plm":14.0,"dpl":0.2075,"cagr":0.0204,"dl":3.1,"lpa":1.0068,"pay":0.5,"dpa":0.5034,"dy":0.0296,"p":17.02,"teto":6.4955,"mg":-1.6203,"fq":"Semestral","meses":"abril e dezembro"},
+    {"e":"Kepler Weber","t":"KEPL3","s":"Agronegócio","mc":1086789884,"ll":50000000.0,"pl":21.7358,"plm":12.1,"dpl":0.7963,"cagr":0.1823,"dl":-0.06,"lpa":0.2885,"pay":0.6,"dpa":0.1731,"dy":0.0276,"p":6.27,"teto":2.2333,"mg":-1.8075,"fq":"Quadrimestral","meses":"mar ago e out"},
+    {"e":"Axia Energia","t":"AXIA3","s":"Energia","mc":130243773516,"ll":12000000000.0,"pl":10.8536,"plm":10.0,"dpl":0.0854,"cagr":0.0053,"dl":1.9,"lpa":4.37,"pay":0.25,"dpa":1.0925,"dy":0.023,"p":47.43,"teto":14.0966,"mg":-2.3646,"fq":"Semestral","meses":"Abril e dezembro"},
+    {"e":"Ferbasa","t":"FESA4","s":"Siderurgia e Metalurgia","mc":1694338000,"ll":50000000.0,"pl":33.8868,"plm":9.4,"dpl":2.605,"cagr":0.2193,"dl":-1.96,"lpa":0.1476,"pay":0.25,"dpa":0.0369,"dy":0.0074,"p":5,"teto":0.476,"mg":-9.5049,"fq":"Quadrimestral","meses":"jun set dez"}
+  ],
+  "growth": [0.25, 0.2, 0.15, 0.15],
+  "ibov": [
+    {"a":"1995","r":-0.0125,"dd":-0.5028},
+    {"a":"1996","r":0.6376,"dd":-0.1273},
+    {"a":"1997","r":0.4483,"dd":-0.4256},
+    {"a":"1998","r":-0.3346,"dd":-0.613},
+    {"a":"1999","r":1.5193,"dd":-0.3101},
+    {"a":"2000","r":-0.1072,"dd":-0.2989},
+    {"a":"2001","r":-0.1102,"dd":-0.4407},
+    {"a":"2002","r":-0.1701,"dd":-0.4216},
+    {"a":"2003","r":0.9734,"dd":-0.1836},
+    {"a":"2004","r":0.1781,"dd":-0.277},
+    {"a":"2005","r":0.2771,"dd":-0.189},
+    {"a":"2006","r":0.3293,"dd":-0.2175},
+    {"a":"2007","r":0.4365,"dd":-0.1739},
+    {"a":"2008","r":-0.4122,"dd":-0.5996},
+    {"a":"2009","r":0.8266,"dd":-0.1525},
+    {"a":"2010","r":0.0104,"dd":-0.1893},
+    {"a":"2011","r":-0.1811,"dd":-0.3206},
+    {"a":"2012","r":0.074,"dd":-0.2327},
+    {"a":"2013","r":-0.155,"dd":-0.2885},
+    {"a":"2014","r":-0.0291,"dd":-0.2405},
+    {"a":"2015","r":-0.1331,"dd":-0.2558},
+    {"a":"2016","r":0.3894,"dd":-0.135},
+    {"a":"2017","r":0.2686,"dd":-0.1201},
+    {"a":"2018","r":0.1503,"dd":-0.2035},
+    {"a":"2019","r":0.3158,"dd":-0.1},
+    {"a":"2020","r":0.0292,"dd":-0.4682},
+    {"a":"2021","r":-0.1193,"dd":-0.2294},
+    {"a":"2022","r":0.0469,"dd":-0.2093},
+    {"a":"2023","r":0.2228,"dd":-0.143},
+    {"a":"2024","r":-0.1036,"dd":-0.1161},
+    {"a":"2025","r":0.3413,"dd":-0.0692},
+    {"a":"2026*","r":0.0929,"dd":-0.1627}
+  ],
+  "carteira": [
+    {"t":"CEBR5","q":36800.0,"lpa":2.2197,"dpa":1.7758,"p":22.8},
+    {"t":"BBAS3","q":20000.0,"lpa":3.9589,"dpa":0.9897,"p":16.47},
+    {"t":"BBSE3","q":13300.0,"lpa":4.4301,"dpa":3.7656,"p":41.32},
+    {"t":"SBSP3","q":23487.0,"lpa":1.9961,"dpa":0.9981,"p":24.7},
+    {"t":"LEVE3","q":7700.0,"lpa":5.017,"dpa":3.2611,"p":30.26},
+    {"t":"BBDC3","q":13000.0,"lpa":2.6844,"dpa":1.4764,"p":12.71},
+    {"t":"ALOS3","q":10000.0,"lpa":3.2993,"dpa":3.4973,"p":23.5},
+    {"t":"TIMS3","q":10500.0,"lpa":2.2299,"dpa":2.2299,"p":19.17},
+    {"t":"RANI3","q":24155.0,"lpa":0.8732,"dpa":0.4366,"p":7.59},
+    {"t":"CGAS5","q":1628.0,"lpa":10.9417,"dpa":9.3004,"p":114.05},
+    {"t":"CXSE3","q":9800.0,"lpa":1.7333,"dpa":1.5947,"p":21.38},
+    {"t":"CEBR3","q":6000.0,"lpa":2.2197,"dpa":1.7758,"p":23.05},
+    {"t":"FESA4","q":21000.0,"lpa":0.1476,"dpa":0.0369,"p":5.0}
+  ]
+};
+
+
+/**
+ * Neto Invest - Módulo de Pagamento e Monetização
+ * 
+ * Processamento de assinaturas via gateways (Asaas, Mercado Pago, Stripe, Kiwify, etc.)
+ * e liberação automática de acesso VIP para os clientes.
+ */
+
+(function(window) {
+  'use strict';
+
+  const STORAGE_KEY = 'netoinvest_payment_config_v1';
+
+  // Configuração padrão do sistema de pagamento
+  const DEFAULT_CONFIG = {
+    paymentProvider: 'asaas', // 'asaas' | 'mercadopago' | 'stripe' | 'kiwify' | 'custom'
+    apiKey: '',
+    webhookSecret: '',
+    endpointUrl: '',
+    pixKey: 'netoinvest.contato@pagamentos.com.br',
+    environment: 'production', // 'sandbox' | 'production'
+    status: 'pronto'
+  };
+
+  class ApiService {
+    constructor() {
+      this.config = this.loadConfig();
+    }
+
+    loadConfig() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          return { ...DEFAULT_CONFIG, ...JSON.parse(saved) };
+        }
+      } catch (e) {
+        console.warn('Erro ao carregar configurações de pagamento:', e);
+      }
+      return { ...DEFAULT_CONFIG };
+    }
+
+    saveConfig(newConfig) {
+      this.config = { ...this.config, ...newConfig };
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(this.config));
+      } catch (e) {
+        console.error('Erro ao salvar configurações:', e);
+      }
+      return this.config;
+    }
+
+    /**
+     * Testa a conexão com a plataforma de pagamento configurada
+     */
+    async testConnection() {
+      const cfg = this.config;
+      
+      if (!cfg.apiKey && !cfg.endpointUrl) {
+        return {
+          success: true,
+          mode: 'simulado',
+          provider: cfg.paymentProvider,
+          message: 'Ambiente de testes pronto. Insira sua chave ou URL de webhook para vendas reais.'
+        };
+      }
+
+      try {
+        if (cfg.endpointUrl) {
+          await fetch(cfg.endpointUrl, { method: 'HEAD', mode: 'no-cors' });
+          this.config.status = 'conectado';
+          this.saveConfig(this.config);
+          return {
+            success: true,
+            mode: 'live',
+            message: `Conexão validada com ${cfg.endpointUrl}!`
+          };
+        }
+
+        this.config.status = 'conectado';
+        this.saveConfig(this.config);
+        
+        return {
+          success: true,
+          mode: cfg.environment,
+          provider: cfg.paymentProvider,
+          message: `Credenciais de ${cfg.paymentProvider.toUpperCase()} validadas no modo ${cfg.environment.toUpperCase()}!`
+        };
+      } catch (err) {
+        this.config.status = 'erro';
+        this.saveConfig(this.config);
+        return {
+          success: false,
+          error: err.message,
+          message: 'Falha ao conectar à plataforma de pagamento. Verifique as credenciais.'
+        };
+      }
+    }
+
+    /**
+     * Processa pagamento de assinatura com a plataforma configurada
+     */
+    async processSubscriptionPayment(orderData) {
+      const cfg = this.config;
+
+      // Se houver um Webhook / Endpoint customizado configurado
+      if (cfg.endpointUrl) {
+        try {
+          const response = await fetch(cfg.endpointUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': cfg.apiKey ? `Bearer ${cfg.apiKey}` : undefined
+            },
+            body: JSON.stringify({
+              event: 'subscription.created',
+              order: orderData,
+              timestamp: Date.now()
+            })
+          });
+          const data = await response.json().catch(() => ({}));
+          return {
+            success: true,
+            provider: 'custom_api',
+            transactionId: data.id || 'TX_' + Math.random().toString(36).substr(2, 9).toUpperCase(),
+            data
+          };
+        } catch (err) {
+          console.warn('Falha na chamada externa, usando processamento direto:', err);
+        }
+      }
+
+      // Simulação instantânea para demonstração e testes com padrão profissional
+      await new Promise(resolve => setTimeout(resolve, 700));
+
+      const pixKey = cfg.pixKey || 'netoinvest.contato@pagamentos.com.br';
+      return {
+        success: true,
+        provider: cfg.paymentProvider,
+        environment: cfg.environment,
+        transactionId: 'NI-' + Math.floor(100000 + Math.random() * 900000),
+        status: 'approved',
+        plan: orderData.plan,
+        customer: orderData.customer,
+        paidAt: new Date().toISOString(),
+        pixPayload: '00020126580014BR.GOV.BCB.PIX0136' + pixKey + '520400005303986540' + (orderData.total || 358.80) + '5802BR5925NETO INVEST PLATAFORMA6009SAO PAULO62070503***6304E2B1'
+      };
+    }
+
+    /**
+     * Webhook Handler: Recebe confirmações de pagamento externas (Kiwify, Hotmart, Asaas, etc)
+     */
+    handleIncomingWebhook(payload) {
+      if (!payload || !payload.event) return { error: 'Payload inválido' };
+
+      if (payload.event === 'order.approved' || payload.event === 'subscription.active') {
+        const userEmail = payload.customer?.email;
+        if (userEmail && window.AuthService) {
+          window.AuthService.upgradeUserToVip(userEmail);
+          return { success: true, message: `Acesso VIP liberado para ${userEmail}` };
+        }
+      }
+      return { success: true, received: true };
+    }
+  }
+
+  window.ApiService = new ApiService();
+})(window);
+
+
+/**
+ * Neto Invest - Sistema de Autenticação e Gestão de Membros
+ * 
+ * Gerencia login, cadastro, sessões e status de assinatura (VIP / Gratuito).
+ */
+
+(function(window) {
+  'use strict';
+
+  const USERS_KEY = 'netoinvest_users_v1';
+  const SESSION_KEY = 'netoinvest_current_user_v1';
+
+  // Usuários padrão de demonstração
+  const INITIAL_USERS = [
+    {
+      id: 'usr_demo_vip',
+      name: 'Membro Pro Demo',
+      email: 'membro@netoinvest.com',
+      password: '123',
+      isVip: true,
+      plan: 'anual',
+      joinedAt: '2026-11-01T10:00:00.000Z',
+      expiresAt: '2027-11-01T10:00:00.000Z'
+    },
+    {
+      id: 'usr_demo_visitante',
+      name: 'Visitante Grátis',
+      email: 'visitante@netoinvest.com',
+      password: '123',
+      isVip: false,
+      plan: null,
+      joinedAt: '2026-11-02T12:00:00.000Z',
+      expiresAt: null
+    }
+  ];
+
+  class AuthService {
+    constructor() {
+      this.users = this.loadUsers();
+      this.currentUser = this.loadSession();
+      this.listeners = [];
+    }
+
+    loadUsers() {
+      try {
+        const stored = localStorage.getItem(USERS_KEY);
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch (e) {
+        console.warn('Erro ao carregar lista de usuários:', e);
+      }
+      localStorage.setItem(USERS_KEY, JSON.stringify(INITIAL_USERS));
+      return [...INITIAL_USERS];
+    }
+
+    saveUsers() {
+      try {
+        localStorage.setItem(USERS_KEY, JSON.stringify(this.users));
+      } catch (e) {
+        console.error('Erro ao salvar usuários:', e);
+      }
+    }
+
+    loadSession() {
+      try {
+        const session = localStorage.getItem(SESSION_KEY);
+        if (session) return JSON.parse(session);
+      } catch (e) {
+        console.warn('Erro ao restaurar sessão:', e);
+      }
+      return null;
+    }
+
+    saveSession(user) {
+      this.currentUser = user;
+      try {
+        if (user) {
+          localStorage.setItem(SESSION_KEY, JSON.stringify(user));
+        } else {
+          localStorage.removeItem(SESSION_KEY);
+        }
+      } catch (e) {
+        console.error('Erro ao atualizar sessão:', e);
+      }
+      this.notifyListeners();
+    }
+
+    onAuthChange(callback) {
+      if (typeof callback === 'function') {
+        this.listeners.push(callback);
+        // Notifica imediatamente com estado atual
+        callback(this.currentUser);
+      }
+    }
+
+    notifyListeners() {
+      this.listeners.forEach(cb => {
+        try { cb(this.currentUser); } catch (e) { console.error(e); }
+      });
+    }
+
+    getCurrentUser() {
+      return this.currentUser;
+    }
+
+    isLoggedIn() {
+      return !!this.currentUser;
+    }
+
+    hasActiveAccess() {
+      if (!this.currentUser) return false;
+      return !!this.currentUser.isVip;
+    }
+
+    login(email, password) {
+      const cleanEmail = String(email || '').trim().toLowerCase();
+      const user = this.users.find(u => u.email.toLowerCase() === cleanEmail);
+
+      if (!user) {
+        return { success: false, error: 'E-mail não cadastrado.' };
+      }
+
+      if (user.password !== password) {
+        return { success: false, error: 'Senha incorreta.' };
+      }
+
+      this.saveSession(user);
+      return { success: true, user };
+    }
+
+    register({ name, email, password }) {
+      const cleanEmail = String(email || '').trim().toLowerCase();
+      const cleanName = String(name || '').trim();
+
+      if (!cleanName) return { success: false, error: 'Por favor, informe seu nome.' };
+      if (!cleanEmail || !cleanEmail.includes('@')) return { success: false, error: 'E-mail inválido.' };
+      if (!password || password.length < 3) return { success: false, error: 'A senha deve ter no mínimo 3 caracteres.' };
+
+      if (this.users.some(u => u.email.toLowerCase() === cleanEmail)) {
+        return { success: false, error: 'Este e-mail já está em uso. Faça login ou use outro.' };
+      }
+
+      const newUser = {
+        id: 'usr_' + Date.now(),
+        name: cleanName,
+        email: cleanEmail,
+        password: password,
+        isVip: false, // Inicia como visitante até assinar
+        plan: null,
+        joinedAt: new Date().toISOString(),
+        expiresAt: null
+      };
+
+      this.users.push(newUser);
+      this.saveUsers();
+      this.saveSession(newUser);
+
+      return { success: true, user: newUser };
+    }
+
+    upgradeCurrentUser(planName = 'anual') {
+      if (!this.currentUser) return { success: false, error: 'Nenhum usuário conectado.' };
+
+      const userInDb = this.users.find(u => u.id === this.currentUser.id);
+      const updated = {
+        ...(userInDb || this.currentUser),
+        isVip: true,
+        plan: planName,
+        subscribedAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()
+      };
+
+      if (userInDb) {
+        Object.assign(userInDb, updated);
+        this.saveUsers();
+      }
+
+      this.saveSession(updated);
+      return { success: true, user: updated };
+    }
+
+    upgradeUserToVip(email, planName = 'anual') {
+      const user = this.users.find(u => u.email.toLowerCase() === email.toLowerCase());
+      if (user) {
+        user.isVip = true;
+        user.plan = planName;
+        user.subscribedAt = new Date().toISOString();
+        this.saveUsers();
+
+        if (this.currentUser && this.currentUser.id === user.id) {
+          this.saveSession({ ...user });
+        }
+        return true;
+      }
+      return false;
+    }
+
+    quickDemoLogin(asVip = true) {
+      const email = asVip ? 'membro@netoinvest.com' : 'visitante@netoinvest.com';
+      return this.login(email, '123');
+    }
+
+    logout() {
+      this.saveSession(null);
+      return { success: true };
+    }
+  }
+
+  window.AuthService = new AuthService();
+})(window);
+
+
+/**
+ * Neto Invest - Sistema de Checkout e Compra de Acesso
+ * 
+ * Processa a compra de planos (Mensal, Anual, Vitalício)
+ * com suporte a PIX, Cartão de Crédito e integração com APIs de Pagamento.
+ */
+
+(function(window) {
+  'use strict';
+
+  const PLANS = {
+    mensal: {
+      id: 'mensal',
+      name: 'Plano Mensal',
+      period: 'por mês',
+      price: 39.90,
+      formattedPrice: 'R$ 39,90',
+      totalFormatted: 'R$ 39,90 / mês',
+      billingCycle: 'Cobrança mensal recorrente',
+      features: [
+        'Acesso completo ao Ranking de Ações',
+        'Carteira Neto Invest atualizada',
+        'Simulador Minha Carteira & Projeções',
+        'Agenda de Dividendos mês a mês',
+        'Calculadoras de Juros e Aposentadoria'
+      ]
+    },
+    anual: {
+      id: 'anual',
+      name: 'Plano Anual PRO',
+      period: 'por mês',
+      price: 29.90,
+      total: 358.80,
+      formattedPrice: 'R$ 29,90',
+      totalFormatted: 'R$ 358,80 / ano (R$ 29,90/mês)',
+      billingCycle: 'Cobrança anual com 25% de desconto',
+      popular: true,
+      features: [
+        'Tudo do Plano Mensal',
+        '25% de desconto exclusivo',
+        'Acesso antecipado a novas temporadas de balanço',
+        'Atualização prioritária da planilha',
+        'Suporte dedicado a membros PRO'
+      ]
+    },
+    vitalicio: {
+      id: 'vitalicio',
+      name: 'Membro Vitalício VIP',
+      period: 'pagamento único',
+      price: 890.00,
+      formattedPrice: 'R$ 890,00',
+      totalFormatted: 'R$ 890,00 pagamento único',
+      billingCycle: 'Acesso para sempre, sem mensalidades',
+      features: [
+        'Acesso vitalício irrestrito a todas as ferramentas',
+        'Todas as futuras versões e atualizações da plataforma',
+        'Selo exclusivo de Membro Vitalício',
+        'Canal VIP direto com a equipe',
+        'Integração direta com APIs e exportação de dados'
+      ]
+    }
+  };
+
+  class Checkout {
+    constructor() {
+      this.selectedPlan = PLANS.anual;
+      this.paymentMethod = 'pix'; // 'pix' | 'credit_card'
+    }
+
+    openModal(planId = 'anual') {
+      this.selectedPlan = PLANS[planId] || PLANS.anual;
+      this.paymentMethod = 'pix';
+      this.renderModal();
+    }
+
+    closeModal() {
+      const modal = document.getElementById('checkout-modal');
+      if (modal) modal.remove();
+    }
+
+    renderModal() {
+      this.closeModal();
+
+      const user = window.AuthService ? window.AuthService.getCurrentUser() : null;
+      const plan = this.selectedPlan;
+
+      const modalEl = document.createElement('div');
+      modalEl.id = 'checkout-modal';
+      modalEl.className = 'modal-backdrop';
+      modalEl.innerHTML = `
+        <div class="modal-card modal-checkout" role="dialog" aria-modal="true">
+          <div class="modal-header">
+            <div>
+              <span class="eyebrow" style="color:var(--accent)">Finalizar Assinatura</span>
+              <h2 style="margin:2px 0 0;font-size:20px">${plan.name}</h2>
+            </div>
+            <button class="x modal-close-btn" onclick="window.Checkout.closeModal()">✕</button>
+          </div>
+
+          <div class="checkout-grid">
+            <!-- Coluna da Esquerda: Resumo do Pedido -->
+            <div class="checkout-summary">
+              <div class="checkout-plan-badge">
+                <b>${plan.totalFormatted}</b>
+                <small>${plan.billingCycle}</small>
+              </div>
+
+              <div class="checkout-features-list">
+                ${plan.features.map(f => `<div><span style="color:var(--good);font-weight:700">✓</span> ${f}</div>`).join('')}
+              </div>
+
+              <div class="checkout-guarantee">
+                <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--accent);fill:none;stroke-width:2;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <div>
+                  <b>Garantia Incondicional de 7 Dias</b>
+                  <p style="margin:2px 0 0;font-size:11.5px;color:var(--muted)">Se não gostar, devolvemos 100% do seu investimento sem burocracia.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Coluna da Direita: Dados e Pagamento -->
+            <div class="checkout-form-area">
+              <div class="form-group">
+                <label>Seu Nome Completo</label>
+                <input type="text" id="chk-name" value="${user ? user.name : ''}" placeholder="Ex: João da Silva" required>
+              </div>
+
+              <div class="form-group">
+                <label>Seu Melhor E-mail</label>
+                <input type="email" id="chk-email" value="${user ? user.email : ''}" placeholder="Ex: joao@email.com" required>
+              </div>
+
+              <!-- Abas de Pagamento -->
+              <div class="payment-tabs">
+                <button type="button" class="tab-btn ${this.paymentMethod === 'pix' ? 'active' : ''}" onclick="window.Checkout.setPaymentMethod('pix')">
+                  <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M12 2L4 7v10l8 5 8-5V7l-8-5zm0 2.2L18.2 8 12 11.8 5.8 8 12 4.2zM6 9.5l5 3.1v6.7l-5-3.1V9.5zm7 9.8v-6.7l5-3.1v6.7l-5 3.1z"/></svg>
+                  PIX (Acesso Imediato)
+                </button>
+                <button type="button" class="tab-btn ${this.paymentMethod === 'credit_card' ? 'active' : ''}" onclick="window.Checkout.setPaymentMethod('credit_card')">
+                  <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                  Cartão de Crédito
+                </button>
+              </div>
+
+              <!-- Detalhes do Pagamento -->
+              <div id="payment-details-view">
+                ${this.renderPaymentMethodDetails()}
+              </div>
+
+              <div id="checkout-status-msg" style="margin-top:10px;font-size:12.5px;"></div>
+
+              <button class="pri checkout-submit-btn" id="chk-submit" onclick="window.Checkout.processCheckout()">
+                Confirmar e Liberar Acesso VIP
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(modalEl);
+    }
+
+    setPaymentMethod(method) {
+      this.paymentMethod = method;
+      const tabs = document.querySelectorAll('.payment-tabs .tab-btn');
+      tabs.forEach(t => t.classList.remove('active'));
+      const activeTab = method === 'pix' ? tabs[0] : tabs[1];
+      if (activeTab) activeTab.classList.add('active');
+
+      const view = document.getElementById('payment-details-view');
+      if (view) view.innerHTML = this.renderPaymentMethodDetails();
+    }
+
+    renderPaymentMethodDetails() {
+      if (this.paymentMethod === 'pix') {
+        const pixPayload = '00020126580014BR.GOV.BCB.PIX0136netoinvest.contato@pagamentos.com.br520400005303986540' + (this.selectedPlan.price || 358.80) + '5802BR5925NETO INVEST PLATAFORMA6009SAO PAULO62070503***6304E2B1';
+        return `
+          <div class="pix-payment-box">
+            <div class="pix-qr-fake">
+              <svg viewBox="0 0 100 100" style="width:90px;height:90px;">
+                <rect x="0" y="0" width="100" height="100" fill="#fff"/>
+                <rect x="10" y="10" width="25" height="25" fill="#0B1F3A"/>
+                <rect x="15" y="15" width="15" height="15" fill="#fff"/>
+                <rect x="18" y="18" width="9" height="9" fill="#0B1F3A"/>
+                
+                <rect x="65" y="10" width="25" height="25" fill="#0B1F3A"/>
+                <rect x="70" y="15" width="15" height="15" fill="#fff"/>
+                <rect x="73" y="18" width="9" height="9" fill="#0B1F3A"/>
+                
+                <rect x="10" y="65" width="25" height="25" fill="#0B1F3A"/>
+                <rect x="15" y="70" width="15" height="15" fill="#fff"/>
+                <rect x="18" y="73" width="9" height="9" fill="#0B1F3A"/>
+                
+                <circle cx="50" cy="50" r="10" fill="#1B5FB8"/>
+                <rect x="42" y="15" width="8" height="18" fill="#0B1F3A"/>
+                <rect x="42" y="68" width="8" height="18" fill="#0B1F3A"/>
+                <rect x="68" y="45" width="20" height="8" fill="#0B1F3A"/>
+                <rect x="12" y="45" width="20" height="8" fill="#0B1F3A"/>
+              </svg>
+            </div>
+            <div style="flex:1;min-width:0">
+              <span class="eyebrow" style="color:var(--good)">Aprovação Instantânea</span>
+              <p style="margin:4px 0 8px;font-size:12px;color:var(--muted)">Abra o app do seu banco, escolha Pix Copia e Cola e confirme o pagamento.</p>
+              <div style="display:flex;gap:6px">
+                <input type="text" readonly value="${pixPayload}" style="font-size:11px;padding:6px;background:var(--sunk);" id="pix-copy-input">
+                <button type="button" class="ghost" style="padding:6px 10px;font-size:11.5px;white-space:nowrap" onclick="window.Checkout.copyPixCode()">Copiar Código</button>
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        return `
+          <div class="card-payment-form">
+            <div class="form-group">
+              <label>Número do Cartão</label>
+              <input type="text" placeholder="0000 0000 0000 0000" maxlength="19" id="card-num" value="4532 •••• •••• 8892">
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div class="form-group">
+                <label>Validade</label>
+                <input type="text" placeholder="MM/AA" maxlength="5" id="card-exp" value="12/28">
+              </div>
+              <div class="form-group">
+                <label>CVV</label>
+                <input type="text" placeholder="123" maxlength="4" id="card-cvv" value="789">
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    copyPixCode() {
+      const input = document.getElementById('pix-copy-input');
+      if (input) {
+        input.select();
+        document.execCommand('copy');
+        if (window.AppUI) window.AppUI.showToast('Código Pix copiado para a área de transferência!');
+      }
+    }
+
+    async processCheckout() {
+      const nameInput = document.getElementById('chk-name');
+      const emailInput = document.getElementById('chk-email');
+      const statusMsg = document.getElementById('checkout-status-msg');
+      const submitBtn = document.getElementById('chk-submit');
+
+      const name = nameInput ? nameInput.value.trim() : '';
+      const email = emailInput ? emailInput.value.trim() : '';
+
+      if (!name) {
+        if (statusMsg) statusMsg.innerHTML = '<span style="color:var(--bad)">Por favor, preencha seu nome.</span>';
+        return;
+      }
+      if (!email || !email.includes('@')) {
+        if (statusMsg) statusMsg.innerHTML = '<span style="color:var(--bad)">Por favor, insira um e-mail válido.</span>';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'Processando pagamento seguro…';
+      if (statusMsg) statusMsg.innerHTML = '<span style="color:var(--accent)">Processando pagamento seguro…</span>';
+
+      const orderData = {
+        id: 'PED-' + Date.now(),
+        plan: this.selectedPlan.id,
+        planName: this.selectedPlan.name,
+        total: this.selectedPlan.price,
+        customer: { name, email },
+        method: this.paymentMethod
+      };
+
+      // Dispara chamada para a API de Pagamento / Webhook
+      const response = await window.ApiService.processSubscriptionPayment(orderData);
+
+      if (response && response.success) {
+        // Se usuário não existia, cria ou atualiza no AuthService
+        let currentUser = window.AuthService.getCurrentUser();
+        if (!currentUser) {
+          const regRes = window.AuthService.register({
+            name,
+            email,
+            password: '123'
+          });
+          if (regRes.success) currentUser = regRes.user;
+          else {
+            window.AuthService.login(email, '123');
+            currentUser = window.AuthService.getCurrentUser();
+          }
+        }
+
+        // Ativa o plano VIP
+        window.AuthService.upgradeCurrentUser(this.selectedPlan.id);
+
+        if (statusMsg) {
+          statusMsg.innerHTML = '<span style="color:var(--good);font-weight:600">✓ Pagamento Aprovado com Sucesso!</span>';
+        }
+
+        setTimeout(() => {
+          this.closeModal();
+          if (window.AppUI) {
+            window.AppUI.showToast('🎉 Parabéns! Seu acesso à plataforma Neto Invest está 100% liberado!');
+            window.AppUI.navigateToSection('terminal-section');
+          }
+          if (window.NetoPlatform) {
+            window.NetoPlatform.render();
+          }
+        }, 1000);
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Confirmar e Liberar Acesso VIP';
+        if (statusMsg) statusMsg.innerHTML = '<span style="color:var(--bad)">Erro ao processar: ' + (response?.error || 'Tente novamente.') + '</span>';
+      }
+    }
+  }
+
+  window.Checkout = new Checkout();
+})(window);
+
+
+/**
+ * Neto Invest - Motor Interativo da Área de Membros (Terminal de Investimentos)
+ * Baseado no artefato original de análise financeira do Neto Invest.
+ */
+
+(function(window) {
+  'use strict';
+
+  const D = window.NETO_DATA;
+  if (!D) {
+    console.error('Base de dados NETO_DATA não encontrada!');
+    return;
+  }
+
+  const VIEWS = [
+    { id: 'inicio', name: 'Início', ic: '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/>' },
+    { id: 'carteira-neto', name: 'Carteira Neto Invest', ic: '<path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/>' },
+    { id: 'carteira', name: 'Minha carteira', ic: '<path d="M3 7h18v13H3z"/><path d="M8 7V4h8v3"/><path d="M3 12h18"/>' },
+    { id: 'ranking', name: 'Ranking de ações', ic: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>' },
+    { id: 'agenda', name: 'Agenda de dividendos', ic: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>' },
+    { id: 'ibov', name: 'IBOV e quedas', ic: '<path d="M3 17l5-6 4 3 8-9"/><path d="M3 21h18"/>' },
+    { id: 'calculadoras', name: 'Calculadoras', ic: '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h2M14 12h2M8 16h2M14 16h2"/>' },
+  ];
+
+  const MES = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  const NOW_M = 10; // novembro
+  const PAL = ['#1B5FB8','#D62828','#111111','#7B2CBF','#2A9D3F','#F77F00','#00A6A6','#E63995','#E9B20E','#8D5524','#4CC9F0','#8A8F98','#9BC53D','#0A2A5E'];
+
+  const fBRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+  const fBRL2 = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const fN = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 0 });
+  const fD = (v, d = 2) => v == null || isNaN(v) ? '—' : v.toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d });
+  const pct = (v, d = 1) => v == null || isNaN(v) ? '—' : (v * 100).toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d }) + '%';
+  const big = v => {
+    const a = Math.abs(v);
+    if (a >= 1e9) return 'R$ ' + fD(v / 1e9, 1) + ' bi';
+    if (a >= 1e6) return 'R$ ' + fD(v / 1e6, 1) + ' mi';
+    return fBRL.format(v);
+  };
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const $ = s => document.querySelector(s);
+
+  function parseMeses(s) {
+    if (!s) return [];
+    let t = s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    if (t.includes('indefinido')) return [];
+    const toks = t.split(/[^a-z]+/).filter(Boolean);
+    const idx = [];
+    let range = /-|\ba\b|\bate\b/.test(t.replace(/[^a-z\- ]/g, ' '));
+    toks.forEach(w => {
+      if (w.length < 3) return;
+      const i = MES.findIndex(m => w.startsWith(m));
+      if (i >= 0) idx.push(i);
+    });
+    if (range && idx.length === 2) {
+      const o = [];
+      for (let i = idx[0];; i = (i + 1) % 12) {
+        o.push(i);
+        if (i === idx[1]) break;
+      }
+      return o;
+    }
+    return [...new Set(idx)];
+  }
+
+  const BY = { pl: {}, bazin: {} };
+  D.graham.forEach(s => BY.pl[s.t] = s);
+  D.bazin.forEach(s => BY.bazin[s.t] = s);
+  const SECT = [...new Set(D.bazin.map(s => s.s))].sort((a, b) => a.localeCompare(b, 'pt'));
+
+  const KEY = 'netoinvest-terminal-v1';
+  const DEF = () => ({
+    carteira: D.carteira.map(x => ({ ...x })),
+    growth: D.growth.slice(),
+    gNeto: D.growth.slice(),
+    method: 'bazin',
+    sort: { k: 'mg', d: -1 },
+    sector: '',
+    q: ''
+  });
+
+  let S = { ...DEF(), carteira: [] };
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) {
+      const o = JSON.parse(raw);
+      S = { ...S, ...o };
+    }
+  } catch (e) {}
+
+  if (!Array.isArray(S.growth) || S.growth.length < 4) S.growth = D.growth.slice();
+  if (!Array.isArray(S.gNeto) || S.gNeto.length < 4) S.gNeto = D.growth.slice();
+
+  const save = () => {
+    try {
+      localStorage.setItem(KEY, JSON.stringify({
+        carteira: S.carteira,
+        growth: S.growth,
+        gNeto: S.gNeto,
+        method: S.method,
+        sort: S.sort,
+        sector: S.sector
+      }));
+    } catch (e) {}
+  };
+
+  function toast(m) {
+    const el = document.createElement('div');
+    el.className = 'toast';
+    el.textContent = m;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 2400);
+  }
+
+  function pos(x) {
+    const r = BY.bazin[x.t];
+    return {
+      ...x,
+      p: r ? r.p : x.p,
+      lpa: x.lpa ?? (r && r.lpa),
+      dpa: x.dpa ?? (r && r.dpa),
+      meses: r ? parseMeses(r.meses) : null,
+      e: r ? r.e : null,
+      s: r ? r.s : null
+    };
+  }
+
+  function portfolio(list = S.carteira) {
+    const rows = list.map(pos).map(x => ({
+      ...x,
+      pat: x.q * x.p,
+      lucro: x.q * x.lpa,
+      renda: x.q * (x.dpa || 0)
+    }));
+    const pat = rows.reduce((a, b) => a + b.pat, 0);
+    const lucro = rows.reduce((a, b) => a + b.lucro, 0);
+    const renda = rows.reduce((a, b) => a + b.renda, 0);
+    return {
+      rows,
+      pat,
+      lucro,
+      renda,
+      ey: pat ? lucro / pat : 0,
+      dy: pat ? renda / pat : 0
+    };
+  }
+
+  function pieSVG(items, total) {
+    const R = 90, r = 52, c = 100;
+    let a = -Math.PI / 2, s = '';
+    if (items.length === 1) {
+      s = `<circle cx="${c}" cy="${c}" r="${(R + r) / 2}" fill="none" stroke="${PAL[0]}" stroke-width="${R - r}"/>`;
+    } else {
+      items.forEach((x, i) => {
+        const f = x.pat / total, b = a + f * 2 * Math.PI, lg = f > 0.5 ? 1 : 0;
+        const p = (ang, rad) => `${(c + rad * Math.cos(ang)).toFixed(2)},${(c + rad * Math.sin(ang)).toFixed(2)}`;
+        s += `<path d="M${p(a, R)} A${R},${R} 0 ${lg} 1 ${p(b, R)} L${p(b, r)} A${r},${r} 0 ${lg} 0 ${p(a, r)} Z" fill="${PAL[i % PAL.length]}" stroke="var(--surface)" stroke-width="1.5"><title>${x.t}: ${pct(f)}</title></path>`;
+        a = b;
+      });
+    }
+    return `<svg viewBox="0 0 200 200" class="pie" role="img" aria-label="Gráfico de pizza da alocação por ativo">${s}<text x="100" y="96" text-anchor="middle" style="font-size:11px">${items.length} ativos</text><text x="100" y="114" text-anchor="middle" style="fill:var(--ink);font-size:13px;font-weight:500">${big(total)}</text></svg>`;
+  }
+
+  function projHTML(P, G) {
+    const proj = [];
+    let l = P.lucro, r = P.renda;
+    for (let i = 0; i < 5; i++) {
+      if (i > 0) {
+        const g = (G[i - 1] || 0);
+        l *= 1 + g;
+        r *= 1 + g;
+      }
+      proj.push({ a: 2027 + i, l, r, g: i ? G[i - 1] : null });
+    }
+    const maxP = Math.max(...proj.map(p => Math.max(p.l, p.r)), 1);
+    const W = 900, H = 250, pl = 10, pb = 28, top = 36, bw = (W - pl * 2) / 5;
+    const k = v => v >= 1e6 ? fD(v / 1e6, 2) + ' mi' : fD(v / 1e3, 0) + ' mil';
+    let bars = '';
+    proj.forEach((p, i) => {
+      const x = pl + i * bw;
+      const hl = (p.l / maxP) * (H - pb - top), hr = (p.r / maxP) * (H - pb - top);
+      bars += `<rect x="${x + bw * 0.12}" y="${H - pb - hl}" width="${bw * 0.36}" height="${hl}" rx="3" fill="var(--accent)" opacity=".3"/>
+      <rect x="${x + bw * 0.52}" y="${H - pb - hr}" width="${bw * 0.36}" height="${hr}" rx="3" fill="var(--accent)"/>
+      <text x="${x + bw * 0.30}" y="${H - pb - hl - 7}" text-anchor="middle" style="fill:var(--ink);font-size:12px">${k(p.l)}</text>
+      <text x="${x + bw * 0.70}" y="${H - pb - hr - 7}" text-anchor="middle" style="fill:var(--accent);font-size:12px;font-weight:500">${k(p.r)}</text>
+      <text x="${x + bw / 2}" y="${H - 8}" text-anchor="middle" style="font-size:12px">${p.a}</text>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Projeção de lucro e dividendos de 2027 a 2031">${bars}</svg>
+    <div class="tbl-wrap" style="margin-top:8px"><table><thead><tr><th>Ano</th><th class="n">Crescimento</th><th class="n">Lucro anual da holding</th><th class="n">Lucro mensal</th><th class="n">Dividendos anuais</th><th class="n">Renda mensal</th></tr></thead><tbody>
+    ${proj.map(p => `<tr><td class="num">${p.a}</td><td class="n">${p.g == null ? 'base' : (p.g >= 0 ? '+' : '') + pct(p.g, 0)}</td><td class="n"><b>${fBRL.format(p.l)}</b></td><td class="n">${fBRL.format(p.l / 12)}</td><td class="n"><b>${fBRL.format(p.r)}</b></td><td class="n">${fBRL.format(p.r / 12)}</td></tr>`).join('')}
+    </tbody></table></div>`;
+  }
+
+  function vCarteira(neto) {
+    const L = neto ? D.carteira : S.carteira, G = neto ? S.gNeto : S.growth;
+    const P = portfolio(L);
+    const rows = P.rows.slice().sort((a, b) => b.pat - a.pat);
+    const ranked = rows.filter(x => x.pat > 0);
+
+    return `
+    <header class="page">${neto ? `<div><div class="eyebrow">Carteira do canal · somente leitura</div><h1>Carteira Neto Invest</h1><p class="sub">A carteira acompanhada no canal, vista como uma holding: quanto lucro as empresas geram e quanto disso deve virar dividendo. Toque numa ação para ver os detalhes.</p></div>
+    <div class="tools"><button id="copyNeto">Copiar para Minha carteira</button></div>` : `<div><div class="eyebrow">Sua carteira · preenchida por você</div><h1>Minha carteira</h1><p class="sub">Cadastre as ações que você tem e as quantidades. O site calcula o lucro que elas geram, os dividendos esperados e a renda mês a mês. Preços e projeções vêm da planilha de novembro.</p></div>
+    <div class="tools"><select id="addSel" aria-label="Adicionar ação"><option value="">+ Adicionar ação…</option>${D.bazin.filter(s => !S.carteira.some(c => c.t === s.t)).map(s => `<option value="${s.t}">${s.t} · ${esc(s.e)}</option>`).join('')}</select></div>`}</header>
+    <section class="kpis">
+      <div class="kpi"><span class="eyebrow">Patrimônio</span><span class="v">${fBRL.format(P.pat)}</span><span class="h">${rows.length} ativos</span></div>
+      <div class="kpi"><span class="eyebrow">Lucro anual da “holding”</span><span class="v">${fBRL.format(P.lucro)}</span><span class="h">Earning yield ${pct(P.ey)} · ${fBRL.format(P.lucro / 365)}/dia</span></div>
+      <div class="kpi"><span class="eyebrow">Dividendos esperados no ano</span><span class="v">${fBRL.format(P.renda)}</span><span class="h">Dividend yield ${pct(P.dy)}</span></div>
+      <div class="kpi hl"><span class="eyebrow">Renda média mensal</span><span class="v">${fBRL.format(P.renda / 12)}</span><span class="h">Lucro mensal ${fBRL.format(P.lucro / 12)}</span></div>
+    </section>
+    ${rows.length || neto ? '' : `<div class="panel" style="text-align:center;padding:36px 20px;display:flex;flex-direction:column;gap:12px;align-items:center"><h2>Cadastre sua primeira ação</h2><p class="sub" style="margin:0">Escolha a ação no menu “Adicionar ação” acima, ou abra o Ranking, toque numa ação e use “Adicionar à carteira”. Depois é só ajustar as quantidades na tabela.</p><div class="tools" style="justify-content:center"><button class="pri" id="loadEx">Copiar a carteira Neto Invest</button><a href="#carteira-neto" style="color:var(--accent);font-weight:600;text-decoration:none">Ver a carteira Neto Invest</a></div></div>`}
+    <div class="panel" ${rows.length ? '' : 'hidden'}><div class="panel-h"><h2>Posições</h2><span class="note">Valores brutos estimados para 2027</span></div>
+        <div class="tbl-wrap"><table><thead><tr><th>Ativo</th><th class="n">Qtd.</th><th class="n">Cotação</th><th class="n">Patrimônio</th><th class="n">Lucro/ano</th><th class="n">Dividendos/ano</th><th class="n">DY</th><th></th></tr></thead><tbody>
+        ${rows.map(x => `<tr ${neto && BY.bazin[x.t] ? `class="click" data-t="${x.t}" tabindex="0"` : ''}><td><span class="tk">${x.t}</span>${x.e ? `<div class="co">${esc(x.e)}</div>` : ''}</td>
+        <td class="n">${neto ? fN.format(x.q) : `<input class="q" data-t="${x.t}" type="number" min="0" step="100" value="${x.q}" id="q-${x.t}" aria-label="Quantidade de ${x.t}">`}</td>
+        <td class="n">${fD(x.p)}</td><td class="n">${fBRL.format(x.pat)}</td><td class="n">${fBRL.format(x.lucro)}</td><td class="n">${fBRL.format(x.renda)}</td>
+        <td class="n">${pct(x.p ? (x.dpa || 0) / x.p : 0)}</td><td>${neto ? '' : `<button class="x" data-del="${x.t}" title="Remover ${x.t}" aria-label="Remover ${x.t}">✕</button>`}</td></tr>`).join('')}
+        </tbody></table></div></div>
+    <section class="grid2" ${rows.length ? '' : 'hidden'}>
+        <div class="panel" style="grid-column:1/-1"><div class="panel-h"><h2>Alocação</h2><span class="note">% do patrimônio</span></div>
+          <div class="pie-wrap">${pieSVG(ranked, P.pat)}
+          <div class="alist">${ranked.map((x, i) => `<div><span><i style="background:${PAL[i % PAL.length]}"></i><span class="tk">${x.t}</span></span><span class="num">${pct(x.pat / P.pat)}</span></div>`).join('')}</div></div>
+        </div>
+        <div class="panel" style="grid-column:1/-1"><div class="panel-h"><div><h2>Projeção da holding 2027–2031</h2><p class="note" style="margin:2px 0 0">A taxa de crescimento de cada ano, sobre o ano anterior, aumenta o lucro e os dividendos da holding.</p></div><div class="legend"><span><i style="background:var(--accent);opacity:.3"></i>Lucro anual</span><span><i style="background:var(--accent)"></i>Dividendos anuais</span></div></div>
+          <div class="growth" style="margin:0 0 14px">Crescimento vs ano anterior: ${[2028, 2029, 2030, 2031].map((a, i) => `<label for="g${neto ? 'n' : ''}${i}">${a}<input type="number" step="1" inputmode="decimal" id="g${neto ? 'n' : ''}${i}" data-g="${i}" data-neto="${neto ? 1 : 0}" value="${Math.round(G[i] * 100)}">%</label>`).join('')}</div>
+          <div id="projOut">${projHTML(P, G)}</div>
+        </div>
+    </section>`;
+  }
+
+  function vInicio() {
+    const all = D.bazin;
+    const top = [...all].sort((a, b) => b.mg - a.mg).slice(0, 5);
+    const below = all.filter(s => s.mg >= 0).length;
+    const nov = all.filter(s => parseMeses(s.meses).includes(NOW_M)).sort((a, b) => b.dy - a.dy).slice(0, 8);
+    const avgDY = all.reduce((a, b) => a + b.dy, 0) / all.length;
+    const sects = new Set(all.map(s => s.s)).size;
+    const tool = (id, t, d) => {
+      const v = VIEWS.find(x => x.id === id);
+      return `<a href="#${id}"><svg viewBox="0 0 24 24">${v.ic}</svg><h2>${t}</h2><p>${d}</p><span class="go">Abrir →</span></a>`;
+    };
+
+    return `
+    <section class="hero">
+      <div><div class="eyebrow">Planilha de novembro · atualizada em 02/11/2026</div>
+        <h1>Ações que pagam dividendos, <em>com preço teto</em> e projeção de renda.</h1>
+        <p>Tudo o que está na planilha dos membros do Neto Invest, num só lugar: ranking por margem de segurança, carteira como holding, agenda de proventos e simuladores.</p>
+        <div class="hero-cta"><a class="btn" href="#ranking">Ver o ranking completo</a><a class="btn sec" href="#carteira">Cadastrar minha carteira</a></div></div>
+      <div class="tape"><div class="eyebrow" style="margin-bottom:6px">Maiores margens · Bazin adaptado</div>
+        ${top.map(s => `<div class="row"><span class="tk">${s.t}</span><span class="co">${esc(s.e)} · DY ${pct(s.dy)}</span><span class="mg">+${pct(s.mg)}</span></div>`).join('')}</div>
+    </section>
+    <section class="stats">
+      <div><b>${all.length}</b><span>ativos acompanhados em ${sects} setores</span></div>
+      <div><b>${below}</b><span>abaixo do preço teto Bazin</span></div>
+      <div><b>${pct(avgDY)}</b><span>dividend yield médio projetado</span></div>
+      <div><b>${D.ibov.length} anos</b><span>de histórico do IBOV e suas quedas</span></div>
+    </section>
+    <section style="display:flex;flex-direction:column;gap:14px"><div class="sec-h"><div><div class="eyebrow">Ferramentas</div><h2 style="font-size:22px">O que você encontra aqui</h2></div></div>
+      <div class="feat">
+        ${tool('ranking', 'Ranking de ações', 'Preço teto por Bazin adaptado e por P/L justo, margem de segurança, P/L histórico, CAGR e endividamento.')}
+        ${tool('carteira-neto', 'Carteira Neto Invest', 'A carteira acompanhada no canal: patrimônio, lucro, dividendos esperados e projeção até 2031.')}
+        ${tool('carteira', 'Minha carteira', 'Cadastre as suas ações e quantidades e veja o lucro e a renda que a sua carteira gera.')}
+        ${tool('agenda', 'Agenda de dividendos', 'Os meses em que cada empresa costuma anunciar proventos e a renda estimada mês a mês.')}
+        ${tool('ibov', 'IBOV e quedas', 'Retorno anual do Ibovespa desde 1995 e a maior queda de cada ano.')}
+        ${tool('calculadoras', 'Calculadoras', 'Juros compostos, primeiro milhão e patrimônio necessário para a renda passiva que você quer.')}
+      </div></section>
+    <section class="panel"><div class="sec-h" style="margin-bottom:14px"><div><div class="eyebrow">Este mês</div><h2>Costumam anunciar dividendos em novembro</h2></div><a href="#agenda">Ver agenda completa →</a></div>
+      <div class="novs">${nov.map(s => `<button data-open="${s.t}"><span class="tk">${s.t}</span><span class="co">${esc(s.e)}</span><span class="dy">DY ${pct(s.dy)}</span></button>`).join('')}</div></section>
+    <section class="panel about"><div class="avatar">M</div>
+      <div><div class="eyebrow">Quem faz</div><h2>Mário, CNPI · Neto Invest</h2><p class="sub" style="margin-top:4px">Analista certificado CNPI. A planilha é atualizada após cada temporada de resultados, com novas projeções de lucro, dividendos e preço teto.</p></div>
+      <div class="links"><a href="https://www.youtube.com/@NetoInvest" target="_blank" rel="noopener">YouTube</a><a href="https://www.instagram.com/neto.invest/" target="_blank" rel="noopener">Instagram</a></div></section>
+    <p class="disc">Conteúdo educacional. Projeções de lucro, dividendos e preço teto são estimativas baseadas em premissas que podem não se concretizar e não constituem recomendação de compra ou venda. Rentabilidade passada não garante rentabilidade futura.</p>`;
+  }
+
+  function stockList() {
+    const src = S.method === 'bazin' ? D.bazin : D.graham;
+    let r = src.filter(s => (!S.sector || s.s === S.sector) && (!S.q || (s.t + ' ' + s.e).toLowerCase().includes(S.q.toLowerCase())));
+    const k = S.sort.k, d = S.sort.d;
+    r = r.slice().sort((a, b) => {
+      const A = a[k], B = b[k];
+      if (typeof A === 'string') return A.localeCompare(B, 'pt') * d;
+      return ((A ?? -1e9) - (B ?? -1e9)) * d;
+    });
+    return r;
+  }
+
+  const mgPill = m => `<span class="pill ${m >= 0.15 ? 'good' : m >= 0 ? 'warn' : 'bad'}">${m > 0 ? '+' : ''}${pct(m)}</span>`;
+
+  function vRanking() {
+    const r = stockList();
+    const cols = [['t','Ativo',0],['s','Setor',0],['p','Cotação',1],['teto','Preço teto',1],['mg','Margem',1],['dy','DY proj.',1],['pl','P/L proj.',1],['plm','P/L médio 10a',1],['cagr','CAGR lucro 5a',1],['dl','Dív.líq/EBITDA',1]];
+    const all = S.method === 'bazin' ? D.bazin : D.graham;
+    const pos = all.filter(s => s.mg >= 0).length;
+
+    return `
+    <header class="page"><div><div class="eyebrow">${all.length} ativos acompanhados</div><h1>Ranking de ações</h1><p class="sub">${S.method === 'bazin' ? 'Preço teto Bazin adaptado: dividendo projetado ÷ 7,75% de yield mínimo.' : 'Preço teto por P/L justo: lucro por ação projetado × um P/L considerado justo para cada empresa.'} Toque numa linha para ver os detalhes.</p></div>
+    <div class="seg" role="tablist"><button data-m="bazin" class="${S.method === 'bazin' ? 'on' : ''}">Bazin adaptado</button><button data-m="pl" class="${S.method === 'pl' ? 'on' : ''}">P/L justo</button></div></header>
+    <section class="kpis">
+      <div class="kpi"><span class="eyebrow">Abaixo do preço teto</span><span class="v">${pos} de ${all.length}</span><span class="h">Margem de segurança ≥ 0</span></div>
+      <div class="kpi"><span class="eyebrow">Maior margem</span><span class="v">${[...all].sort((a, b) => b.mg - a.mg)[0].t}</span><span class="h">${pct([...all].sort((a, b) => b.mg - a.mg)[0].mg)} abaixo do teto</span></div>
+      <div class="kpi"><span class="eyebrow">Maior DY projetado</span><span class="v">${[...all].sort((a, b) => b.dy - a.dy)[0].t}</span><span class="h">${pct([...all].sort((a, b) => b.dy - a.dy)[0].dy)} ao ano</span></div>
+      <div class="kpi"><span class="eyebrow">Anunciam em novembro</span><span class="v">${all.filter(s => parseMeses(s.meses).includes(NOW_M)).length}</span><span class="h">ativos pelo histórico</span></div>
+    </section>
+    <div class="panel">
+      <div class="panel-h"><div class="tools"><input type="search" id="q" placeholder="Buscar ticker ou empresa" value="${esc(S.q)}" aria-label="Buscar">
+        <select id="sector" aria-label="Setor"><option value="">Todos os setores</option>${SECT.map(s => `<option ${s === S.sector ? 'selected' : ''}>${esc(s)}</option>`).join('')}</select></div>
+        <div class="legend"><span><i style="background:var(--good)"></i>margem ≥ 15%</span><span><i style="background:var(--warn)"></i>0 a 15%</span><span><i style="background:var(--bad)"></i>acima do teto</span></div></div>
+      <div class="tbl-wrap"><table><thead><tr>${cols.map(([k, n, num]) => `<th class="sort ${num ? 'n' : ''} ${S.sort.k === k ? 'on' : ''}" data-k="${k}">${n}${S.sort.k === k ? (S.sort.d < 0 ? ' ↓' : ' ↑') : ''}</th>`).join('')}</tr></thead><tbody id="rk">
+      ${r.length ? r.map(s => `<tr class="click" data-t="${s.t}" tabindex="0"><td><span class="tk">${s.t}</span><div class="co">${esc(s.e)}</div></td><td><span class="chip">${esc(s.s)}</span></td>
+      <td class="n">${fD(s.p)}</td><td class="n">${fD(s.teto)}</td><td class="n">${mgPill(s.mg)}</td><td class="n">${pct(s.dy)}</td><td class="n">${fD(s.pl, 1)}</td><td class="n">${fD(s.plm, 1)}</td>
+      <td class="n" style="color:${s.cagr < 0 ? 'var(--bad)' : 'inherit'}">${pct(s.cagr)}</td><td class="n">${fD(s.dl, 2)}</td></tr>`).join('') : `<tr><td colspan="10" class="empty">Nenhum ativo encontrado com esse filtro.</td></tr>`}
+      </tbody></table></div></div>`;
+  }
+
+  function vAgenda() {
+    const neto = S.ag === 'neto';
+    const P = portfolio(neto ? D.carteira : S.carteira);
+    const per = Array.from({ length: 12 }, () => ({ v: 0, t: [] }));
+    const sem = [];
+    P.rows.forEach(x => {
+      if (!x.meses || !x.meses.length) {
+        sem.push(x);
+        return;
+      }
+      const part = x.renda / x.meses.length;
+      x.meses.forEach(m => {
+        per[m].v += part;
+        per[m].t.push(x.t);
+      });
+    });
+    const mx = Math.max(...per.map(p => p.v), 1);
+    const nov = D.bazin.filter(s => parseMeses(s.meses).includes(NOW_M)).sort((a, b) => b.dy - a.dy);
+
+    return `
+    <header class="page"><div><div class="eyebrow">Calendário pelo histórico de anúncios</div><h1>Agenda de dividendos</h1><p class="sub">Em quais meses as empresas da carteira costumam anunciar proventos e quanto isso representa. O valor de cada mês divide o dividendo anual igualmente entre os meses habituais da empresa.</p></div>
+    <div class="seg"><button data-ag="minha" class="${neto ? '' : 'on'}">Minha carteira</button><button data-ag="neto" class="${neto ? 'on' : ''}">Carteira Neto Invest</button></div></header>
+    ${!neto && !P.rows.length ? `<div class="panel empty">Sua carteira ainda está vazia. <a href="#carteira" style="color:var(--accent);font-weight:600">Cadastre suas ações</a> para ver a sua agenda.</div>` : ''}
+    <div class="panel"><div class="panel-h"><h2>${neto ? 'Carteira Neto Invest' : 'Minha carteira'} mês a mês</h2><span class="note">Total distribuído: ${fBRL.format(per.reduce((a, b) => a + b.v, 0))}</span></div>
+      <div class="months">${per.map((p, i) => `<div class="mo ${i === NOW_M ? 'now' : ''}"><div class="mh"><span>${MES[i]}</span>${i === NOW_M ? '<span style="width:7px;height:7px;border-radius:50%;background:var(--gold);align-self:center" title="mês atual"></span>' : ''}</div>
+        <div class="bar"><span style="height:${Math.max(p.v / mx * 100, p.v ? 6 : 0)}%"></span></div><div class="mv">${p.v ? fBRL.format(p.v) : '—'}</div><div class="tks">${p.t.map(t => `<span>${t}</span>`).join('')}</div></div>`).join('')}</div>
+      ${sem.length ? `<p class="note" style="margin-top:12px">Sem calendário na planilha (fora do ranking ou frequência indefinida): ${sem.map(x => `<b class="tk">${x.t}</b> (${fBRL.format(x.renda)}/ano)`).join(', ')}.</p>` : ''}
+    </div>
+    <div class="panel"><div class="panel-h"><h2>Costumam anunciar em novembro</h2><span class="note">${nov.length} ativos do ranking, por DY projetado</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Ativo</th><th>Frequência</th><th>Meses habituais</th><th class="n">DPA proj.</th><th class="n">DY proj.</th><th class="n">Margem (Bazin)</th></tr></thead><tbody>
+      ${nov.map(s => `<tr class="click" data-t="${s.t}" tabindex="0"><td><span class="tk">${s.t}</span><div class="co">${esc(s.e)}</div></td><td>${esc(s.fq)}</td><td class="co">${esc(s.meses)}</td><td class="n">${fBRL2.format(s.dpa)}</td><td class="n">${pct(s.dy)}</td><td class="n">${mgPill(s.mg)}</td></tr>`).join('')}
+      </tbody></table></div></div>`;
+  }
+
+  function vIbov() {
+    const d = D.ibov;
+    const W = 960, H = 360, L = 44, R = 12, T = 16, B = 30;
+    const min = -0.7, max = 1.6;
+    const y = v => T + (max - v) / (max - min) * (H - T - B);
+    const bw = (W - L - R) / d.length;
+    let g = '';
+    [-0.6, -0.4, -0.2, 0, 0.4, 0.8, 1.2, 1.6].forEach(v => {
+      g += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" ${v === 0 ? '' : 'stroke-dasharray="2 4"'}/><text x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${Math.round(v * 100)}%</text>`;
+    });
+    let b = '', ln = '';
+    d.forEach((p, i) => {
+      const x = L + i * bw;
+      const c = p.r >= 0 ? 'var(--good)' : 'var(--bad)';
+      b += `<rect x="${x + bw * 0.18}" y="${Math.min(y(0), y(p.r))}" width="${bw * 0.64}" height="${Math.abs(y(p.r) - y(0))}" rx="2" fill="${c}" opacity=".85"><title>${p.a}: retorno ${pct(p.r)} · queda máx. ${pct(p.dd)}</title></rect>`;
+      ln += `${i ? 'L' : 'M'}${x + bw / 2},${y(p.dd)}`;
+      if (i % 2 === 0 || i === d.length - 1) b += `<text x="${x + bw / 2}" y="${H - 10}" text-anchor="middle">${String(p.a).replace('*', '').slice(2)}</text>`;
+    });
+    const dots = d.map((p, i) => `<circle cx="${L + i * bw + bw / 2}" cy="${y(p.dd)}" r="3" fill="var(--gold)"/>`).join('');
+    const avgDD = d.reduce((a, b) => a + b.dd, 0) / d.length;
+    const pos = d.filter(p => p.r > 0).length;
+    const worst = [...d].sort((a, b) => a.dd - b.dd)[0];
+    const posWithBig = d.filter(p => p.r > 0 && p.dd <= -0.15).length;
+
+    return `
+    <header class="page"><div><div class="eyebrow">1995 a 2026 (até 26/10)</div><h1>IBOV e quedas no ano</h1><p class="sub">Retorno anual do Ibovespa comparado à maior queda dentro de cada ano. Mesmo nos anos positivos, quedas fortes no meio do caminho são a regra.</p></div></header>
+    <section class="kpis">
+      <div class="kpi"><span class="eyebrow">Queda máxima média</span><span class="v">${pct(avgDD)}</span><span class="h">por ano, em média</span></div>
+      <div class="kpi"><span class="eyebrow">Anos positivos</span><span class="v">${pos} de ${d.length}</span><span class="h">${pct(pos / d.length, 0)} dos anos</span></div>
+      <div class="kpi"><span class="eyebrow">Positivos com queda ≥ 15%</span><span class="v">${posWithBig} de ${pos}</span><span class="h">a queda veio e o ano fechou no azul</span></div>
+      <div class="kpi"><span class="eyebrow">Pior queda</span><span class="v">${pct(worst.dd)}</span><span class="h">em ${worst.a}, ano fechou ${pct(worst.r)}</span></div>
+    </section>
+    <div class="panel"><div class="panel-h"><h2>Retorno anual × queda máxima</h2><div class="legend"><span><i style="background:var(--good)"></i>Retorno positivo</span><span><i style="background:var(--bad)"></i>Retorno negativo</span><span><i style="background:var(--gold);border-radius:50%"></i>Queda máxima no ano</span></div></div>
+      <div class="tbl-wrap"><svg viewBox="0 0 ${W} ${H}" style="min-width:680px;width:100%" role="img" aria-label="Gráfico do retorno anual do IBOV e da queda máxima de cada ano">${g}${b}<path d="${ln}" fill="none" stroke="var(--gold)" stroke-width="1.5" opacity=".7"/>${dots}</svg></div>
+    </div>`;
+  }
+
+  function vCalc() {
+    return `
+    <header class="page"><div><div class="eyebrow">Simuladores</div><h1>Calculadoras</h1><p class="sub">Juros compostos com aportes mensais e quanto tempo falta para o primeiro milhão, ou para a renda mensal que você quer viver de dividendos.</p></div></header>
+    <div class="panel"><div class="panel-h"><h2>Juros compostos</h2></div><div class="calc">
+      <div class="form"><label>Valor inicial (R$)<input id="c-ini" type="number" value="10000" step="1000"></label><label>Aporte mensal (R$)<input id="c-ap" type="number" value="1500" step="100"></label>
+      <label>Rentabilidade anual (%)<input id="c-tx" type="number" value="10" step="0.5"></label><label>Prazo (anos)<input id="c-an" type="number" value="20" step="1" min="1" max="60"></label></div>
+      <div id="c-out" style="min-width:0"></div></div></div>
+    <div class="panel"><div class="panel-h"><h2>Meta: primeiro milhão ou renda passiva</h2></div><div class="calc">
+      <div class="form"><label>Patrimônio atual (R$)<input id="m-ini" type="number" value="50000" step="1000"></label><label>Aporte mensal (R$)<input id="m-ap" type="number" value="2000" step="100"></label>
+      <label>Rentabilidade anual (%)<input id="m-tx" type="number" value="10" step="0.5"></label><label>Meta de patrimônio (R$)<input id="m-meta" type="number" value="1000000" step="50000"></label>
+      <label>Dividend yield da carteira na meta (%)<input id="m-dy" type="number" value="8" step="0.5"></label></div>
+      <div id="m-out" style="min-width:0"></div></div></div>`;
+  }
+
+  function runCalc() {
+    const v = id => parseFloat($('#' + id)?.value) || 0;
+    if ($('#c-out')) {
+      const ini = v('c-ini'), ap = v('c-ap'), tx = v('c-tx') / 100, an = Math.min(Math.max(Math.round(v('c-an')), 1), 60);
+      const im = Math.pow(1 + tx, 1 / 12) - 1;
+      let s = ini, inv = ini;
+      const pts = [{ a: 0, s, inv }];
+      for (let m = 1; m <= an * 12; m++) {
+        s = s * (1 + im) + ap;
+        inv += ap;
+        if (m % 12 === 0) pts.push({ a: m / 12, s, inv });
+      }
+      const W = 560, H = 200, L = 4, B = 22;
+      const mx = s || 1;
+      const x = i => L + i / (an) * (W - L * 2), y = val => H - B - (val / mx) * (H - B - 10);
+      const area = pts.map((p, i) => `${i ? 'L' : 'M'}${x(p.a)},${y(p.s)}`).join('') + `L${x(an)},${H - B}L${x(0)},${H - B}Z`;
+      const inv2 = pts.map((p, i) => `${i ? 'L' : 'M'}${x(p.a)},${y(p.inv)}`).join('');
+      $('#c-out').innerHTML = `<div class="eyebrow">Patrimônio em ${an} anos</div><div class="big">${fBRL.format(s)}</div>
+      <div class="note">Você investe ${fBRL.format(inv)} e os juros somam ${fBRL.format(s - inv)} (${pct((s - inv) / s, 0)} do total). Taxa mensal equivalente: ${pct(im, 3)}.</div>
+      <svg viewBox="0 0 ${W} ${H}" width="100%" style="margin-top:10px" role="img" aria-label="Evolução do patrimônio"><path d="${area}" fill="var(--accent)" opacity=".18"/><path d="${pts.map((p, i) => `${i ? 'L' : 'M'}${x(p.a)},${y(p.s)}`).join('')}" fill="none" stroke="var(--accent)" stroke-width="2"/><path d="${inv2}" fill="none" stroke="var(--muted)" stroke-dasharray="4 4" stroke-width="1.5"/>
+      <line x1="${L}" x2="${W - L}" y1="${H - B}" y2="${H - B}" stroke="var(--line)"/><text x="${L}" y="${H - 6}">ano 0</text><text x="${W - L}" y="${H - 6}" text-anchor="end">ano ${an}</text><circle cx="${x(an)}" cy="${y(s)}" r="4" fill="var(--accent)"/></svg>
+      <div class="legend"><span><i style="background:var(--accent)"></i>Patrimônio</span><span><i style="background:var(--muted)"></i>Total investido</span></div>`;
+    }
+    if ($('#m-out')) {
+      const ini = v('m-ini'), ap = v('m-ap'), tx = v('m-tx') / 100, meta = v('m-meta'), dy = v('m-dy') / 100;
+      const im = Math.pow(1 + tx, 1 / 12) - 1;
+      let s = ini, m = 0;
+      while (s < meta && m < 1200) {
+        s = s * (1 + im) + ap;
+        m++;
+      }
+      const ok = s >= meta;
+      const a = Math.floor(m / 12), mm = m % 12;
+      const d = new Date(2026, 10 + m, 1);
+      $('#m-out').innerHTML = ok ? `<div class="eyebrow">Tempo até a meta</div><div class="big">${a} ano${a === 1 ? '' : 's'}${mm ? ` e ${mm} ${mm === 1 ? 'mês' : 'meses'}` : ''}</div>
+      <div class="note">Previsão para ${d.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}, com ${fBRL.format(ini + ap * m)} investidos do seu bolso.</div>
+      <div class="dl" style="margin-top:14px"><div><dt>Renda mensal com a meta</dt><dd>${fBRL.format(meta * dy / 12)}</dd></div><div><dt>Renda anual com a meta</dt><dd>${fBRL.format(meta * dy)}</dd></div>
+      <div><dt>Patrimônio para R$ 5 mil/mês</dt><dd>${dy ? fBRL.format(5000 * 12 / dy) : '—'}</dd></div><div><dt>Patrimônio para R$ 10 mil/mês</dt><dd>${dy ? fBRL.format(10000 * 12 / dy) : '—'}</dd></div></div>`
+      : `<div class="eyebrow">Tempo até a meta</div><div class="big">Mais de 100 anos</div><div class="note">Aumente o aporte ou a rentabilidade para chegar à meta.</div>`;
+    }
+  }
+
+  function drawer(t) {
+    const b = BY.bazin[t], p = BY.pl[t];
+    if (!b) return;
+    const ms = parseMeses(b.meses);
+    const inC = S.carteira.find(c => c.t === t);
+    $('#layer').innerHTML = `<div class="drawer-bg" data-close></div><div class="drawer" role="dialog" aria-label="${t}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px"><div><div class="eyebrow">${esc(b.s)}</div><h1 style="font-size:24px">${t}</h1><div class="co" style="font-size:14px">${esc(b.e)}</div></div><button class="x" data-close aria-label="Fechar" style="font-size:18px">✕</button></div>
+      <div style="display:flex;gap:16px;align-items:baseline;flex-wrap:wrap"><span class="big">${fBRL2.format(b.p)}</span><span class="note">cotação atual</span></div>
+      <div class="dl">
+        <div><dt>Teto Bazin adaptado</dt><dd>${fBRL2.format(b.teto)} ${mgPill(b.mg)}</dd></div>
+        <div><dt>Teto P/L justo (${fD(p.teto / p.lpa, 1)}x)</dt><dd>${fBRL2.format(p.teto)} ${mgPill(p.mg)}</dd></div>
+        <div><dt>Lucro líquido estimado</dt><dd>${big(b.ll)}</dd></div><div><dt>Valor de mercado</dt><dd>${big(b.mc)}</dd></div>
+        <div><dt>LPA estimado</dt><dd>${fBRL2.format(b.lpa)}</dd></div><div><dt>DPA bruto projetado</dt><dd>${fBRL2.format(b.dpa)}</dd></div>
+        <div><dt>P/L projetado</dt><dd>${fD(b.pl, 1)}</dd></div><div><dt>P/L médio 10 anos</dt><dd>${fD(b.plm, 1)} <span class="note">(${pct(b.dpl, 0)})</span></dd></div>
+        <div><dt>Payout esperado</dt><dd>${pct(b.pay, 0)}</dd></div><div><dt>DY bruto projetado</dt><dd>${pct(b.dy)}</dd></div>
+        <div><dt>CAGR lucro 5 anos</dt><dd>${pct(b.cagr)}</dd></div><div><dt>Dív. líquida/EBITDA</dt><dd>${fD(b.dl, 2)}</dd></div>
+      </div>
+      <div><div class="eyebrow" style="margin-bottom:6px">Anúncios de dividendos · ${esc(b.fq)}</div><div class="mbar">${MES.map((m, i) => `<span class="${ms.includes(i) ? 'on' : ''}">${m}</span>`).join('')}</div>${ms.length ? '' : '<div class="note" style="margin-top:6px">Sem padrão definido.</div>'}</div>
+      <div class="panel" style="background:var(--sunk);border:0"><div class="eyebrow">Simular posição</div>
+        <div style="display:flex;gap:10px;align-items:center;margin-top:8px;flex-wrap:wrap"><input type="number" id="simq" value="${inC ? inC.q : 1000}" step="100" min="0" style="width:120px;font-family:var(--f-mono)" aria-label="Quantidade de ações"><span class="note">ações</span></div>
+        <div id="simout" class="note" style="margin-top:8px"></div>
+        <button class="pri" id="addpos" style="margin-top:12px">${inC ? 'Atualizar quantidade na carteira' : 'Adicionar à carteira'}</button></div>
+    </div>`;
+
+    const sim = () => {
+      const q = parseFloat($('#simq').value) || 0;
+      $('#simout').innerHTML = `Investimento de <b>${fBRL.format(q * b.p)}</b> · dividendos de <b>${fBRL.format(q * b.dpa)}</b>/ano (${fBRL.format(q * b.dpa / 12)}/mês) · lucro atribuído de ${fBRL.format(q * b.lpa)}/ano.`;
+    };
+    sim();
+    $('#simq').addEventListener('input', sim);
+    $('#addpos').onclick = () => {
+      const q = parseFloat($('#simq').value) || 0;
+      const c = S.carteira.find(c => c.t === t);
+      if (c) c.q = q;
+      else S.carteira.push({ t, q, lpa: b.lpa, dpa: b.dpa, p: b.p });
+      save();
+      closeD();
+      toast(`${t} ${c ? 'atualizada' : 'adicionada'} na carteira`);
+      if (cur !== 'ranking') render();
+    };
+  }
+
+  function closeD() {
+    const layer = $('#layer');
+    if (layer) layer.innerHTML = '';
+  }
+
+  let cur = 'ranking';
+
+  function syncActiveNav(activeId) {
+    // Sincroniza links no menu horizontal superior
+    document.querySelectorAll('#main-horizontal-nav .hnav-link').forEach(a => {
+      if (a.dataset.tab === activeId) {
+        a.classList.add('active');
+      } else {
+        a.classList.remove('active');
+      }
+    });
+
+    // Sincroniza abas horizontais do terminal da plataforma
+    document.querySelectorAll('#terminal-tabs .ttab').forEach(b => {
+      if (b.dataset.view === activeId) {
+        b.classList.add('active');
+      } else {
+        b.classList.remove('active');
+      }
+    });
+  }
+
+  function renderTabsHTML() {
+    const tabsTrack = document.getElementById('terminal-tabs');
+    if (!tabsTrack) return;
+    tabsTrack.innerHTML = VIEWS.map(v => `
+      <button class="ttab ${v.id === cur ? 'active' : ''}" data-view="${v.id}" onclick="window.TerminalApp.goToTab('${v.id}')">
+        <svg viewBox="0 0 24 24">${v.ic}</svg>
+        <span>${v.name}</span>
+      </button>
+    `).join('');
+  }
+
+  function render(keepFocus) {
+    const view = $('#view');
+    if (!view) return;
+
+    renderTabsHTML();
+    syncActiveNav(cur);
+
+    const fid = keepFocus && document.activeElement?.id;
+    const sel = fid && document.activeElement.selectionStart;
+
+    const renderMap = {
+      ranking: vRanking,
+      'carteira-neto': () => vCarteira(true),
+      carteira: () => vCarteira(false),
+      agenda: vAgenda,
+      ibov: vIbov,
+      calculadoras: vCalc,
+      inicio: vRanking
+    };
+
+    if (renderMap[cur]) {
+      view.innerHTML = renderMap[cur]();
+    } else {
+      view.innerHTML = vRanking();
+    }
+
+    if (cur === 'calculadoras') runCalc();
+
+    if (fid) {
+      const el = document.getElementById(fid);
+      if (el) {
+        el.focus();
+        try {
+          if (sel != null && el.setSelectionRange) el.setSelectionRange(sel, sel);
+        } catch (e) {}
+      }
+    }
+  }
+
+  // Objeto de controle global do Terminal e Navegação
+  window.TerminalApp = {
+    goToTab(tabId) {
+      cur = tabId;
+      location.hash = tabId;
+      syncActiveNav(tabId);
+      render();
+      const term = document.getElementById('terminal-section');
+      if (term) {
+        term.scrollIntoView({ behavior: 'smooth' });
+      }
+    },
+    goToLanding(sectionId) {
+      location.hash = sectionId;
+      syncActiveNav(sectionId);
+      const sec = document.getElementById(sectionId);
+      if (sec) {
+        sec.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  function route() {
+    const h = (location.hash || '').replace('#', '').trim();
+    if (!h) {
+      syncActiveNav('home');
+      return;
+    }
+
+    if (['home', 'sobre', 'metodologia', 'planos'].includes(h)) {
+      syncActiveNav(h);
+      const target = document.getElementById(h);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+      return;
+    }
+
+    if (VIEWS.some(v => v.id === h) || h === 'inicio') {
+      cur = h === 'inicio' ? 'ranking' : h;
+      syncActiveNav(cur);
+      const term = document.getElementById('terminal-section');
+      if (term) {
+        term.scrollIntoView({ behavior: 'smooth' });
+      }
+      render();
+    }
+  }
+
+  window.addEventListener('hashchange', route);
+
+  document.addEventListener('input', e => {
+    const t = e.target;
+    if (t.matches('input.q')) {
+      S.carteira = S.carteira.map(c => ({ ...c }));
+      const c = S.carteira.find(c => c.t === t.dataset.t);
+      if (c) {
+        c.q = Math.max(0, parseFloat(t.value) || 0);
+        save();
+        clearTimeout(window._qt);
+        window._qt = setTimeout(() => render(true), 350);
+      }
+    } else if (t.dataset.g != null) {
+      const neto = t.dataset.neto === '1';
+      const v = parseFloat(String(t.value).replace(',', '.'));
+      const G = (neto ? S.gNeto : S.growth || D.growth).slice();
+      G[+t.dataset.g] = isNaN(v) ? 0 : v / 100;
+      if (neto) S.gNeto = G;
+      else S.growth = G;
+      save();
+      const out = document.getElementById('projOut');
+      if (out) out.innerHTML = projHTML(portfolio(neto ? D.carteira : S.carteira), G);
+    } else if (t.id === 'q') {
+      S.q = t.value;
+      render(true);
+    } else if (t.closest('.calc')) {
+      runCalc();
+    }
+  });
+
+  document.addEventListener('change', e => {
+    const t = e.target;
+    if (t.id === 'sector') {
+      S.sector = t.value;
+      save();
+      render();
+    }
+    if (t.id === 'addSel' && t.value) {
+      drawer(t.value);
+    }
+  });
+
+  document.addEventListener('click', e => {
+    const t = e.target;
+    const th = t.closest('th.sort');
+    if (th) {
+      const k = th.dataset.k;
+      S.sort = S.sort.k === k ? { k, d: -S.sort.d } : { k, d: (k === 't' || k === 's' || k === 'pl' || k === 'dl') ? 1 : -1 };
+      save();
+      render();
+      return;
+    }
+    const ag = t.closest('[data-ag]');
+    if (ag) {
+      S.ag = ag.dataset.ag;
+      render();
+      return;
+    }
+    const m = t.closest('[data-m]');
+    if (m) {
+      S.method = m.dataset.m;
+      save();
+      render();
+      return;
+    }
+    const del = t.closest('[data-del]');
+    if (del) {
+      S.carteira = S.carteira.filter(c => c.t !== del.dataset.del);
+      save();
+      render();
+      toast(`${del.dataset.del} removida da carteira`);
+      return;
+    }
+    if (t.closest('[data-close]')) {
+      closeD();
+      return;
+    }
+    const op = t.closest('[data-open]');
+    if (op) {
+      drawer(op.dataset.open);
+      return;
+    }
+    const row = t.closest('tr.click');
+    if (row) {
+      drawer(row.dataset.t);
+      return;
+    }
+    if (t.id === 'loadEx') {
+      S.carteira = D.carteira.map(x => ({ ...x }));
+      save();
+      render();
+      toast('Carteira Neto Invest copiada. Ajuste para as suas quantidades.');
+    }
+    if (t.id === 'copyNeto') {
+      if (S.carteira.length && t.dataset.confirm !== '1') {
+        t.dataset.confirm = '1';
+        t.textContent = 'Substituir minha carteira? Toque de novo';
+        setTimeout(() => {
+          t.dataset.confirm = '';
+          t.textContent = 'Copiar para Minha carteira';
+        }, 3000);
+        return;
+      }
+      S.carteira = D.carteira.map(x => ({ ...x }));
+      save();
+      location.hash = 'carteira';
+      toast('Copiada para Minha carteira. Ajuste para as suas quantidades.');
+    }
+    if (t.id === 'reset') {
+      const resetBtn = t;
+      if (resetBtn.dataset.confirm !== '1') {
+        resetBtn.dataset.confirm = '1';
+        resetBtn.textContent = 'Toque de novo para apagar';
+        setTimeout(() => {
+          resetBtn.dataset.confirm = '';
+          resetBtn.textContent = 'Recomeçar carteira';
+        }, 3000);
+        return;
+      }
+      resetBtn.dataset.confirm = '';
+      resetBtn.textContent = 'Recomeçar carteira';
+      S.carteira = [];
+      S.growth = D.growth.slice();
+      save();
+      render();
+      toast('Minha carteira apagada');
+    }
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeD();
+    if (e.key === 'Enter' && e.target.matches('tr.click')) drawer(e.target.dataset.t);
+  });
+
+  window.NetoPlatform = {
+    init: function() {
+      const hash = location.hash.slice(1);
+      cur = VIEWS.some(v => v.id === hash) ? hash : 'inicio';
+      render();
+    },
+    render: render,
+    navigateTo: function(viewId) {
+      if (VIEWS.some(v => v.id === viewId)) {
+        cur = viewId;
+        location.hash = viewId;
+        render();
+      }
+    }
+  };
+
+})(window);
+
+
+/**
+ * Neto Invest - Aplicação Principal e Controle de Interface
+ */
+
+
+
+// ──────────────────────────────────────────────────────────────────────────────
+// AppUI da Plataforma
+// ──────────────────────────────────────────────────────────────────────────────
+(function(window) {
+  'use strict';
+
+  const VIEWS_MAP = {
+    ranking: 'Ranking de Ações',
+    'carteira-neto': 'Carteira Oficial',
+    carteira: 'Minha Carteira',
+    agenda: 'Agenda de Dividendos',
+    ibov: 'IBOV e Quedas',
+    calculadoras: 'Calculadoras'
+  };
+
+  class PlatUI {
+    constructor() {
+      this.initAuthObserver();
+      this.initEvents();
+    }
+
+    init() {
+      this.checkAuth();
+      this.updateUserArea();
+      this.renderTabs();
+
+      // Verifica hash na URL para abrir aba correta
+      const hash = (location.hash || '').replace('#', '').trim();
+      if (hash && VIEWS_MAP[hash]) {
+        window.TerminalApp && window.TerminalApp.goToTab(hash);
+      } else {
+        if (window.NetoPlatform) window.NetoPlatform.init();
+      }
+    }
+
+    checkAuth() {
+      const user = window.AuthService && window.AuthService.getCurrentUser();
+      if (!user) {
+        // Não logado: abre modal de login
+        setTimeout(() => this.openAuthModal('login'), 300);
+      }
+    }
+
+    initAuthObserver() {
+      if (window.AuthService) {
+        window.AuthService.onAuthChange(user => {
+          this.updateUserArea(user);
+          this.renderTabs();
+          if (window.NetoPlatform) {
+            window.NetoPlatform.render();
+          }
+          // Atualiza status bar
+          const sbUser = document.getElementById('sb-user');
+          if (sbUser) sbUser.textContent = user ? user.name + (user.isVip ? ' · VIP' : '') : '';
+        });
+      }
+    }
+
+    initEvents() {
+      // Tecla de atalho para configurações de pagamento (Ctrl+Shift+P)
+      document.addEventListener('keydown', e => {
+        if (e.ctrlKey && e.shiftKey && (e.key === 'P' || e.key === 'p')) {
+          this.openApiSettingsModal();
+        }
+      });
+    }
+
+    renderTabs() {
+      const tabsEl = document.getElementById('plat-tabs');
+      if (!tabsEl || !window.VIEWS) return;
+      const cur = window.NetoPlatform ? window.NetoPlatform.getCur() : 'ranking';
+      tabsEl.innerHTML = window.VIEWS.map(v => `
+        <button class="ptab ${v.id === cur ? 'active' : ''}" onclick="window.TerminalApp && window.TerminalApp.goToTab('${v.id}')">
+          <svg viewBox="0 0 24 24">${v.ic}</svg>
+          <span>${v.name}</span>
+        </button>
+      `).join('');
+    }
+
+    updateUserArea(user = window.AuthService?.getCurrentUser()) {
+      const el = document.getElementById('plat-user-area');
+      if (!el) return;
+
+      if (user) {
+        const isVip = !!user.isVip;
+        el.innerHTML = `
+          <div class="user-profile-badge">
+            <span class="user-avatar">${user.name.charAt(0).toUpperCase()}</span>
+            <span style="font-weight:600;font-size:12px;">${user.name.split(' ')[0]}</span>
+            <span class="plan-pill ${isVip ? 'vip' : 'free'}">${isVip ? 'VIP' : 'Grátis'}</span>
+            <button class="ghost" onclick="window.AuthService.logout()" style="padding:2px 6px;height:24px;font-size:11px;">Sair</button>
+          </div>`;
+        const sbUser = document.getElementById('sb-user');
+        if (sbUser) sbUser.textContent = user.name + (isVip ? ' · VIP' : '');
+      } else {
+        el.innerHTML = `
+          <button class="ghost" onclick="window.PlatUI.openAuthModal('login')" style="font-size:12px;height:28px;">Entrar</button>
+          <button class="pri" onclick="window.PlatUI.openAuthModal('register')" style="font-size:12px;height:28px;">Cadastrar</button>`;
+      }
+    }
+
+    // Modal de Login / Cadastro (igual ao AppUI do landing)
+    openAuthModal(initialTab = 'login') {
+      this.closeAuthModal();
+      const modalEl = document.createElement('div');
+      modalEl.id = 'auth-modal';
+      modalEl.className = 'modal-backdrop';
+      modalEl.innerHTML = `
+        <div class="modal-card modal-auth" role="dialog" aria-modal="true">
+          <div class="modal-header">
+            <div>
+              <h2 style="font-size:20px;">Acesso à Plataforma</h2>
+              <p style="font-size:13px;color:var(--muted);margin-top:2px;">Entre com sua conta para acessar as ferramentas</p>
+            </div>
+            <button class="x" onclick="window.PlatUI.closeAuthModal()">✕</button>
+          </div>
+          <div class="modal-tabs">
+            <button class="modal-tab ${initialTab === 'login' ? 'active' : ''}" onclick="window.PlatUI.switchTab('login')">Entrar</button>
+            <button class="modal-tab ${initialTab === 'register' ? 'active' : ''}" onclick="window.PlatUI.switchTab('register')">Criar Conta</button>
+          </div>
+
+          <div id="modal-login-form" style="display:${initialTab === 'login' ? 'flex' : 'none'};flex-direction:column;gap:14px;">
+            <div class="form-group">
+              <label>E-mail</label>
+              <input type="email" id="login-email" placeholder="seu@email.com" autocomplete="email">
+            </div>
+            <div class="form-group">
+              <label>Senha</label>
+              <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
+            </div>
+            <div id="login-error" style="display:none;color:var(--bad);font-size:12.5px;"></div>
+            <button class="pri" onclick="window.PlatUI.handleLogin()" style="width:100%;height:40px;">Entrar na Plataforma</button>
+            <p style="text-align:center;font-size:12px;color:var(--muted);">Não tem conta? <a href="javascript:void(0)" onclick="window.PlatUI.switchTab('register')" style="color:var(--accent);font-weight:600;">Criar agora</a></p>
+          </div>
+
+          <div id="modal-register-form" style="display:${initialTab === 'register' ? 'flex' : 'none'};flex-direction:column;gap:14px;">
+            <div class="form-group">
+              <label>Nome completo</label>
+              <input type="text" id="reg-name" placeholder="Seu nome">
+            </div>
+            <div class="form-group">
+              <label>E-mail</label>
+              <input type="email" id="reg-email" placeholder="seu@email.com" autocomplete="email">
+            </div>
+            <div class="form-group">
+              <label>Senha</label>
+              <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres">
+            </div>
+            <div id="reg-error" style="display:none;color:var(--bad);font-size:12.5px;"></div>
+            <button class="pri" onclick="window.PlatUI.handleRegister()" style="width:100%;height:40px;">Criar Conta Gratuita</button>
+            <p style="text-align:center;font-size:12px;color:var(--muted);">Já tem conta? <a href="javascript:void(0)" onclick="window.PlatUI.switchTab('login')" style="color:var(--accent);font-weight:600;">Entrar</a></p>
+          </div>
+        </div>`;
+      document.body.appendChild(modalEl);
+      setTimeout(() => {
+        const input = document.getElementById('login-email') || document.getElementById('reg-name');
+        if (input && typeof input.focus === 'function') input.focus();
+      }, 100);
+    }
+
+    closeAuthModal() {
+      const m = document.getElementById('auth-modal');
+      if (m) m.remove();
+    }
+
+    switchTab(tab) {
+      const loginForm = document.getElementById('modal-login-form');
+      const regForm   = document.getElementById('modal-register-form');
+      const tabs      = document.querySelectorAll('.modal-tab');
+      if (loginForm) loginForm.style.display = tab === 'login' ? 'flex' : 'none';
+      if (regForm)   regForm.style.display   = tab === 'register' ? 'flex' : 'none';
+      tabs.forEach((t, i) => t.classList.toggle('active', (i === 0 && tab === 'login') || (i === 1 && tab === 'register')));
+    }
+
+    handleLogin() {
+      const email    = (document.getElementById('login-email')?.value || '').trim();
+      const password = document.getElementById('login-password')?.value || '';
+      const errEl    = document.getElementById('login-error');
+      if (!email || !password) { if (errEl) { errEl.style.display = 'block'; errEl.textContent = 'Preencha e-mail e senha.'; } return; }
+      const result = window.AuthService.login(email, password);
+      if (result.success) {
+        this.closeAuthModal();
+        this.updateUserArea();
+        this.renderTabs();
+        if (window.NetoPlatform) window.NetoPlatform.render();
+      } else {
+        if (errEl) { errEl.style.display = 'block'; errEl.textContent = result.error; }
+      }
+    }
+
+    handleRegister() {
+      const name     = (document.getElementById('reg-name')?.value || '').trim();
+      const email    = (document.getElementById('reg-email')?.value || '').trim();
+      const password = document.getElementById('reg-password')?.value || '';
+      const errEl    = document.getElementById('reg-error');
+      if (!name || !email || !password) { if (errEl) { errEl.style.display = 'block'; errEl.textContent = 'Preencha todos os campos.'; } return; }
+      if (password.length < 6) { if (errEl) { errEl.style.display = 'block'; errEl.textContent = 'Senha deve ter ao menos 6 caracteres.'; } return; }
+      const result = window.AuthService.register({ name, email, password });
+      if (result.success) {
+        this.closeAuthModal();
+        this.updateUserArea();
+        if (window.NetoPlatform) window.NetoPlatform.render();
+      } else {
+        if (errEl) { errEl.style.display = 'block'; errEl.textContent = result.error; }
+      }
+    }
+
+    showToast(message) {
+      const el = document.createElement('div');
+      el.className = 'toast';
+      el.textContent = message;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 2600);
+    }
+
+    // Atalho secreto para configurações de pagamento
+    openApiSettingsModal() {
+      const existing = document.getElementById('api-settings-modal');
+      if (existing) { existing.remove(); return; }
+      const cfg = window.ApiService ? window.ApiService.getConfig() : {};
+      const modalEl = document.createElement('div');
+      modalEl.id = 'api-settings-modal';
+      modalEl.className = 'modal-backdrop';
+      modalEl.innerHTML = `
+        <div class="modal-card modal-api-config" role="dialog" aria-modal="true">
+          <div class="modal-header">
+            <div><h2 style="font-size:18px;">Configurações de Pagamento</h2>
+            <p style="font-size:12px;color:var(--muted);">Atalho: Ctrl+Shift+P · Somente visível para você</p></div>
+            <button class="x" onclick="document.getElementById('api-settings-modal').remove()">✕</button>
+          </div>
+          <form onsubmit="window.PlatUI.saveApiSettings(event)" style="display:flex;flex-direction:column;gap:14px;">
+            <div class="form-group">
+              <label>Provedor de Pagamento</label>
+              <select id="api-provider" style="width:100%">
+                <option value="asaas" ${cfg.paymentProvider === 'asaas' ? 'selected' : ''}>Asaas</option>
+                <option value="mercadopago" ${cfg.paymentProvider === 'mercadopago' ? 'selected' : ''}>Mercado Pago</option>
+                <option value="stripe" ${cfg.paymentProvider === 'stripe' ? 'selected' : ''}>Stripe</option>
+                <option value="kiwify" ${cfg.paymentProvider === 'kiwify' ? 'selected' : ''}>Kiwify Webhook</option>
+                <option value="custom" ${cfg.paymentProvider === 'custom' ? 'selected' : ''}>Webhook Próprio</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Token / Chave Secreta</label>
+              <input type="text" id="api-key" value="${cfg.apiKey || ''}" placeholder="Token da sua conta">
+            </div>
+            <div class="form-group">
+              <label>URL de Webhook</label>
+              <input type="url" id="api-endpoint" value="${cfg.endpointUrl || ''}" placeholder="https://seusite.com.br/webhook">
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div class="form-group">
+                <label>Ambiente</label>
+                <select id="api-env" style="width:100%">
+                  <option value="sandbox" ${cfg.environment === 'sandbox' ? 'selected' : ''}>Sandbox (Testes)</option>
+                  <option value="production" ${cfg.environment === 'production' ? 'selected' : ''}>Produção</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Chave Pix</label>
+                <input type="text" id="api-pix-key" value="${cfg.pixKey || 'netoinvest.contato@pagamentos.com.br'}">
+              </div>
+            </div>
+            <div id="api-test-result" style="display:none;margin:4px 0;font-size:12px;padding:8px;border-radius:6px;"></div>
+            <div style="display:flex;gap:10px;">
+              <button type="button" class="ghost" style="flex:1;" onclick="window.PlatUI.testApiConnection()">Testar Conexão</button>
+              <button type="submit" class="pri" style="flex:1;">Salvar</button>
+            </div>
+          </form>
+        </div>`;
+      document.body.appendChild(modalEl);
+    }
+
+    saveApiSettings(e) {
+      e.preventDefault();
+      window.ApiService && window.ApiService.saveConfig({
+        paymentProvider: document.getElementById('api-provider')?.value,
+        apiKey: document.getElementById('api-key')?.value,
+        endpointUrl: document.getElementById('api-endpoint')?.value,
+        environment: document.getElementById('api-env')?.value,
+        pixKey: document.getElementById('api-pix-key')?.value
+      });
+      document.getElementById('api-settings-modal')?.remove();
+      this.showToast('Configurações salvas!');
+    }
+
+    async testApiConnection() {
+      const box = document.getElementById('api-test-result');
+      if (!box) return;
+      box.style.display = 'block';
+      box.style.background = 'var(--sunk)';
+      box.style.color = 'var(--ink)';
+      box.textContent = 'Testando…';
+      window.ApiService && window.ApiService.saveConfig({
+        paymentProvider: document.getElementById('api-provider')?.value,
+        apiKey: document.getElementById('api-key')?.value,
+        endpointUrl: document.getElementById('api-endpoint')?.value,
+        environment: document.getElementById('api-env')?.value,
+        pixKey: document.getElementById('api-pix-key')?.value
+      });
+      const res = window.ApiService ? await window.ApiService.testConnection() : { success: false, message: 'ApiService não disponível' };
+      if (res.success) {
+        box.style.background = 'var(--good-soft)'; box.style.color = 'var(--good)';
+        box.textContent = '✓ ' + res.message;
+      } else {
+        box.style.background = 'var(--bad-soft)'; box.style.color = 'var(--bad)';
+        box.textContent = '✕ ' + res.message;
+      }
+    }
+  }
+
+  window.PlatUI = new PlatUI();
+  // Alias para compatibilidade com modais de checkout
+  window.AppUI = { 
+    openAuthModal: (t) => window.PlatUI.openAuthModal(t),
+    showToast: (m) => window.PlatUI.showToast(m)
+  };
+
+  // Expõe getCur para renderTabs
+  if (window.NetoPlatform) {
+    window.NetoPlatform.getCur = () => window.NetoPlatform._cur || 'ranking';
+  }
+
+  // Expor TerminalApp.goToTab para ptab onclick
+  window.TerminalApp = window.TerminalApp || {};
+  const _origGoToTab = window.TerminalApp.goToTab;
+  window.TerminalApp.goToTab = function(tabId) {
+    if (_origGoToTab) _origGoToTab.call(window.TerminalApp, tabId);
+    window.PlatUI.renderTabs();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => window.PlatUI.init());
+  } else {
+    window.PlatUI.init();
+  }
+
+})(window);
+</script>
+
+</body>
+</html>

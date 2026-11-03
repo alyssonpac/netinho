@@ -1,0 +1,6 @@
+# Screenshots de teste
+*.png
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
