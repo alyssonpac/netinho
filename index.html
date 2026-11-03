@@ -3853,12 +3853,39 @@ window.NETO_DATA = {
     });
   }
 
-  function renderTabsHTML() {
+  function renderLockedGate(viewId) {
+    const viewName = VIEWS.find(v => v.id === viewId)?.name || 'Recurso Exclusivo';
+    return `
+      <div class="panel locked-gate-panel" style="text-align:center;padding:54px 20px;max-width:640px;margin:24px auto;border-radius:var(--r-lg);box-shadow:var(--shadow-md);">
+        <div style="width:58px;height:58px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;margin:0 auto 16px;">
+          <svg viewBox="0 0 24 24" style="width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:2;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </div>
+        <div class="eyebrow" style="color:var(--accent);margin-bottom:6px;">Área Exclusiva para Membros</div>
+        <h2 style="font-size:23px;margin:0 0 10px;color:var(--ink);">${viewName} Bloqueado</h2>
+        <p style="font-size:14px;color:var(--muted);line-height:1.6;margin:0 auto 22px;max-width:480px;">
+          Este recurso é restrito aos membros da plataforma <b>Neto Invest</b>. Faça login para acessar as cotações ao vivo via BVMF (B3), preços teto e simuladores.
+        </p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+          <button class="pri" style="height:40px;padding:0 24px;font-size:13.5px;" onclick="window.AppUI.openAuthModal('login')">
+            Entrar com Minha Conta
+          </button>
+          <button class="ghost" style="height:40px;padding:0 20px;font-size:13.5px;border:1px solid var(--line);" onclick="document.getElementById('planos').scrollIntoView({behavior:'smooth'})">
+            Ver Planos de Acesso
+          </button>
+        </div>
+        <p style="margin-top:16px;font-size:12px;color:var(--muted);">
+          Ainda não tem conta? <a href="javascript:void(0)" onclick="window.AppUI.openAuthModal('register')" style="color:var(--accent);font-weight:600;">Cadastre-se gratuitamente</a>
+        </p>
+      </div>
+    `;
+  }
+
+  function renderTabsHTML(isLoggedIn = true) {
     const tabsTrack = document.getElementById('terminal-tabs');
     if (!tabsTrack) return;
     tabsTrack.innerHTML = VIEWS.map(v => `
-      <button class="ttab ${v.id === cur ? 'active' : ''}" data-view="${v.id}" onclick="window.TerminalApp.goToTab('${v.id}')">
-        <svg viewBox="0 0 24 24">${v.ic}</svg>
+      <button class="ttab ${v.id === cur && isLoggedIn ? 'active' : ''}" data-view="${v.id}" onclick="window.TerminalApp.goToTab('${v.id}')">
+        ${!isLoggedIn ? '<svg viewBox="0 0 24 24" style="width:13px;height:13px;opacity:0.6;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>' : `<svg viewBox="0 0 24 24">${v.ic}</svg>`}
         <span>${v.name}</span>
       </button>
     `).join('');
@@ -3868,7 +3895,18 @@ window.NETO_DATA = {
     const view = $('#view');
     if (!view) return;
 
-    renderTabsHTML();
+    const user = window.AuthService && window.AuthService.getCurrentUser();
+    const isLoggedIn = !!user;
+
+    // Se NÃO estiver logado: bloqueia o acesso e exibe tela de login/membro
+    if (!isLoggedIn) {
+      renderTabsHTML(false);
+      syncActiveNav('');
+      view.innerHTML = renderLockedGate(cur);
+      return;
+    }
+
+    renderTabsHTML(true);
     syncActiveNav(cur);
 
     const fid = keepFocus && document.activeElement?.id;
@@ -3906,6 +3944,14 @@ window.NETO_DATA = {
   // Objeto de controle global do Terminal e Navegação
   window.TerminalApp = {
     goToTab(tabId) {
+      const user = window.AuthService && window.AuthService.getCurrentUser();
+      if (!user) {
+        // Visitante não logado: abre o modal de login suavemente
+        window.AppUI && window.AppUI.openAuthModal('login');
+        const term = document.getElementById('terminal-section');
+        if (term) term.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
       cur = tabId;
       location.hash = tabId;
       syncActiveNav(tabId);
