@@ -2498,7 +2498,7 @@ body {
  * Contém projeções de Preço Teto Bazin e P/L Justo (Graham),
  * Carteira oficial do canal, histórico IBOV e projeções de proventos.
  */
-window.NETO_DATA = {
+window.NETO_DATA_INITIAL = {
   "graham": [
     {"e":"Banco Bradesco","t":"BBDC4","s":"Bancos","mc":154893359743,"ll":30000000000.0,"pl":5.1631,"plm":10.2,"dpl":-0.4938,"cagr":0.0765,"dl":0.0,"lpa":2.6844,"pay":0.605,"dpa":1.6241,"dy":0.1172,"p":13.86,"teto":21.6544,"mg":0.3599,"fq":"Trimestral","meses":"mar jun set e dez"},
     {"e":"Banco Bradesco","t":"BBDC3","s":"Bancos","mc":142041457600,"ll":30000000000.0,"pl":4.7347,"plm":9.3,"dpl":-0.4909,"cagr":0.0765,"dl":0.0,"lpa":2.6844,"pay":0.55,"dpa":1.4764,"dy":0.1162,"p":12.71,"teto":19.6858,"mg":0.3544,"fq":"Trimestral","meses":"mar jun set e dez"},
@@ -2734,6 +2734,179 @@ window.NETO_DATA = {
     {"t":"FESA4","q":21000.0,"lpa":0.1476,"dpa":0.0369,"p":5.0}
   ]
 };
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Serviço de Gestão e Persistência da Planilha Neto Invest
+// ──────────────────────────────────────────────────────────────────────────────
+const SHEET_STORAGE_KEY = 'netoinvest_custom_sheet_v1';
+
+window.NetoSheetService = {
+  load() {
+    try {
+      const stored = localStorage.getItem(SHEET_STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed && Array.isArray(parsed.graham) && Array.isArray(parsed.bazin)) {
+          return parsed;
+        }
+      }
+    } catch(e) {
+      console.warn('Erro ao carregar planilha personalizada:', e);
+    }
+    return JSON.parse(JSON.stringify(window.NETO_DATA_INITIAL));
+  },
+
+  save(data) {
+    try {
+      localStorage.setItem(SHEET_STORAGE_KEY, JSON.stringify(data));
+      if (window.NETO_DATA) {
+        Object.keys(window.NETO_DATA).forEach(k => delete window.NETO_DATA[k]);
+        Object.assign(window.NETO_DATA, data);
+      } else {
+        window.NETO_DATA = data;
+      }
+      if (window.NetoPlatform && typeof window.NetoPlatform.render === 'function') {
+        window.NetoPlatform.render();
+      }
+      return true;
+    } catch(e) {
+      console.error('Erro ao salvar planilha personalizada:', e);
+      return false;
+    }
+  },
+
+  reset() {
+    try {
+      localStorage.removeItem(SHEET_STORAGE_KEY);
+      const fresh = JSON.parse(JSON.stringify(window.NETO_DATA_INITIAL));
+      if (window.NETO_DATA) {
+        Object.keys(window.NETO_DATA).forEach(k => delete window.NETO_DATA[k]);
+        Object.assign(window.NETO_DATA, fresh);
+      } else {
+        window.NETO_DATA = fresh;
+      }
+      if (window.NetoPlatform && typeof window.NetoPlatform.render === 'function') {
+        window.NetoPlatform.render();
+      }
+      return fresh;
+    } catch(e) {
+      console.error('Erro ao resetar planilha:', e);
+      return window.NETO_DATA_INITIAL;
+    }
+  },
+
+  saveStock(stockData) {
+    const data = this.load();
+    const ticker = String(stockData.t || '').trim().toUpperCase();
+    if (!ticker) return { success: false, error: 'Ticker obrigatório.' };
+
+    const p = parseFloat(stockData.p) || 0;
+    const tetoBazin = parseFloat(stockData.tetoBazin) || parseFloat(stockData.teto) || 0;
+    const tetoGraham = parseFloat(stockData.tetoGraham) || tetoBazin;
+    const dpa = parseFloat(stockData.dpa) || 0;
+    const lpa = parseFloat(stockData.lpa) || 0;
+    const pay = parseFloat(stockData.pay) || 0.5;
+    const dy = p > 0 ? (dpa / p) : (parseFloat(stockData.dy) || 0);
+    const mgBazin = tetoBazin > 0 && p > 0 ? ((tetoBazin - p) / tetoBazin) : (parseFloat(stockData.mg) || 0);
+    const mgGraham = tetoGraham > 0 && p > 0 ? ((tetoGraham - p) / tetoGraham) : mgBazin;
+
+    const entryBazin = {
+      e: stockData.e || ticker,
+      t: ticker,
+      s: stockData.s || 'Geral',
+      mc: stockData.mc || 1000000000,
+      ll: stockData.ll || 100000000,
+      pl: lpa > 0 ? (p / lpa) : (stockData.pl || 5),
+      plm: stockData.plm || 10,
+      dpl: stockData.dpl || -0.2,
+      cagr: stockData.cagr || 0.1,
+      dl: stockData.dl || 0,
+      lpa: lpa,
+      pay: pay,
+      dpa: dpa,
+      dy: dy,
+      p: p,
+      teto: tetoBazin,
+      mg: mgBazin,
+      fq: stockData.fq || 'Trimestral',
+      meses: stockData.meses || 'mar jun set dez'
+    };
+
+    const entryGraham = {
+      ...entryBazin,
+      teto: tetoGraham,
+      mg: mgGraham
+    };
+
+    const idxBazin = data.bazin.findIndex(s => s.t === ticker);
+    if (idxBazin >= 0) {
+      data.bazin[idxBazin] = { ...data.bazin[idxBazin], ...entryBazin };
+    } else {
+      data.bazin.push(entryBazin);
+    }
+
+    const idxGraham = data.graham.findIndex(s => s.t === ticker);
+    if (idxGraham >= 0) {
+      data.graham[idxGraham] = { ...data.graham[idxGraham], ...entryGraham };
+    } else {
+      data.graham.push(entryGraham);
+    }
+
+    const idxCart = data.carteira.findIndex(c => c.t === ticker);
+    if (idxCart >= 0) {
+      data.carteira[idxCart] = {
+        ...data.carteira[idxCart],
+        p: p > 0 ? p : data.carteira[idxCart].p,
+        lpa: lpa > 0 ? lpa : data.carteira[idxCart].lpa,
+        dpa: dpa > 0 ? dpa : data.carteira[idxCart].dpa
+      };
+    }
+
+    this.save(data);
+    return { success: true, ticker };
+  },
+
+  deleteStock(ticker) {
+    const data = this.load();
+    const clean = String(ticker || '').trim().toUpperCase();
+    data.bazin = data.bazin.filter(s => s.t !== clean);
+    data.graham = data.graham.filter(s => s.t !== clean);
+    this.save(data);
+    return { success: true };
+  },
+
+  saveCarteiraItem(itemData) {
+    const data = this.load();
+    const ticker = String(itemData.t || '').trim().toUpperCase();
+    if (!ticker) return { success: false, error: 'Ticker obrigatório.' };
+
+    const q = parseFloat(itemData.q) || 0;
+    const p = parseFloat(itemData.p) || 0;
+    const lpa = parseFloat(itemData.lpa) || 0;
+    const dpa = parseFloat(itemData.dpa) || 0;
+
+    const newItem = { t: ticker, q, p, lpa, dpa };
+    const idx = data.carteira.findIndex(c => c.t === ticker);
+    if (idx >= 0) {
+      data.carteira[idx] = { ...data.carteira[idx], ...newItem };
+    } else {
+      data.carteira.push(newItem);
+    }
+
+    this.save(data);
+    return { success: true, ticker };
+  },
+
+  deleteCarteiraItem(ticker) {
+    const data = this.load();
+    const clean = String(ticker || '').trim().toUpperCase();
+    data.carteira = data.carteira.filter(c => c.t !== clean);
+    this.save(data);
+    return { success: true };
+  }
+};
+
+window.NETO_DATA = window.NetoSheetService.load();
 
 
 /**
@@ -3306,6 +3479,40 @@ window.NETO_DATA = {
       this.users.unshift(newUser);
       this.saveUsers();
       return { success: true, user: newUser };
+    }
+
+    findUserByEmail(email) {
+      const cleanEmail = String(email || '').trim().toLowerCase();
+      return this.users.find(u => u.email.toLowerCase() === cleanEmail) || null;
+    }
+
+    resetPassword(email, newPassword) {
+      const cleanEmail = String(email || '').trim().toLowerCase();
+      const user = this.users.find(u => u.email.toLowerCase() === cleanEmail);
+      if (!user) return { success: false, error: 'E-mail não cadastrado.' };
+      if (!newPassword || newPassword.length < 3) {
+        return { success: false, error: 'A senha deve ter no mínimo 3 caracteres.' };
+      }
+      user.password = newPassword;
+      this.saveUsers();
+      if (this.currentUser && this.currentUser.id === user.id) {
+        this.saveSession({ ...user });
+      }
+      return { success: true, user };
+    }
+
+    adminSetUserPassword(userId, newPassword) {
+      const user = this.users.find(u => u.id === userId);
+      if (!user) return { success: false, error: 'Usuário não encontrado.' };
+      if (!newPassword || newPassword.length < 3) {
+        return { success: false, error: 'A senha deve ter no mínimo 3 caracteres.' };
+      }
+      user.password = newPassword;
+      this.saveUsers();
+      if (this.currentUser && this.currentUser.id === user.id) {
+        this.saveSession({ ...user });
+      }
+      return { success: true, user };
     }
 
     deleteUser(userId) {
@@ -4473,13 +4680,23 @@ window.BVMFFinanceService = {
 
 
 // ──────────────────────────────────────────────────────────────────────────────
-// Painel do Administrador (Gestão de Membros & Chaves Serial YouTube)
+// Painel do Administrador (Exclusivo para o Proprietário - Neto Invest)
 // ──────────────────────────────────────────────────────────────────────────────
 window.AdminPanel = {
-  currentTab: 'subscribers', // 'subscribers' | 'keys'
+  currentTab: 'subscribers', // 'subscribers' | 'keys' | 'sheet'
+  sheetSubTab: 'ranking',    // 'ranking' | 'carteira'
+  userFilter: 'all',         // 'all' | 'active' | 'inactive'
   searchTerm: '',
+  sheetSearchTerm: '',
 
+  // Abertura com trava de segurança exclusiva para o Administrador
   open(initialTab = 'subscribers') {
+    const currentUser = window.AuthService && window.AuthService.getCurrentUser();
+    if (!currentUser || !currentUser.isAdmin) {
+      this.openAdminAuthModal(initialTab);
+      return;
+    }
+
     this.close();
     this.currentTab = initialTab;
 
@@ -4487,26 +4704,29 @@ window.AdminPanel = {
     modalEl.id = 'admin-panel-modal';
     modalEl.className = 'modal-backdrop';
     modalEl.innerHTML = `
-      <div class="modal-card modal-admin" role="dialog" aria-modal="true">
+      <div class="modal-card modal-admin" role="dialog" aria-modal="true" style="max-width:1100px;width:96%;max-height:92vh;overflow-y:auto;padding:24px;">
         <div class="admin-header">
           <div>
             <div style="display:flex;align-items:center;gap:8px;">
-              <span class="admin-badge">Canal YouTube</span>
-              <h2 style="font-size:22px;margin:0;">Administração Neto Invest</h2>
+              <span class="admin-badge">Canal Neto Invest</span>
+              <h2 style="font-size:22px;margin:0;">Painel de Controle do Administrador</h2>
             </div>
             <p style="font-size:12.5px;color:var(--muted);margin-top:4px;">
-              Gestão de membros do canal e gerador de Chaves Seriais de 30 dias para a Área de Membros.
+              Gestão de membros, gerador de chaves seriais de 30 dias e edição manual da planilha de investimentos.
             </p>
           </div>
           <button class="x" onclick="window.AdminPanel.close()">✕</button>
         </div>
 
-        <div class="admin-tabs">
+        <div class="admin-tabs" style="display:flex;gap:8px;border-bottom:1px solid var(--border);margin-bottom:18px;">
           <button class="admin-tab-btn ${this.currentTab === 'subscribers' ? 'active' : ''}" onclick="window.AdminPanel.switchTab('subscribers')">
-            👥 Membros (${window.AuthService ? window.AuthService.getAllUsers().length : 0})
+            👥 Membros & Usuários (${window.AuthService ? window.AuthService.getAllUsers().length : 0})
           </button>
           <button class="admin-tab-btn ${this.currentTab === 'keys' ? 'active' : ''}" onclick="window.AdminPanel.switchTab('keys')">
-            🔑 Chaves de Acesso (${window.AuthService ? window.AuthService.loadKeys().length : 0})
+            🔑 Chaves Seriais 30d (${window.AuthService ? window.AuthService.loadKeys().length : 0})
+          </button>
+          <button class="admin-tab-btn ${this.currentTab === 'sheet' ? 'active' : ''}" onclick="window.AdminPanel.switchTab('sheet')">
+            📊 Planilha Neto Invest (${window.NETO_DATA && window.NETO_DATA.bazin ? window.NETO_DATA.bazin.length : 0} Ações)
           </button>
         </div>
 
@@ -4524,22 +4744,95 @@ window.AdminPanel = {
     if (el) el.remove();
   },
 
+  openAdminAuthModal(targetTab = 'subscribers') {
+    this.close();
+    const existing = document.getElementById('admin-auth-modal');
+    if (existing) existing.remove();
+
+    const modalEl = document.createElement('div');
+    modalEl.id = 'admin-auth-modal';
+    modalEl.className = 'modal-backdrop';
+    modalEl.innerHTML = `
+      <div class="modal-card" style="max-width:420px;width:92%;text-align:center;padding:28px 24px;" role="dialog" aria-modal="true">
+        <div style="width:58px;height:58px;border-radius:50%;background:rgba(183,120,10,0.15);color:var(--accent);display:grid;place-items:center;margin:0 auto 16px;font-size:26px;">
+          🔒
+        </div>
+        <div class="eyebrow" style="color:var(--accent);margin-bottom:6px;">Área Restrita ao Dono</div>
+        <h2 style="font-size:20px;margin:0 0 6px;">Autenticação do Administrador</h2>
+        <p style="font-size:12.5px;color:var(--muted);line-height:1.5;margin:0 auto 18px;">
+          Este painel é de uso exclusivo do proprietário. Por favor, insira as credenciais de administrador para acessar o banco de dados e a planilha.
+        </p>
+
+        <div style="display:flex;flex-direction:column;gap:12px;text-align:left;">
+          <div class="form-group">
+            <label style="font-size:11.5px;">E-mail do Administrador</label>
+            <input type="email" id="adm-auth-email" value="admin@netoinvest.com" style="height:38px;font-size:13px;">
+          </div>
+          <div class="form-group">
+            <label style="font-size:11.5px;">Senha</label>
+            <input type="password" id="adm-auth-password" placeholder="••••••••" style="height:38px;font-size:13px;" onkeydown="if(event.key==='Enter') window.AdminPanel.submitAdminAuth('${targetTab}')">
+          </div>
+          <div id="adm-auth-error" style="display:none;color:var(--bad);font-size:12px;"></div>
+          <button class="pri" style="height:40px;font-size:13px;margin-top:4px;" onclick="window.AdminPanel.submitAdminAuth('${targetTab}')">
+            Desbloquear Painel Admin
+          </button>
+          <button class="ghost" style="height:34px;font-size:12px;" onclick="document.getElementById('admin-auth-modal')?.remove()">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modalEl);
+    setTimeout(() => {
+      document.getElementById('adm-auth-password')?.focus();
+    }, 100);
+  },
+
+  submitAdminAuth(targetTab) {
+    const email = (document.getElementById('adm-auth-email')?.value || '').trim();
+    const pass = document.getElementById('adm-auth-password')?.value || '';
+    const errEl = document.getElementById('adm-auth-error');
+
+    const res = window.AuthService.login(email, pass);
+    if (res.success) {
+      if (!res.user.isAdmin) {
+        if (errEl) { errEl.style.display = 'block'; errEl.textContent = 'Esta conta não possui privilégios de administrador.'; }
+        return;
+      }
+      document.getElementById('admin-auth-modal')?.remove();
+      window.AppUI && window.AppUI.showToast('✅ Acesso de administrador verificado!');
+      this.open(targetTab);
+    } else {
+      if (errEl) { errEl.style.display = 'block'; errEl.textContent = res.error || 'Credenciais inválidas.'; }
+    }
+  },
+
   switchTab(tab) {
     this.currentTab = tab;
     const content = document.getElementById('admin-tab-content');
     if (content) content.innerHTML = this.renderCurrentTab();
     document.querySelectorAll('.admin-tab-btn').forEach((btn, i) => {
-      btn.classList.toggle('active', (i === 0 && tab === 'subscribers') || (i === 1 && tab === 'keys'));
+      btn.classList.toggle('active', (i === 0 && tab === 'subscribers') || (i === 1 && tab === 'keys') || (i === 2 && tab === 'sheet'));
     });
   },
 
   renderCurrentTab() {
     if (this.currentTab === 'subscribers') return this.renderSubscribers();
     if (this.currentTab === 'keys') return this.renderKeys();
+    if (this.currentTab === 'sheet') return this.renderSheet();
     return '';
   },
 
-  search(term) {
+  // ──────────────────────────────────────────────────────────
+  // ABA 1: MEMBROS & USUÁRIOS
+  // ──────────────────────────────────────────────────────────
+  setUserFilter(filter) {
+    this.userFilter = filter;
+    const content = document.getElementById('admin-tab-content');
+    if (content) content.innerHTML = this.renderCurrentTab();
+  },
+
+  searchUsers(term) {
     this.searchTerm = term;
     const content = document.getElementById('admin-tab-content');
     if (content) content.innerHTML = this.renderCurrentTab();
@@ -4549,21 +4842,37 @@ window.AdminPanel = {
     const users = window.AuthService ? window.AuthService.getAllUsers() : [];
     const total = users.length;
     const now = Date.now();
-    const vips = users.filter(u => u.isAdmin || (u.isVip && (!u.expiresAt || new Date(u.expiresAt).getTime() > now))).length;
-    const filtered = this.searchTerm
-      ? users.filter(u => u.name.toLowerCase().includes(this.searchTerm.toLowerCase()) || u.email.toLowerCase().includes(this.searchTerm.toLowerCase()))
-      : users;
+    const activeCount = users.filter(u => u.isAdmin || (u.isVip && (!u.expiresAt || new Date(u.expiresAt).getTime() > now))).length;
+    const inactiveCount = total - activeCount;
+
+    let filtered = users;
+    if (this.userFilter === 'active') {
+      filtered = filtered.filter(u => u.isAdmin || (u.isVip && (!u.expiresAt || new Date(u.expiresAt).getTime() > now)));
+    } else if (this.userFilter === 'inactive') {
+      filtered = filtered.filter(u => !u.isAdmin && (!u.isVip || (u.expiresAt && new Date(u.expiresAt).getTime() <= now)));
+    }
+
+    if (this.searchTerm) {
+      const term = this.searchTerm.toLowerCase();
+      filtered = filtered.filter(u => u.name.toLowerCase().includes(term) || u.email.toLowerCase().includes(term));
+    }
 
     return `
-      <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
-        <div style="background:var(--sunk);padding:10px 14px;border-radius:8px;border:1px solid var(--line);font-size:12.5px;">👥 <b>${total}</b> membros cadastrados</div>
-        <div style="background:rgba(107,255,176,0.1);color:#6bffb0;padding:10px 14px;border-radius:8px;border:1px solid rgba(107,255,176,0.25);font-size:12.5px;">✅ <b>${vips}</b> com acesso ativo</div>
-        <div style="background:var(--sunk);padding:10px 14px;border-radius:8px;border:1px solid var(--line);font-size:12.5px;">⏳ <b>${total - vips}</b> sem chave / expirados</div>
+      <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center;">
+        <button class="ghost ${this.userFilter === 'all' ? 'active' : ''}" onclick="window.AdminPanel.setUserFilter('all')" style="padding:6px 14px;font-size:12px;border-radius:20px;border:1px solid ${this.userFilter === 'all' ? 'var(--accent)' : 'var(--border)'};background:${this.userFilter === 'all' ? 'var(--accent-dim)' : 'transparent'};">
+          Todos (<b>${total}</b>)
+        </button>
+        <button class="ghost ${this.userFilter === 'active' ? 'active' : ''}" onclick="window.AdminPanel.setUserFilter('active')" style="padding:6px 14px;font-size:12px;border-radius:20px;border:1px solid ${this.userFilter === 'active' ? '#6bffb0' : 'var(--border)'};background:${this.userFilter === 'active' ? 'rgba(107,255,176,0.1)' : 'transparent'};color:${this.userFilter === 'active' ? '#6bffb0' : 'var(--muted)'};">
+          ✅ Ativos (<b>${activeCount}</b>)
+        </button>
+        <button class="ghost ${this.userFilter === 'inactive' ? 'active' : ''}" onclick="window.AdminPanel.setUserFilter('inactive')" style="padding:6px 14px;font-size:12px;border-radius:20px;border:1px solid ${this.userFilter === 'inactive' ? '#ff6b6b' : 'var(--border)'};background:${this.userFilter === 'inactive' ? 'rgba(255,107,107,0.1)' : 'transparent'};color:${this.userFilter === 'inactive' ? '#ff6b6b' : 'var(--muted)'};">
+          🔒 Inativos / Expirados (<b>${inactiveCount}</b>)
+        </button>
       </div>
 
       <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;">
-        <input type="text" placeholder="Buscar por nome ou e-mail..." value="${this.searchTerm}" oninput="window.AdminPanel.search(this.value)" style="flex:1;max-width:320px;height:34px;font-size:12.5px;">
-        <button class="pri" style="height:34px;font-size:12.5px;" onclick="window.AdminPanel.openCreateUserModal()">+ Adicionar Membro</button>
+        <input type="text" placeholder="Buscar membro por nome ou e-mail..." value="${this.searchTerm}" oninput="window.AdminPanel.searchUsers(this.value)" style="flex:1;max-width:320px;height:36px;font-size:12.5px;">
+        <button class="pri" style="height:36px;font-size:12.5px;padding:0 16px;" onclick="window.AdminPanel.openCreateUserModal()">+ Adicionar Usuário Manual</button>
       </div>
 
       <div style="overflow-x:auto;">
@@ -4574,12 +4883,16 @@ window.AdminPanel = {
               <th style="text-align:left;padding:8px 6px;color:var(--muted);font-weight:600;">E-mail</th>
               <th style="text-align:center;padding:8px 6px;color:var(--muted);font-weight:600;">Status</th>
               <th style="text-align:left;padding:8px 6px;color:var(--muted);font-weight:600;">Validade</th>
-              <th style="text-align:center;padding:8px 6px;color:var(--muted);font-weight:600;">Ações</th>
+              <th style="text-align:center;padding:8px 6px;color:var(--muted);font-weight:600;">Ações de Acesso</th>
             </tr>
           </thead>
           <tbody>
             ${filtered.map(u => {
               const isActive = u.isAdmin || (u.isVip && (!u.expiresAt || new Date(u.expiresAt).getTime() > now));
+              let daysLeft = 0;
+              if (u.expiresAt && !u.isAdmin) {
+                daysLeft = Math.max(0, Math.ceil((new Date(u.expiresAt).getTime() - now) / (1000 * 60 * 60 * 24)));
+              }
               return `
               <tr style="border-bottom:1px solid var(--border);transition:background .15s;" onmouseenter="this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background=''">
                 <td style="padding:8px 6px;">
@@ -4587,38 +4900,42 @@ window.AdminPanel = {
                     <span style="width:28px;height:28px;border-radius:50%;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">${u.name.charAt(0).toUpperCase()}</span>
                     <div>
                       <div style="font-weight:600;">${u.name}</div>
-                      ${u.isAdmin ? '<div style="font-size:10px;color:#B7780A;">⚙️ Administrador Principal</div>' : ''}
+                      ${u.isAdmin ? '<div style="font-size:10px;color:#B7780A;font-weight:700;">⚙️ Administrador Principal</div>' : ''}
                       ${u.lastActivatedKey ? `<div style="font-size:10.5px;color:var(--muted);font-family:monospace;">Chave: ${u.lastActivatedKey}</div>` : ''}
                     </div>
                   </div>
                 </td>
                 <td style="padding:8px 6px;color:var(--muted);">${u.email}</td>
                 <td style="padding:8px 6px;text-align:center;">
-                  <span class="plan-pill ${isActive ? 'vip' : 'free'}">${isActive ? '✅ Ativo' : '🔒 Sem Chave'}</span>
+                  <span class="plan-pill ${isActive ? 'vip' : 'free'}">
+                    ${isActive ? `✅ Ativo ${daysLeft > 0 ? `(${daysLeft}d)` : ''}` : '🔒 Inativo'}
+                  </span>
                 </td>
                 <td style="padding:8px 6px;color:var(--muted);font-size:11.5px;">
-                  ${u.isAdmin ? '∞ Vitalício' : (u.expiresAt ? new Date(u.expiresAt).toLocaleDateString('pt-BR') : '—')}
+                  ${u.isAdmin ? '∞ Vitalício' : (u.expiresAt ? new Date(u.expiresAt).toLocaleDateString('pt-BR') : 'Sem chave')}
                 </td>
                 <td style="padding:8px 6px;text-align:center;">
                   ${!u.isAdmin ? `
-                    <button onclick="window.AdminPanel.grantDays('${u.id}', 30)" style="font-size:11px;padding:3px 8px;height:24px;border-radius:4px;cursor:pointer;background:#1a3a2a;color:#6bffb0;border:1px solid #6bffb044;font-weight:600;" title="Adicionar 30 dias de acesso">+30 Dias</button>
-                    <button onclick="window.AdminPanel.toggleVip('${u.id}')" style="font-size:11px;padding:3px 8px;height:24px;border-radius:4px;cursor:pointer;background:transparent;color:${isActive ? '#ff6b6b' : 'var(--accent)'};border:1px solid var(--border);margin-left:4px;">
-                      ${isActive ? 'Revogar' : 'Liberar'}
-                    </button>
-                    <button onclick="window.AdminPanel.confirmDeleteUser('${u.id}', '${u.name.replace(/'/g, "\'")}')" style="font-size:11px;padding:3px 8px;height:24px;border-radius:4px;cursor:pointer;background:transparent;color:var(--muted);border:1px solid var(--border);margin-left:4px;" title="Remover usuário">
-                      🗑
-                    </button>
+                    <div style="display:flex;gap:4px;justify-content:center;flex-wrap:wrap;">
+                      <button onclick="window.AdminPanel.grantDays('${u.id}', 30)" style="font-size:11px;padding:3px 7px;height:24px;border-radius:4px;cursor:pointer;background:#1a3a2a;color:#6bffb0;border:1px solid #6bffb044;font-weight:600;" title="Adicionar +30 dias de acesso">+30d</button>
+                      <button onclick="window.AdminPanel.toggleVip('${u.id}')" style="font-size:11px;padding:3px 7px;height:24px;border-radius:4px;cursor:pointer;background:transparent;color:${isActive ? '#ff6b6b' : 'var(--accent)'};border:1px solid var(--border);" title="Alternar status">${isActive ? 'Desativar' : 'Ativar'}</button>
+                      <button onclick="window.AdminPanel.openResetPasswordModal('${u.id}', '${u.name.replace(/'/g, "\'")}')" style="font-size:11px;padding:3px 7px;height:24px;border-radius:4px;cursor:pointer;background:transparent;color:var(--muted);border:1px solid var(--border);" title="Alterar senha do usuário">🔑 Senha</button>
+                      <button onclick="window.AdminPanel.confirmDeleteUser('${u.id}', '${u.name.replace(/'/g, "\'")}')" style="font-size:11px;padding:3px 7px;height:24px;border-radius:4px;cursor:pointer;background:transparent;color:#ff6b6b;border:1px solid #ff6b6b44;" title="Excluir">🗑</button>
+                    </div>
                   ` : '<span style="color:var(--muted);font-size:11px;">Admin</span>'}
                 </td>
               </tr>
             `}).join('')}
           </tbody>
         </table>
-        ${filtered.length === 0 ? '<p style="text-align:center;color:var(--muted);padding:24px;">Nenhum membro encontrado.</p>' : ''}
+        ${filtered.length === 0 ? '<p style="text-align:center;color:var(--muted);padding:24px;">Nenhum usuário encontrado com os filtros atuais.</p>' : ''}
       </div>
     `;
   },
 
+  // ──────────────────────────────────────────────────────────
+  // ABA 2: CHAVES SERIAIS
+  // ──────────────────────────────────────────────────────────
   renderKeys() {
     const keys = window.AuthService ? window.AuthService.loadKeys() : [];
     const active = keys.filter(k => k.active);
@@ -4632,7 +4949,7 @@ window.AdminPanel = {
 
       <div style="background:rgba(183,120,10,0.1);border:1px solid rgba(183,120,10,0.3);border-radius:8px;padding:16px;margin-bottom:18px;">
         <h3 style="margin:0 0 6px;font-size:15px;color:var(--ink);">⚡ Gerar Nova Chave Mensal para o YouTube</h3>
-        <p style="font-size:12px;color:var(--muted);margin:0 0 12px;">Crie uma chave serial e cole na aba Comunidade / Membros do seu canal para que todos os membros tenham 30 dias de acesso.</p>
+        <p style="font-size:12px;color:var(--muted);margin:0 0 12px;">Crie uma chave serial de 30 dias e cole na aba Comunidade / Membros do seu canal do YouTube.</p>
         
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;">
           <div style="flex:1;min-width:200px;">
@@ -4650,7 +4967,7 @@ window.AdminPanel = {
           <p style="font-size:11.5px;color:var(--muted);margin:0 0 8px;">Chave gerada! Clique no botão abaixo para copiar e publicar no YouTube:</p>
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
             <code id="new-key-value" style="font-size:20px;font-family:monospace;font-weight:700;color:var(--accent);letter-spacing:2px;background:rgba(0,0,0,0.5);padding:6px 12px;border-radius:4px;"></code>
-            <button class="pri" onclick="window.AdminPanel.copyKey()" style="font-size:12px;padding:0 14px;height:34px;">📋 Copiar para o YouTube</button>
+            <button class="pri" onclick="window.AdminPanel.copyKey()" style="font-size:12px;padding:0 14px;height:34px;">📋 Copiar Chave para o YouTube</button>
           </div>
         </div>
       </div>
@@ -4683,6 +5000,424 @@ window.AdminPanel = {
     `;
   },
 
+  // ──────────────────────────────────────────────────────────
+  // ABA 3: GESTÃO E EDIÇÃO MANUAL DA PLANILHA NETO INVEST
+  // ──────────────────────────────────────────────────────────
+  switchSheetSubTab(subTab) {
+    this.sheetSubTab = subTab;
+    const content = document.getElementById('admin-tab-content');
+    if (content) content.innerHTML = this.renderCurrentTab();
+  },
+
+  searchSheet(term) {
+    this.sheetSearchTerm = term;
+    const content = document.getElementById('admin-tab-content');
+    if (content) content.innerHTML = this.renderCurrentTab();
+  },
+
+  renderSheet() {
+    const data = window.NetoSheetService ? window.NetoSheetService.load() : window.NETO_DATA;
+    const bazinStocks = data?.bazin || [];
+    const carteiraItems = data?.carteira || [];
+
+    return `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
+        <div style="display:flex;gap:8px;">
+          <button class="ghost ${this.sheetSubTab === 'ranking' ? 'active' : ''}" onclick="window.AdminPanel.switchSheetSubTab('ranking')" style="padding:6px 14px;font-size:12px;border-radius:6px;border:1px solid ${this.sheetSubTab === 'ranking' ? 'var(--accent)' : 'var(--border)'};background:${this.sheetSubTab === 'ranking' ? 'var(--accent-dim)' : 'transparent'};font-weight:600;">
+            📈 Ranking de Ações (${bazinStocks.length})
+          </button>
+          <button class="ghost ${this.sheetSubTab === 'carteira' ? 'active' : ''}" onclick="window.AdminPanel.switchSheetSubTab('carteira')" style="padding:6px 14px;font-size:12px;border-radius:6px;border:1px solid ${this.sheetSubTab === 'carteira' ? 'var(--accent)' : 'var(--border)'};background:${this.sheetSubTab === 'carteira' ? 'var(--accent-dim)' : 'transparent'};font-weight:600;">
+            💼 Carteira Oficial Neto Invest (${carteiraItems.length})
+          </button>
+        </div>
+
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          ${this.sheetSubTab === 'ranking' ? `
+            <button class="pri" style="height:32px;font-size:12px;padding:0 12px;" onclick="window.AdminPanel.openEditStockModal('')">+ Inserir Ação na Planilha</button>
+          ` : `
+            <button class="pri" style="height:32px;font-size:12px;padding:0 12px;" onclick="window.AdminPanel.openEditCarteiraModal('')">+ Inserir Ativo na Carteira</button>
+          `}
+          <button class="ghost" style="height:32px;font-size:11.5px;padding:0 10px;" onclick="window.AdminPanel.exportSheetJSON()" title="Baixar JSON de backup">📥 Exportar</button>
+          <button class="ghost" style="height:32px;font-size:11.5px;padding:0 10px;" onclick="window.AdminPanel.importSheetJSON()" title="Carregar JSON customizado">📤 Importar</button>
+          <button class="ghost" style="height:32px;font-size:11.5px;padding:0 10px;color:#ff6b6b;border-color:#ff6b6b44;" onclick="window.AdminPanel.confirmResetSheet()" title="Restaurar dados originais de fábrica">↺ Restaurar Padrão</button>
+        </div>
+      </div>
+
+      <div style="margin-bottom:12px;">
+        <input type="text" placeholder="Buscar por ticker ou empresa na planilha..." value="${this.sheetSearchTerm}" oninput="window.AdminPanel.searchSheet(this.value)" style="width:100%;max-width:320px;height:34px;font-size:12px;">
+      </div>
+
+      ${this.sheetSubTab === 'ranking' ? this.renderRankingSheetTable(bazinStocks, data?.graham || []) : this.renderCarteiraSheetTable(carteiraItems)}
+    `;
+  },
+
+  renderRankingSheetTable(bazinStocks, grahamStocks) {
+    let list = bazinStocks;
+    if (this.sheetSearchTerm) {
+      const q = this.sheetSearchTerm.toLowerCase();
+      list = list.filter(s => s.t.toLowerCase().includes(q) || (s.e && s.e.toLowerCase().includes(q)) || (s.s && s.s.toLowerCase().includes(q)));
+    }
+
+    return `
+      <div style="overflow-x:auto;max-height:480px;">
+        <table style="width:100%;border-collapse:collapse;font-size:12px;">
+          <thead style="position:sticky;top:0;background:var(--card);z-index:2;">
+            <tr style="border-bottom:2px solid var(--border);">
+              <th style="text-align:left;padding:8px 6px;color:var(--muted);">Ticker & Empresa</th>
+              <th style="text-align:left;padding:8px 6px;color:var(--muted);">Setor</th>
+              <th style="text-align:right;padding:8px 6px;color:var(--muted);">Cotação</th>
+              <th style="text-align:right;padding:8px 6px;color:var(--accent);">Teto Bazin</th>
+              <th style="text-align:right;padding:8px 6px;color:var(--muted);">Margem</th>
+              <th style="text-align:right;padding:8px 6px;color:var(--muted);">DPA Proj.</th>
+              <th style="text-align:right;padding:8px 6px;color:var(--muted);">LPA Proj.</th>
+              <th style="text-align:right;padding:8px 6px;color:var(--muted);">DY</th>
+              <th style="text-align:left;padding:8px 6px;color:var(--muted);">Meses</th>
+              <th style="text-align:center;padding:8px 6px;color:var(--muted);">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${list.map(s => {
+              const gr = grahamStocks.find(g => g.t === s.t) || {};
+              const mg = s.teto && s.p ? ((s.teto - s.p) / s.teto) : (s.mg || 0);
+              const dy = s.p > 0 && s.dpa ? (s.dpa / s.p) : (s.dy || 0);
+              return `
+              <tr style="border-bottom:1px solid var(--border);transition:background .15s;" onmouseenter="this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background=''">
+                <td style="padding:8px 6px;">
+                  <b style="font-family:monospace;color:var(--ink);">${s.t}</b>
+                  <div style="font-size:11px;color:var(--muted);">${s.e || '—'}</div>
+                </td>
+                <td style="padding:8px 6px;color:var(--muted);font-size:11px;">${s.s || '—'}</td>
+                <td style="padding:8px 6px;text-align:right;font-family:monospace;">R$ ${parseFloat(s.p || 0).toFixed(2)}</td>
+                <td style="padding:8px 6px;text-align:right;font-family:monospace;color:var(--accent);font-weight:700;">R$ ${parseFloat(s.teto || 0).toFixed(2)}</td>
+                <td style="padding:8px 6px;text-align:right;font-weight:600;color:${mg >= 0 ? '#6bffb0' : '#ff6b6b'};">
+                  ${(mg * 100).toFixed(1)}%
+                </td>
+                <td style="padding:8px 6px;text-align:right;font-family:monospace;">R$ ${parseFloat(s.dpa || 0).toFixed(2)}</td>
+                <td style="padding:8px 6px;text-align:right;font-family:monospace;">R$ ${parseFloat(s.lpa || 0).toFixed(2)}</td>
+                <td style="padding:8px 6px;text-align:right;color:var(--good);font-weight:600;">${(dy * 100).toFixed(1)}%</td>
+                <td style="padding:8px 6px;font-size:10.5px;color:var(--muted);max-width:110px;">${s.meses || '—'}</td>
+                <td style="padding:8px 6px;text-align:center;white-space:nowrap;">
+                  <button onclick="window.AdminPanel.openEditStockModal('${s.t}')" style="font-size:11px;padding:3px 7px;border-radius:4px;cursor:pointer;background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent);font-weight:600;">✏️ Editar</button>
+                  <button onclick="window.AdminPanel.confirmDeleteStock('${s.t}')" style="font-size:11px;padding:3px 7px;border-radius:4px;cursor:pointer;background:transparent;color:#ff6b6b;border:1px solid #ff6b6b44;margin-left:3px;">🗑</button>
+                </td>
+              </tr>
+            `}).join('')}
+          </tbody>
+        </table>
+        ${list.length === 0 ? '<p style="text-align:center;color:var(--muted);padding:24px;">Nenhuma ação encontrada na planilha.</p>' : ''}
+      </div>
+    `;
+  },
+
+  renderCarteiraSheetTable(carteiraItems) {
+    let list = carteiraItems;
+    if (this.sheetSearchTerm) {
+      const q = this.sheetSearchTerm.toLowerCase();
+      list = list.filter(c => c.t.toLowerCase().includes(q));
+    }
+
+    return `
+      <div style="overflow-x:auto;max-height:480px;">
+        <table style="width:100%;border-collapse:collapse;font-size:12px;">
+          <thead style="position:sticky;top:0;background:var(--card);z-index:2;">
+            <tr style="border-bottom:2px solid var(--border);">
+              <th style="text-align:left;padding:8px 6px;color:var(--muted);">Ticker</th>
+              <th style="text-align:right;padding:8px 6px;color:var(--muted);">Cotas (Qtd)</th>
+              <th style="text-align:right;padding:8px 6px;color:var(--muted);">Preço Médio / Cotação</th>
+              <th style="text-align:right;padding:8px 6px;color:var(--accent);">Total Posição</th>
+              <th style="text-align:right;padding:8px 6px;color:var(--good);">Dividendo Projetado/Ano</th>
+              <th style="text-align:center;padding:8px 6px;color:var(--muted);">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${list.map(c => {
+              const totalVal = (c.q || 0) * (c.p || 0);
+              const totalDiv = (c.q || 0) * (c.dpa || 0);
+              return `
+              <tr style="border-bottom:1px solid var(--border);transition:background .15s;" onmouseenter="this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background=''">
+                <td style="padding:8px 6px;font-family:monospace;font-weight:700;color:var(--ink);">${c.t}</td>
+                <td style="padding:8px 6px;text-align:right;font-family:monospace;">${Number(c.q || 0).toLocaleString('pt-BR')}</td>
+                <td style="padding:8px 6px;text-align:right;font-family:monospace;">R$ ${parseFloat(c.p || 0).toFixed(2)}</td>
+                <td style="padding:8px 6px;text-align:right;font-family:monospace;color:var(--accent);font-weight:700;">R$ ${totalVal.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2})}</td>
+                <td style="padding:8px 6px;text-align:right;font-family:monospace;color:var(--good);font-weight:600;">R$ ${totalDiv.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2})}</td>
+                <td style="padding:8px 6px;text-align:center;white-space:nowrap;">
+                  <button onclick="window.AdminPanel.openEditCarteiraModal('${c.t}')" style="font-size:11px;padding:3px 7px;border-radius:4px;cursor:pointer;background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent);font-weight:600;">✏️ Editar</button>
+                  <button onclick="window.AdminPanel.confirmDeleteCarteira('${c.t}')" style="font-size:11px;padding:3px 7px;border-radius:4px;cursor:pointer;background:transparent;color:#ff6b6b;border:1px solid #ff6b6b44;margin-left:3px;">🗑</button>
+                </td>
+              </tr>
+            `}).join('')}
+          </tbody>
+        </table>
+        ${list.length === 0 ? '<p style="text-align:center;color:var(--muted);padding:24px;">Nenhum ativo encontrado na carteira oficial.</p>' : ''}
+      </div>
+    `;
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // MODAIS DE EDIÇÃO DE PLANILHA
+  // ──────────────────────────────────────────────────────────
+  openEditStockModal(ticker = '') {
+    const data = window.NetoSheetService ? window.NetoSheetService.load() : window.NETO_DATA;
+    const b = (ticker && data?.bazin ? data.bazin.find(s => s.t === ticker) : null) || {};
+    const g = (ticker && data?.graham ? data.graham.find(s => s.t === ticker) : null) || {};
+
+    const isNew = !ticker;
+    const existing = document.getElementById('edit-stock-modal');
+    if (existing) existing.remove();
+
+    const modalEl = document.createElement('div');
+    modalEl.id = 'edit-stock-modal';
+    modalEl.className = 'modal-backdrop';
+    modalEl.innerHTML = `
+      <div class="modal-card" style="max-width:540px;width:94%;max-height:90vh;overflow-y:auto;padding:22px;" role="dialog" aria-modal="true">
+        <div class="modal-header">
+          <div>
+            <span class="eyebrow" style="color:var(--accent);">${isNew ? 'Nova Ação' : 'Editar Ação da Planilha'}</span>
+            <h2 style="font-size:18px;margin:2px 0 0;">${isNew ? 'Adicionar Ação ao Ranking' : `Editar ${ticker} (${b.e || ''})`}</h2>
+          </div>
+          <button class="x" onclick="document.getElementById('edit-stock-modal')?.remove()">✕</button>
+        </div>
+
+        <form onsubmit="window.AdminPanel.saveStockForm(event)" style="display:flex;flex-direction:column;gap:12px;margin-top:12px;">
+          <div style="display:grid;grid-template-columns:1fr 2fr;gap:10px;">
+            <div class="form-group">
+              <label>Ticker (B3)</label>
+              <input type="text" id="stk-ticker" value="${b.t || ''}" placeholder="Ex: BBAS3" ${isNew ? '' : 'readonly'} style="text-transform:uppercase;font-family:monospace;font-weight:700;" required>
+            </div>
+            <div class="form-group">
+              <label>Nome da Empresa</label>
+              <input type="text" id="stk-name" value="${b.e || ''}" placeholder="Ex: Banco do Brasil" required>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div class="form-group">
+              <label>Setor</label>
+              <input type="text" id="stk-sector" value="${b.s || ''}" placeholder="Ex: Bancos, Elétricas">
+            </div>
+            <div class="form-group">
+              <label>Cotação Base (R$)</label>
+              <input type="number" step="0.01" id="stk-price" value="${b.p != null ? b.p : ''}" placeholder="Ex: 25.50" required>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;background:var(--sunk);padding:12px;border-radius:8px;border:1px solid var(--line);">
+            <div class="form-group">
+              <label style="color:var(--accent);font-weight:700;">Preço Teto Bazin (R$)</label>
+              <input type="number" step="0.01" id="stk-teto-bazin" value="${b.teto != null ? b.teto : ''}" placeholder="Ex: 32.00" required>
+            </div>
+            <div class="form-group">
+              <label style="color:var(--sky);font-weight:700;">Preço Teto Graham (R$)</label>
+              <input type="number" step="0.01" id="stk-teto-graham" value="${g.teto != null ? g.teto : (b.teto || '')}" placeholder="Ex: 30.50">
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div class="form-group">
+              <label>DPA Projetado (R$/ação)</label>
+              <input type="number" step="0.0001" id="stk-dpa" value="${b.dpa != null ? b.dpa : ''}" placeholder="Ex: 1.92" required>
+            </div>
+            <div class="form-group">
+              <label>LPA Projetado (R$/ação)</label>
+              <input type="number" step="0.0001" id="stk-lpa" value="${b.lpa != null ? b.lpa : ''}" placeholder="Ex: 4.50">
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div class="form-group">
+              <label>Payout Projetado (%)</label>
+              <input type="number" step="0.01" id="stk-pay" value="${b.pay != null ? (b.pay * 100) : 50}" placeholder="Ex: 40">
+            </div>
+            <div class="form-group">
+              <label>Frequência Proventos</label>
+              <input type="text" id="stk-fq" value="${b.fq || 'Trimestral'}" placeholder="Ex: Trimestral, Semestral">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Meses de Pagamento</label>
+            <input type="text" id="stk-meses" value="${b.meses || ''}" placeholder="Ex: mar jun set e dez">
+          </div>
+
+          <div style="display:flex;gap:10px;margin-top:8px;">
+            <button type="submit" class="pri" style="flex:1;height:38px;">💾 Salvar na Planilha</button>
+            <button type="button" class="ghost" onclick="document.getElementById('edit-stock-modal')?.remove()" style="height:38px;">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    `;
+
+    document.body.appendChild(modalEl);
+  },
+
+  saveStockForm(e) {
+    e.preventDefault();
+    const t = document.getElementById('stk-ticker')?.value.trim().toUpperCase();
+    const name = document.getElementById('stk-name')?.value.trim();
+    const sector = document.getElementById('stk-sector')?.value.trim();
+    const p = parseFloat(document.getElementById('stk-price')?.value) || 0;
+    const tetoBazin = parseFloat(document.getElementById('stk-teto-bazin')?.value) || 0;
+    const tetoGraham = parseFloat(document.getElementById('stk-teto-graham')?.value) || tetoBazin;
+    const dpa = parseFloat(document.getElementById('stk-dpa')?.value) || 0;
+    const lpa = parseFloat(document.getElementById('stk-lpa')?.value) || 0;
+    const pay = (parseFloat(document.getElementById('stk-pay')?.value) || 50) / 100;
+    const fq = document.getElementById('stk-fq')?.value.trim();
+    const meses = document.getElementById('stk-meses')?.value.trim();
+
+    if (!t) return alert('Ticker é obrigatório.');
+
+    window.NetoSheetService.saveStock({
+      t,
+      e: name,
+      s: sector,
+      p,
+      tetoBazin,
+      tetoGraham,
+      dpa,
+      lpa,
+      pay,
+      fq,
+      meses
+    });
+
+    document.getElementById('edit-stock-modal')?.remove();
+    this.switchTab('sheet');
+    window.AppUI && window.AppUI.showToast(`✅ Ação ${t} salva e recalculada na planilha com sucesso!`);
+  },
+
+  confirmDeleteStock(ticker) {
+    if (!confirm(`Remover a ação "${ticker}" de toda a planilha e do Ranking?`)) return;
+    window.NetoSheetService.deleteStock(ticker);
+    this.switchTab('sheet');
+    window.AppUI && window.AppUI.showToast(`Ação ${ticker} removida da planilha.`);
+  },
+
+  openEditCarteiraModal(ticker = '') {
+    const data = window.NetoSheetService ? window.NetoSheetService.load() : window.NETO_DATA;
+    const item = (ticker && data?.carteira ? data.carteira.find(c => c.t === ticker) : null) || {};
+    const isNew = !ticker;
+
+    const existing = document.getElementById('edit-carteira-modal');
+    if (existing) existing.remove();
+
+    const modalEl = document.createElement('div');
+    modalEl.id = 'edit-carteira-modal';
+    modalEl.className = 'modal-backdrop';
+    modalEl.innerHTML = `
+      <div class="modal-card" style="max-width:440px;width:92%;padding:22px;" role="dialog" aria-modal="true">
+        <div class="modal-header">
+          <div>
+            <span class="eyebrow" style="color:var(--accent);">Carteira Oficial Neto Invest</span>
+            <h2 style="font-size:18px;margin:2px 0 0;">${isNew ? 'Adicionar Ativo à Carteira' : `Editar ${ticker}`}</h2>
+          </div>
+          <button class="x" onclick="document.getElementById('edit-carteira-modal')?.remove()">✕</button>
+        </div>
+
+        <form onsubmit="window.AdminPanel.saveCarteiraForm(event)" style="display:flex;flex-direction:column;gap:12px;margin-top:12px;">
+          <div class="form-group">
+            <label>Ticker da Ação</label>
+            <input type="text" id="cart-ticker" value="${item.t || ''}" placeholder="Ex: BBAS3" ${isNew ? '' : 'readonly'} style="text-transform:uppercase;font-family:monospace;font-weight:700;" required>
+          </div>
+          <div class="form-group">
+            <label>Quantidade de Cotas</label>
+            <input type="number" id="cart-qty" value="${item.q != null ? item.q : ''}" placeholder="Ex: 10000" required>
+          </div>
+          <div class="form-group">
+            <label>Preço Médio / Cotação (R$)</label>
+            <input type="number" step="0.01" id="cart-price" value="${item.p != null ? item.p : ''}" placeholder="Ex: 22.40" required>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div class="form-group">
+              <label>DPA (R$)</label>
+              <input type="number" step="0.0001" id="cart-dpa" value="${item.dpa != null ? item.dpa : ''}" placeholder="Ex: 1.50">
+            </div>
+            <div class="form-group">
+              <label>LPA (R$)</label>
+              <input type="number" step="0.0001" id="cart-lpa" value="${item.lpa != null ? item.lpa : ''}" placeholder="Ex: 3.50">
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:8px;">
+            <button type="submit" class="pri" style="flex:1;height:38px;">💾 Salvar na Carteira</button>
+            <button type="button" class="ghost" onclick="document.getElementById('edit-carteira-modal')?.remove()" style="height:38px;">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    `;
+    document.body.appendChild(modalEl);
+  },
+
+  saveCarteiraForm(e) {
+    e.preventDefault();
+    const t = document.getElementById('cart-ticker')?.value.trim().toUpperCase();
+    const q = parseFloat(document.getElementById('cart-qty')?.value) || 0;
+    const p = parseFloat(document.getElementById('cart-price')?.value) || 0;
+    const dpa = parseFloat(document.getElementById('cart-dpa')?.value) || 0;
+    const lpa = parseFloat(document.getElementById('cart-lpa')?.value) || 0;
+
+    if (!t) return alert('Ticker é obrigatório.');
+
+    window.NetoSheetService.saveCarteiraItem({ t, q, p, dpa, lpa });
+    document.getElementById('edit-carteira-modal')?.remove();
+    this.switchTab('sheet');
+    window.AppUI && window.AppUI.showToast(`✅ Posição de ${t} atualizada na Carteira Oficial!`);
+  },
+
+  confirmDeleteCarteira(ticker) {
+    if (!confirm(`Remover "${ticker}" da Carteira Oficial Neto Invest?`)) return;
+    window.NetoSheetService.deleteCarteiraItem(ticker);
+    this.switchTab('sheet');
+    window.AppUI && window.AppUI.showToast(`Ativo ${ticker} removido da Carteira Oficial.`);
+  },
+
+  confirmResetSheet() {
+    if (!confirm('Deseja realmente restaurar os dados originais da planilha? Todas as edições manuais salvas serão revertidas para o padrão inicial.')) return;
+    window.NetoSheetService.reset();
+    this.switchTab('sheet');
+    window.AppUI && window.AppUI.showToast('Planilha restaurada para o padrão inicial.');
+  },
+
+  exportSheetJSON() {
+    const data = window.NetoSheetService ? window.NetoSheetService.load() : window.NETO_DATA;
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `planilha-neto-invest-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    window.AppUI && window.AppUI.showToast('Backup JSON exportado com sucesso!');
+  },
+
+  importSheetJSON() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json,application/json';
+    input.onchange = e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        try {
+          const parsed = JSON.parse(ev.target.result);
+          if (parsed && Array.isArray(parsed.graham) && Array.isArray(parsed.bazin)) {
+            window.NetoSheetService.save(parsed);
+            window.AdminPanel.switchTab('sheet');
+            window.AppUI && window.AppUI.showToast('✅ Planilha importada e aplicada com sucesso!');
+          } else {
+            alert('Formato de JSON inválido: faltam as listas "graham" ou "bazin".');
+          }
+        } catch(err) {
+          alert('Erro ao processar arquivo JSON: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+    };
+    input.click();
+  },
+
+  // ──────────────────────────────────────────────────────────
+  // AÇÕES AUXILIARES DE MEMBROS E CHAVES
+  // ──────────────────────────────────────────────────────────
   genKey() {
     const label = document.getElementById('new-key-label')?.value.trim() || '';
     const days = parseInt(document.getElementById('new-key-days')?.value) || 30;
@@ -4692,7 +5427,7 @@ window.AdminPanel = {
     if (resultEl) resultEl.style.display = 'block';
     if (valueEl) valueEl.textContent = newKey.key;
     const tabBtns = document.querySelectorAll('.admin-tab-btn');
-    if (tabBtns && tabBtns[1]) tabBtns[1].textContent = `🔑 Chaves de Acesso (${window.AuthService.loadKeys().length})`;
+    if (tabBtns && tabBtns[1]) tabBtns[1].textContent = `🔑 Chaves Seriais 30d (${window.AuthService.loadKeys().length})`;
   },
 
   copyKey() {
@@ -4727,6 +5462,17 @@ window.AdminPanel = {
     }
   },
 
+  openResetPasswordModal(userId, name) {
+    const newPass = prompt(`Redefinir senha para o membro "${name}":`);
+    if (!newPass) return;
+    const res = window.AuthService.adminSetUserPassword(userId, newPass);
+    if (res.success) {
+      window.AppUI && window.AppUI.showToast(`Senha de ${name} alterada com sucesso!`);
+    } else {
+      alert('Erro: ' + res.error);
+    }
+  },
+
   confirmDeleteUser(userId, name) {
     if (!confirm(`Remover o membro "${name}"? Esta ação não pode ser desfeita.`)) return;
     window.AuthService.deleteUser(userId);
@@ -4739,7 +5485,7 @@ window.AdminPanel = {
     if (!email) return;
     const name = prompt('Nome do novo membro:');
     if (!name) return;
-    const password = prompt('Senha inicial (o membro pode alterar depois):') || 'neto123';
+    const password = prompt('Senha inicial (mínimo 3 caracteres):') || 'neto123';
     const res = window.AuthService.adminCreateUser({ name, email, password, isVip: true, days: 30 });
     if (res.success) {
       this.switchTab('subscribers');
@@ -4921,7 +5667,7 @@ window.AdminPanel = {
       }
     }
 
-    // Modal de Login / Cadastro
+    // Modal de Login / Cadastro & Recuperação de Senha
     openAuthModal(initialTab = 'login') {
       this.closeAuthModal();
 
@@ -4949,7 +5695,10 @@ window.AdminPanel = {
               <input type="email" id="login-email" placeholder="seu@email.com" autocomplete="email">
             </div>
             <div class="form-group">
-              <label>Senha</label>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                <label style="margin:0;">Senha</label>
+                <a href="javascript:void(0)" onclick="window.AppUI.switchTab('recover')" style="font-size:11.5px;color:var(--accent);text-decoration:none;">Esqueci minha senha</a>
+              </div>
               <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
             </div>
             <div id="login-error" style="display:none;color:var(--bad);font-size:12.5px;"></div>
@@ -4961,6 +5710,36 @@ window.AdminPanel = {
               <p style="font-size:11px;color:var(--muted);margin-bottom:6px;">Acesso do Administrador</p>
               <button onclick="(function(){var e=document.getElementById('login-email');var p=document.getElementById('login-password');if(e)e.value='admin@netoinvest.com';if(p)p.value='admin';window.AppUI.handleLogin();})()" style="width:100%;height:34px;font-size:12px;background:#7a4d00;color:#ffe0a0;border:1px solid #b7780a;border-radius:6px;cursor:pointer;font-weight:600;">⚙️ Entrar como Administrador</button>
             </div>
+          </div>
+
+          <div id="modal-recover-form" style="display:${initialTab === 'recover' ? 'flex' : 'none'};flex-direction:column;gap:14px;">
+            <div>
+              <h3 style="font-size:16px;margin:0 0 4px;color:var(--ink);">Recuperar Senha</h3>
+              <p style="font-size:12.5px;color:var(--muted);margin:0;">Digite seu e-mail cadastrado para redefinir sua senha.</p>
+            </div>
+            <div class="form-group">
+              <label>E-mail Cadastrado</label>
+              <input type="email" id="rec-email" placeholder="seu@email.com" autocomplete="email">
+            </div>
+            <div id="rec-password-group" style="display:none;flex-direction:column;gap:12px;">
+              <div id="rec-account-found" style="background:rgba(107,255,176,0.1);border:1px solid rgba(107,255,176,0.25);border-radius:6px;padding:8px 12px;font-size:12px;color:#6bffb0;"></div>
+              <div class="form-group">
+                <label>Nova Senha</label>
+                <input type="password" id="rec-new-password" placeholder="Mínimo 3 caracteres">
+              </div>
+              <div class="form-group">
+                <label>Confirmar Nova Senha</label>
+                <input type="password" id="rec-confirm-password" placeholder="Repita a nova senha">
+              </div>
+            </div>
+            <div id="rec-error" style="display:none;color:var(--bad);font-size:12.5px;"></div>
+            <div id="rec-success" style="display:none;color:var(--good);font-size:12.5px;"></div>
+            <button class="pri" id="rec-action-btn" onclick="window.AppUI.handleRecoverAction()" style="width:100%;height:40px;">
+              Buscar Conta
+            </button>
+            <p style="text-align:center;font-size:12px;color:var(--muted);">
+              Lembrou da senha? <a href="javascript:void(0)" onclick="window.AppUI.switchTab('login')" style="color:var(--accent);font-weight:600;">Voltar ao login</a>
+            </p>
           </div>
 
           <div id="modal-register-form" style="display:${initialTab === 'register' ? 'flex' : 'none'};flex-direction:column;gap:14px;">
@@ -5000,12 +5779,78 @@ window.AdminPanel = {
     switchTab(tab) {
       const loginForm = document.getElementById('modal-login-form');
       const regForm = document.getElementById('modal-register-form');
+      const recForm = document.getElementById('modal-recover-form');
       const tabs = document.querySelectorAll('.modal-tab');
       if (loginForm) loginForm.style.display = tab === 'login' ? 'flex' : 'none';
       if (regForm) regForm.style.display = tab === 'register' ? 'flex' : 'none';
+      if (recForm) recForm.style.display = tab === 'recover' ? 'flex' : 'none';
       tabs.forEach((t, i) => {
         t.classList.toggle('active', (i === 0 && tab === 'login') || (i === 1 && tab === 'register'));
       });
+    }
+
+    handleRecoverAction() {
+      const email = (document.getElementById('rec-email')?.value || '').trim();
+      const errEl = document.getElementById('rec-error');
+      const succEl = document.getElementById('rec-success');
+      const passGroup = document.getElementById('rec-password-group');
+      const actionBtn = document.getElementById('rec-action-btn');
+      const foundEl = document.getElementById('rec-account-found');
+
+      if (errEl) errEl.style.display = 'none';
+      if (succEl) succEl.style.display = 'none';
+
+      if (!email) {
+        if (errEl) { errEl.style.display = 'block'; errEl.textContent = 'Informe seu e-mail cadastrado.'; }
+        return;
+      }
+
+      // Etapa 1: Localizar a conta
+      if (passGroup && passGroup.style.display !== 'flex') {
+        const user = window.AuthService.findUserByEmail(email);
+        if (!user) {
+          if (errEl) { errEl.style.display = 'block'; errEl.textContent = 'Nenhuma conta encontrada com este e-mail. Verifique se digitou corretamente.'; }
+          return;
+        }
+        passGroup.style.display = 'flex';
+        if (foundEl) foundEl.textContent = `✓ Conta localizada: ${user.name}`;
+        if (actionBtn) actionBtn.textContent = 'Salvar Nova Senha';
+        setTimeout(() => document.getElementById('rec-new-password')?.focus(), 100);
+        return;
+      }
+
+      // Etapa 2: Validar e salvar nova senha
+      const newPass = document.getElementById('rec-new-password')?.value || '';
+      const confirmPass = document.getElementById('rec-confirm-password')?.value || '';
+
+      if (!newPass || newPass.length < 3) {
+        if (errEl) { errEl.style.display = 'block'; errEl.textContent = 'A nova senha deve ter no mínimo 3 caracteres.'; }
+        return;
+      }
+
+      if (newPass !== confirmPass) {
+        if (errEl) { errEl.style.display = 'block'; errEl.textContent = 'As senhas digitadas não coincidem.'; }
+        return;
+      }
+
+      const res = window.AuthService.resetPassword(email, newPass);
+      if (res.success) {
+        if (succEl) {
+          succEl.style.display = 'block';
+          succEl.textContent = '✓ Senha alterada com sucesso! Redirecionando para o login...';
+        }
+        if (actionBtn) actionBtn.disabled = true;
+        this.showToast('Senha alterada com sucesso!');
+        setTimeout(() => {
+          this.switchTab('login');
+          const loginInp = document.getElementById('login-email');
+          if (loginInp) loginInp.value = email;
+          const passInp = document.getElementById('login-password');
+          if (passInp) passInp.value = '';
+        }, 1400);
+      } else {
+        if (errEl) { errEl.style.display = 'block'; errEl.textContent = res.error; }
+      }
     }
 
     handleLogin() {
@@ -5022,7 +5867,6 @@ window.AdminPanel = {
       if (result.success) {
         this.closeAuthModal();
         this.showToast('Login realizado com sucesso! Bem-vindo de volta.');
-        // Rola suavemente para a plataforma na mesma janela
         const term = document.getElementById('terminal-section');
         if (term) term.scrollIntoView({ behavior: 'smooth' });
       } else {
