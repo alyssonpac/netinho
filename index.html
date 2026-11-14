@@ -2240,7 +2240,8 @@ body {
         
         <span class="hnav-divider"></span>
         
-        <a href="#planos" class="hnav-link hnav-cta" data-tab="planos" onclick="window.TerminalApp && window.TerminalApp.goToLanding('planos')">Planos VIP</a>
+        <a href="#como-acessar" class="hnav-link" data-tab="como-acessar" onclick="window.TerminalApp && window.TerminalApp.goToLanding('como-acessar')">Membros</a>
+        <button class="hnav-link hnav-cta" onclick="window.AppUI.openKeyModal()" style="background:none;border:none;cursor:pointer;">🔑 Ativar Chave</button>
       </nav>
 
       <!-- Ações de Login e Cadastro -->
@@ -2265,9 +2266,9 @@ body {
           Transforme empresas em sócias geradoras de dividendos. Tenha acesso à metodologia comprovada do canal Neto Invest: ranking por margem de segurança, carteira como holding, calendário de proventos e projeções.
         </p>
         <div class="hero-buttons">
-          <a class="btn pri" href="#planos">Assinar e Liberar Acesso VIP</a>
-          <a class="btn ghost" href="#terminal-section" onclick="window.TerminalApp && window.TerminalApp.goToTab('ranking')" style="color:#fff;border:1px solid rgba(255,255,255,0.25);">
-            Explorar Plataforma
+          <a class="btn pri" href="javascript:void(0)" onclick="window.AppUI.openKeyModal()">🔑 Ativar Chave de Membro (30 dias)</a>
+          <a class="btn ghost" href="#como-acessar" style="color:#fff;border:1px solid rgba(255,255,255,0.25);">
+            Como Funciona
           </a>
         </div>
       </div>
@@ -2367,72 +2368,49 @@ body {
   </section>
 
   <!-- ========================================================================
-       SEÇÃO 4: PLANOS (Comprar Acesso à Plataforma - Monetização)
+       SEÇÃO 4: ÁREA DE MEMBROS (Acesso Exclusivo com Chave Mensal do YouTube)
        ======================================================================== -->
-  <section class="landing-section" id="planos">
+  <section class="landing-section" id="como-acessar">
     <div class="section-head">
-      <span class="eyebrow">Planos & Assinaturas</span>
-      <h2>Escolha o seu plano de acesso à plataforma Neto Invest</h2>
-      <p>Libere imediatamente o ranking de 78 ações, carteira como holding, calendário e simuladores.</p>
+      <span class="eyebrow">Exclusivo para Membros do Canal</span>
+      <h2>Como ter acesso ao Terminal Neto Invest</h2>
+      <p>Acesso liberado para todos os membros apoiadores do canal Neto Invest no YouTube através de Chaves Mensais.</p>
     </div>
 
-    <div class="pricing-grid">
-      <!-- Mensal -->
-      <div class="pricing-card">
-        <div class="pricing-name">Mensal</div>
-        <div class="pricing-price">
-          <span class="curr">R$</span>
-          <span class="val">39</span>
-          <span class="cycle">,90/mês</span>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:20px;max-width:1040px;margin:0 auto;">
+      <div class="panel" style="padding:28px 22px;border-radius:var(--r-lg);">
+        <div style="font-size:32px;margin-bottom:12px;">1️⃣</div>
+        <h3 style="font-size:17px;margin:0 0 8px;color:var(--ink);">Seja Membro no YouTube</h3>
+        <p style="font-size:13.5px;color:var(--muted);line-height:1.5;">
+          Apoie o canal Neto Invest com sua assinatura de membro. Além dos selos e vídeos exclusivos, você recebe acesso total a esta plataforma de investimentos.
+        </p>
+        <div style="margin-top:14px;">
+          <a href="https://www.youtube.com/@NetoInvest" target="_blank" rel="noopener" style="color:var(--accent);font-size:13px;font-weight:600;text-decoration:none;">
+            Acessar Canal Neto Invest →
+          </a>
         </div>
-        <div class="pricing-desc">Acesso flexível mês a mês com renovação automática, sem fidelidade.</div>
-        <div class="pricing-features">
-          <div><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Ranking de 78 ações da B3</div>
-          <div><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Preço teto Bazin e P/L Justo</div>
-          <div><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Carteira oficial Neto Invest</div>
-          <div><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Agenda anual de dividendos</div>
-          <div><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Simuladores e calculadoras</div>
-        </div>
-        <button class="ghost pricing-btn" onclick="window.Checkout.openModal('mensal')">Assinar Mensal</button>
       </div>
 
-      <!-- Anual PRO (Destaque) -->
-      <div class="pricing-card featured">
-        <span class="popular-badge">Mais Escolhido · 25% OFF</span>
-        <div class="pricing-name">Anual PRO</div>
-        <div class="pricing-price">
-          <span class="curr">R$</span>
-          <span class="val">29</span>
-          <span class="cycle">,90/mês</span>
+      <div class="panel" style="padding:28px 22px;border-radius:var(--r-lg);">
+        <div style="font-size:32px;margin-bottom:12px;">2️⃣</div>
+        <h3 style="font-size:17px;margin:0 0 8px;color:var(--ink);">Pegue a Chave Mensal</h3>
+        <p style="font-size:13.5px;color:var(--muted);line-height:1.5;">
+          Todo mês o Mário publica na <b>Aba Comunidade (Membros)</b> do YouTube o Serial Key de acesso (exemplo: <code>NETO-XXXX-XXXX-XXXX</code>).
+        </p>
+        <div style="margin-top:14px;background:var(--sunk);border:1px dashed var(--line);border-radius:6px;padding:8px 10px;font-size:12px;font-family:monospace;color:var(--muted);text-align:center;">
+          Renovada a cada 30 dias
         </div>
-        <div class="pricing-desc">Cobrado anualmente (R$ 358,80). Economize 25% e garanta 12 meses de atualizações.</div>
-        <div class="pricing-features">
-          <div><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> <b>Tudo do plano mensal incluído</b></div>
-          <div><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Economia imediata de R$ 120,00/ano</div>
-          <div><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Acesso prioritário a novas temporadas</div>
-          <div><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Projeção da holding até 2031</div>
-          <div><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Suporte prioritário para membros PRO</div>
-        </div>
-        <button class="pri pricing-btn" onclick="window.Checkout.openModal('anual')">Assinar Anual com Desconto</button>
       </div>
 
-      <!-- Vitalício -->
-      <div class="pricing-card">
-        <div class="pricing-name">Vitalício VIP</div>
-        <div class="pricing-price">
-          <span class="curr">R$</span>
-          <span class="val">890</span>
-          <span class="cycle">único</span>
-        </div>
-        <div class="pricing-desc">Pagamento único para acesso vitalício permanente. Sem mensalidades futuras.</div>
-        <div class="pricing-features">
-          <div><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> <b>Acesso eterno a todas as ferramentas</b></div>
-          <div><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Todas as futuras versões e planilhas</div>
-          <div><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Atualizações automáticas de cotações</div>
-          <div><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Selo de Membro Fundador Vitalício</div>
-          <div><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Garantia incondicional de 7 dias</div>
-        </div>
-        <button class="ghost pricing-btn" onclick="window.Checkout.openModal('vitalicio')">Garantir Acesso Vitalício</button>
+      <div class="panel" style="padding:28px 22px;border-radius:var(--r-lg);">
+        <div style="font-size:32px;margin-bottom:12px;">3️⃣</div>
+        <h3 style="font-size:17px;margin:0 0 8px;color:var(--ink);">Ative seus 30 Dias</h3>
+        <p style="font-size:13.5px;color:var(--muted);line-height:1.5;">
+          Crie sua conta ou faça login aqui no site, cole o código mensal e aproveite o Ranking BVMF em tempo real, Carteira Oficial e Minha Carteira virtual.
+        </p>
+        <button class="pri" style="margin-top:14px;width:100%;height:38px;font-size:13px;" onclick="window.AppUI.openKeyModal()">
+          🔑 Inserir Minha Chave
+        </button>
       </div>
     </div>
   </section>
@@ -2492,7 +2470,7 @@ body {
           <a href="#home" style="color:var(--muted);font-size:12.5px;">Início</a>
           <a href="#sobre" style="color:var(--muted);font-size:12.5px;">Sobre</a>
           <a href="#metodologia" style="color:var(--muted);font-size:12.5px;">Metodologia</a>
-          <a href="#planos" style="color:var(--muted);font-size:12.5px;">Planos</a>
+          <a href="#como-acessar" style="color:var(--muted);font-size:12.5px;">Membros YouTube</a>
         </div>
         <div style="display:flex;flex-direction:column;gap:6px;">
           <b style="font-size:11.5px;text-transform:uppercase;color:var(--ink);">Comunidade</b>
@@ -2505,7 +2483,7 @@ body {
     <div class="footer-bottom">
       <div>
         © 2026 Neto Invest. Todos os direitos reservados. 
-        <span onclick="window.AppUI.openApiSettingsModal()" style="cursor:pointer;opacity:0.25;font-size:11px;margin-left:8px;" title="Configuração de Pagamento (Admin)">⚙️</span>
+        <span onclick="window.AppUI.openApiSettingsModal()" style="cursor:pointer;opacity:0.25;font-size:11px;margin-left:8px;" title="Painel do Administrador (Chaves & Membros)">⚙️</span>
       </div>
       <div>Conteúdo educacional para investidores. Rentabilidade passada não é garantia de retorno futuro.</div>
     </div>
@@ -2937,6 +2915,7 @@ window.NETO_DATA = {
 
   const USERS_KEY = 'netoinvest_users_v1';
   const SESSION_KEY = 'netoinvest_current_user_v1';
+  const KEYS_KEY = 'netoinvest_serial_keys_v1';
 
   // Usuários padrão de demonstração
   const INITIAL_USERS = [
@@ -2953,14 +2932,14 @@ window.NETO_DATA = {
     },
     {
       id: 'usr_demo_vip',
-      name: 'Membro Pro Demo',
+      name: 'Membro YouTube Demo',
       email: 'membro@netoinvest.com',
       password: '123',
       isAdmin: false,
       isVip: true,
-      plan: 'anual',
+      plan: 'membro-30d',
       joinedAt: '2026-11-01T10:00:00.000Z',
-      expiresAt: '2027-11-01T10:00:00.000Z'
+      expiresAt: new Date(Date.now() + 25 * 24 * 60 * 60 * 1000).toISOString()
     },
     {
       id: 'usr_demo_visitante',
@@ -2975,13 +2954,29 @@ window.NETO_DATA = {
     }
   ];
 
+  // Chaves seriais padrão para membros do YouTube
+  const INITIAL_KEYS = [
+    {
+      id: 'key_oficial_demo',
+      key: 'NETO-2026-MEMBRO-VIP',
+      label: 'Chave Oficial – Membros YouTube',
+      createdAt: new Date().toISOString(),
+      durationDays: 30,
+      uses: 12,
+      active: true
+    }
+  ];
+
   class AuthService {
     constructor() {
       this.users = this.loadUsers();
+      this.keys = this.loadKeys();
       this.currentUser = this.loadSession();
       this.listeners = [];
+      this.checkExpiry();
     }
 
+    // ── Gestão de Usuários / Membros ───────────────────────────
     loadUsers() {
       let users = [...INITIAL_USERS];
       try {
@@ -2995,12 +2990,11 @@ window.NETO_DATA = {
       } catch (e) {
         console.warn('Erro ao carregar lista de usuários:', e);
       }
-      // Garante que o admin SEMPRE existe (mesmo com cache antigo no localStorage)
+      // Garante que o admin SEMPRE existe
       const adminExists = users.some(u => u.email.toLowerCase() === 'admin@netoinvest.com');
       if (!adminExists) {
         users.unshift(INITIAL_USERS[0]);
       } else {
-        // Garante que o admin existente tem isAdmin: true
         const idx = users.findIndex(u => u.email.toLowerCase() === 'admin@netoinvest.com');
         if (idx !== -1) users[idx] = { ...users[idx], isAdmin: true, isVip: true };
       }
@@ -3016,6 +3010,140 @@ window.NETO_DATA = {
       }
     }
 
+    // ── Gestão de Chaves Seriais (YouTube Member Keys) ─────────
+    loadKeys() {
+      try {
+        const stored = localStorage.getItem(KEYS_KEY);
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch (e) {
+        console.warn('Erro ao carregar chaves:', e);
+      }
+      localStorage.setItem(KEYS_KEY, JSON.stringify(INITIAL_KEYS));
+      return [...INITIAL_KEYS];
+    }
+
+    saveKeys(keys) {
+      this.keys = keys;
+      try {
+        localStorage.setItem(KEYS_KEY, JSON.stringify(this.keys));
+      } catch (e) {
+        console.error('Erro ao salvar chaves:', e);
+      }
+    }
+
+    generateKey() {
+      const seg = () => Math.random().toString(36).substring(2, 6).toUpperCase();
+      return `NETO-${seg()}-${seg()}-${seg()}`;
+    }
+
+    createKey(label = '', durationDays = 30) {
+      const keys = this.loadKeys();
+      const newKey = {
+        id: 'key_' + Date.now(),
+        key: this.generateKey(),
+        label: (label || '').trim() || `Membros – ${new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}`,
+        createdAt: new Date().toISOString(),
+        durationDays: parseInt(durationDays) || 30,
+        uses: 0,
+        active: true
+      };
+      keys.unshift(newKey);
+      this.saveKeys(keys);
+      return newKey;
+    }
+
+    revokeKey(keyId) {
+      const keys = this.loadKeys();
+      const k = keys.find(item => item.id === keyId);
+      if (k) {
+        k.active = false;
+        this.saveKeys(keys);
+        return true;
+      }
+      return false;
+    }
+
+    activateKey(keyStr) {
+      if (!this.currentUser) {
+        return { success: false, error: 'Faça login na sua conta para ativar a chave.' };
+      }
+      const clean = String(keyStr || '').trim().toUpperCase();
+      if (!clean) {
+        return { success: false, error: 'Por favor, digite a chave de acesso.' };
+      }
+      const keys = this.loadKeys();
+      const found = keys.find(k => k.key.toUpperCase() === clean);
+      if (!found) {
+        return { success: false, error: 'Chave não encontrada. Verifique se digitou corretamente.' };
+      }
+      if (!found.active) {
+        return { success: false, error: 'Esta chave foi desativada pelo administrador.' };
+      }
+
+      const days = found.durationDays || 30;
+      const now = Date.now();
+      let baseTime = now;
+      if (this.currentUser.expiresAt) {
+        const curExp = new Date(this.currentUser.expiresAt).getTime();
+        if (curExp > now) baseTime = curExp; // estende tempo restante
+      }
+      const newExpiry = new Date(baseTime + days * 24 * 60 * 60 * 1000).toISOString();
+
+      const userInDb = this.users.find(u => u.id === this.currentUser.id);
+      const updatedUser = {
+        ...(userInDb || this.currentUser),
+        isVip: true,
+        plan: `membro-${days}d`,
+        lastActivatedKey: found.key,
+        keyActivatedAt: new Date().toISOString(),
+        expiresAt: newExpiry
+      };
+
+      if (userInDb) {
+        Object.assign(userInDb, updatedUser);
+        this.saveUsers();
+      }
+
+      found.uses = (found.uses || 0) + 1;
+      this.saveKeys(keys);
+
+      this.saveSession(updatedUser);
+      this.notifyListeners();
+
+      return {
+        success: true,
+        user: updatedUser,
+        daysAdded: days,
+        expiresFormatted: new Date(newExpiry).toLocaleDateString('pt-BR')
+      };
+    }
+
+    checkExpiry() {
+      if (!this.currentUser || this.currentUser.isAdmin) return;
+      if (this.currentUser.isVip && this.currentUser.expiresAt) {
+        if (new Date(this.currentUser.expiresAt).getTime() <= Date.now()) {
+          const userInDb = this.users.find(u => u.id === this.currentUser.id);
+          if (userInDb) {
+            userInDb.isVip = false;
+            this.saveUsers();
+          }
+          this.saveSession({ ...this.currentUser, isVip: false });
+        }
+      }
+    }
+
+    hasActiveAccess() {
+      if (!this.currentUser) return false;
+      if (this.currentUser.isAdmin) return true;
+      if (!this.currentUser.isVip) return false;
+      if (!this.currentUser.expiresAt) return true;
+      return new Date(this.currentUser.expiresAt).getTime() > Date.now();
+    }
+
+    // ── Sessão do Usuário ───────────────────────────────────────
     loadSession() {
       try {
         const session = localStorage.getItem(SESSION_KEY);
@@ -3043,7 +3171,6 @@ window.NETO_DATA = {
     onAuthChange(callback) {
       if (typeof callback === 'function') {
         this.listeners.push(callback);
-        // Notifica imediatamente com estado atual
         callback(this.currentUser);
       }
     }
@@ -3062,11 +3189,6 @@ window.NETO_DATA = {
       return !!this.currentUser;
     }
 
-    hasActiveAccess() {
-      if (!this.currentUser) return false;
-      return !!this.currentUser.isVip;
-    }
-
     login(email, password) {
       const cleanEmail = String(email || '').trim().toLowerCase();
       const user = this.users.find(u => u.email.toLowerCase() === cleanEmail);
@@ -3074,7 +3196,6 @@ window.NETO_DATA = {
       if (!user) {
         return { success: false, error: 'E-mail não cadastrado.' };
       }
-
       if (user.password !== password) {
         return { success: false, error: 'Senha incorreta.' };
       }
@@ -3092,7 +3213,7 @@ window.NETO_DATA = {
       if (!password || password.length < 3) return { success: false, error: 'A senha deve ter no mínimo 3 caracteres.' };
 
       if (this.users.some(u => u.email.toLowerCase() === cleanEmail)) {
-        return { success: false, error: 'Este e-mail já está em uso. Faça login ou use outro.' };
+        return { success: false, error: 'Este e-mail já está cadastrado. Faça login ou use outro.' };
       }
 
       const newUser = {
@@ -3100,7 +3221,7 @@ window.NETO_DATA = {
         name: cleanName,
         email: cleanEmail,
         password: password,
-        isVip: false, // Inicia como visitante até assinar
+        isVip: false,
         plan: null,
         joinedAt: new Date().toISOString(),
         expiresAt: null
@@ -3113,54 +3234,12 @@ window.NETO_DATA = {
       return { success: true, user: newUser };
     }
 
-    upgradeCurrentUser(planName = 'anual') {
-      if (!this.currentUser) return { success: false, error: 'Nenhum usuário conectado.' };
-
-      const userInDb = this.users.find(u => u.id === this.currentUser.id);
-      const updated = {
-        ...(userInDb || this.currentUser),
-        isVip: true,
-        plan: planName,
-        subscribedAt: new Date().toISOString(),
-        expiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()
-      };
-
-      if (userInDb) {
-        Object.assign(userInDb, updated);
-        this.saveUsers();
-      }
-
-      this.saveSession(updated);
-      return { success: true, user: updated };
-    }
-
-    upgradeUserToVip(email, planName = 'anual') {
-      const user = this.users.find(u => u.email.toLowerCase() === email.toLowerCase());
-      if (user) {
-        user.isVip = true;
-        user.plan = planName;
-        user.subscribedAt = new Date().toISOString();
-        this.saveUsers();
-
-        if (this.currentUser && this.currentUser.id === user.id) {
-          this.saveSession({ ...user });
-        }
-        return true;
-      }
-      return false;
-    }
-
-    quickDemoLogin(asVip = true) {
-      const email = asVip ? 'membro@netoinvest.com' : 'visitante@netoinvest.com';
-      return this.login(email, '123');
-    }
-
     logout() {
       this.saveSession(null);
       return { success: true };
     }
 
-    // --- Métodos de Gestão Administrativa de Assinantes ---
+    // ── Métodos Administrativos ─────────────────────────────────
     getAllUsers() {
       return [...this.users];
     }
@@ -3170,9 +3249,12 @@ window.NETO_DATA = {
       if (!user) return { success: false, error: 'Usuário não encontrado' };
 
       user.isVip = !user.isVip;
-      if (user.isVip && !user.plan) {
-        user.plan = 'anual';
-        user.expiresAt = new Date(Date.now() + 365*24*60*60*1000).toISOString();
+      if (user.isVip) {
+        user.plan = 'membro-30d';
+        user.expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+      } else {
+        user.plan = null;
+        user.expiresAt = null;
       }
       this.saveUsers();
       if (this.currentUser && this.currentUser.id === user.id) {
@@ -3182,14 +3264,18 @@ window.NETO_DATA = {
       return { success: true, user };
     }
 
-    setUserPlan(userId, plan) {
+    grantDays(userId, days = 30) {
       const user = this.users.find(u => u.id === userId);
       if (!user) return { success: false, error: 'Usuário não encontrado' };
 
-      user.plan = plan;
+      const now = Date.now();
+      let base = now;
+      if (user.expiresAt && new Date(user.expiresAt).getTime() > now) {
+        base = new Date(user.expiresAt).getTime();
+      }
       user.isVip = true;
-      const days = plan === 'mensal' ? 30 : plan === 'anual' ? 365 : 36500;
-      user.expiresAt = new Date(Date.now() + days*24*60*60*1000).toISOString();
+      user.plan = `membro-${days}d`;
+      user.expiresAt = new Date(base + days * 24 * 60 * 60 * 1000).toISOString();
 
       this.saveUsers();
       if (this.currentUser && this.currentUser.id === user.id) {
@@ -3199,22 +3285,12 @@ window.NETO_DATA = {
       return { success: true, user };
     }
 
-    deleteUser(userId) {
-      if (userId === 'usr_admin') {
-        return { success: false, error: 'Não é possível excluir o usuário administrador principal.' };
-      }
-      this.users = this.users.filter(u => u.id !== userId);
-      this.saveUsers();
-      return { success: true };
-    }
-
-    adminCreateUser({ name, email, password, plan, isVip }) {
+    adminCreateUser({ name, email, password, isVip, days = 30 }) {
       const cleanEmail = String(email || '').trim().toLowerCase();
       if (this.users.some(u => u.email.toLowerCase() === cleanEmail)) {
         return { success: false, error: 'E-mail já cadastrado.' };
       }
 
-      const days = plan === 'mensal' ? 30 : plan === 'anual' ? 365 : 36500;
       const newUser = {
         id: 'usr_' + Date.now(),
         name: name.trim(),
@@ -3222,9 +3298,9 @@ window.NETO_DATA = {
         password: password || '123456',
         isAdmin: false,
         isVip: !!isVip,
-        plan: isVip ? (plan || 'anual') : null,
+        plan: isVip ? `membro-${days}d` : null,
         joinedAt: new Date().toISOString(),
-        expiresAt: isVip ? new Date(Date.now() + days*24*60*60*1000).toISOString() : null
+        expiresAt: isVip ? new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString() : null
       };
 
       this.users.unshift(newUser);
@@ -3232,44 +3308,13 @@ window.NETO_DATA = {
       return { success: true, user: newUser };
     }
 
-    // --- Automação: Liberação Automática por Webhook / API ---
-    processWebhookPayment({ email, name, plan, provider, transactionId }) {
-      const cleanEmail = String(email || '').trim().toLowerCase();
-      let user = this.users.find(u => u.email.toLowerCase() === cleanEmail);
-
-      const planChosen = plan || 'anual';
-      const days = planChosen === 'mensal' ? 30 : planChosen === 'anual' ? 365 : 36500;
-      const expiresAt = new Date(Date.now() + days*24*60*60*1000).toISOString();
-
-      if (user) {
-        // Usuário já existe: ativa VIP instantaneamente
-        user.isVip = true;
-        user.plan = planChosen;
-        user.expiresAt = expiresAt;
-        user.lastPayment = { provider, transactionId, date: new Date().toISOString() };
-      } else {
-        // Usuário novo: cria a conta já liberada
-        user = {
-          id: 'usr_' + Date.now(),
-          name: name ? name.trim() : cleanEmail.split('@')[0],
-          email: cleanEmail,
-          password: 'vip' + Math.floor(1000 + Math.random()*9000), // senha inicial
-          isAdmin: false,
-          isVip: true,
-          plan: planChosen,
-          joinedAt: new Date().toISOString(),
-          expiresAt: expiresAt,
-          lastPayment: { provider, transactionId, date: new Date().toISOString() }
-        };
-        this.users.unshift(user);
+    deleteUser(userId) {
+      if (userId === 'usr_admin') {
+        return { success: false, error: 'Não é possível excluir o administrador principal.' };
       }
-
+      this.users = this.users.filter(u => u.id !== userId);
       this.saveUsers();
-      if (this.currentUser && this.currentUser.email.toLowerCase() === cleanEmail) {
-        this.saveSession({ ...user });
-      }
-      this.notifyListeners();
-      return { success: true, user };
+      return { success: true };
     }
   }
 
@@ -3278,322 +3323,16 @@ window.NETO_DATA = {
 
 
 /**
- * Neto Invest - Sistema de Checkout e Compra de Acesso
- * 
- * Processa a compra de planos (Mensal, Anual, Vitalício)
- * com suporte a PIX, Cartão de Crédito e integração com APIs de Pagamento.
+ * Neto Invest - Controle de Acesso de Membros (YouTube Serial Keys)
  */
-
 (function(window) {
   'use strict';
-
-  const PLANS = {
-    mensal: {
-      id: 'mensal',
-      name: 'Plano Mensal',
-      period: 'por mês',
-      price: 39.90,
-      formattedPrice: 'R$ 39,90',
-      totalFormatted: 'R$ 39,90 / mês',
-      billingCycle: 'Cobrança mensal recorrente',
-      features: [
-        'Acesso completo ao Ranking de Ações',
-        'Carteira Neto Invest atualizada',
-        'Simulador Minha Carteira & Projeções',
-        'Agenda de Dividendos mês a mês',
-        'Calculadoras de Juros e Aposentadoria'
-      ]
+  window.Checkout = {
+    openModal() {
+      window.AppUI && window.AppUI.openKeyModal();
     },
-    anual: {
-      id: 'anual',
-      name: 'Plano Anual PRO',
-      period: 'por mês',
-      price: 29.90,
-      total: 358.80,
-      formattedPrice: 'R$ 29,90',
-      totalFormatted: 'R$ 358,80 / ano (R$ 29,90/mês)',
-      billingCycle: 'Cobrança anual com 25% de desconto',
-      popular: true,
-      features: [
-        'Tudo do Plano Mensal',
-        '25% de desconto exclusivo',
-        'Acesso antecipado a novas temporadas de balanço',
-        'Atualização prioritária da planilha',
-        'Suporte dedicado a membros PRO'
-      ]
-    },
-    vitalicio: {
-      id: 'vitalicio',
-      name: 'Membro Vitalício VIP',
-      period: 'pagamento único',
-      price: 890.00,
-      formattedPrice: 'R$ 890,00',
-      totalFormatted: 'R$ 890,00 pagamento único',
-      billingCycle: 'Acesso para sempre, sem mensalidades',
-      features: [
-        'Acesso vitalício irrestrito a todas as ferramentas',
-        'Todas as futuras versões e atualizações da plataforma',
-        'Selo exclusivo de Membro Vitalício',
-        'Canal VIP direto com a equipe',
-        'Integração direta com APIs e exportação de dados'
-      ]
-    }
+    closeModal() {}
   };
-
-  class Checkout {
-    constructor() {
-      this.selectedPlan = PLANS.anual;
-      this.paymentMethod = 'pix'; // 'pix' | 'credit_card'
-    }
-
-    openModal(planId = 'anual') {
-      this.selectedPlan = PLANS[planId] || PLANS.anual;
-      this.paymentMethod = 'pix';
-      this.renderModal();
-    }
-
-    closeModal() {
-      const modal = document.getElementById('checkout-modal');
-      if (modal) modal.remove();
-    }
-
-    renderModal() {
-      this.closeModal();
-
-      const user = window.AuthService ? window.AuthService.getCurrentUser() : null;
-      const plan = this.selectedPlan;
-
-      const modalEl = document.createElement('div');
-      modalEl.id = 'checkout-modal';
-      modalEl.className = 'modal-backdrop';
-      modalEl.innerHTML = `
-        <div class="modal-card modal-checkout" role="dialog" aria-modal="true">
-          <div class="modal-header">
-            <div>
-              <span class="eyebrow" style="color:var(--accent)">Finalizar Assinatura</span>
-              <h2 style="margin:2px 0 0;font-size:20px">${plan.name}</h2>
-            </div>
-            <button class="x modal-close-btn" onclick="window.Checkout.closeModal()">✕</button>
-          </div>
-
-          <div class="checkout-grid">
-            <!-- Coluna da Esquerda: Resumo do Pedido -->
-            <div class="checkout-summary">
-              <div class="checkout-plan-badge">
-                <b>${plan.totalFormatted}</b>
-                <small>${plan.billingCycle}</small>
-              </div>
-
-              <div class="checkout-features-list">
-                ${plan.features.map(f => `<div><span style="color:var(--good);font-weight:700">✓</span> ${f}</div>`).join('')}
-              </div>
-
-              <div class="checkout-guarantee">
-                <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--accent);fill:none;stroke-width:2;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                <div>
-                  <b>Garantia Incondicional de 7 Dias</b>
-                  <p style="margin:2px 0 0;font-size:11.5px;color:var(--muted)">Se não gostar, devolvemos 100% do seu investimento sem burocracia.</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Coluna da Direita: Dados e Pagamento -->
-            <div class="checkout-form-area">
-              <div class="form-group">
-                <label>Seu Nome Completo</label>
-                <input type="text" id="chk-name" value="${user ? user.name : ''}" placeholder="Ex: João da Silva" required>
-              </div>
-
-              <div class="form-group">
-                <label>Seu Melhor E-mail</label>
-                <input type="email" id="chk-email" value="${user ? user.email : ''}" placeholder="Ex: joao@email.com" required>
-              </div>
-
-              <!-- Abas de Pagamento -->
-              <div class="payment-tabs">
-                <button type="button" class="tab-btn ${this.paymentMethod === 'pix' ? 'active' : ''}" onclick="window.Checkout.setPaymentMethod('pix')">
-                  <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M12 2L4 7v10l8 5 8-5V7l-8-5zm0 2.2L18.2 8 12 11.8 5.8 8 12 4.2zM6 9.5l5 3.1v6.7l-5-3.1V9.5zm7 9.8v-6.7l5-3.1v6.7l-5 3.1z"/></svg>
-                  PIX (Acesso Imediato)
-                </button>
-                <button type="button" class="tab-btn ${this.paymentMethod === 'credit_card' ? 'active' : ''}" onclick="window.Checkout.setPaymentMethod('credit_card')">
-                  <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-                  Cartão de Crédito
-                </button>
-              </div>
-
-              <!-- Detalhes do Pagamento -->
-              <div id="payment-details-view">
-                ${this.renderPaymentMethodDetails()}
-              </div>
-
-              <div id="checkout-status-msg" style="margin-top:10px;font-size:12.5px;"></div>
-
-              <button class="pri checkout-submit-btn" id="chk-submit" onclick="window.Checkout.processCheckout()">
-                Confirmar e Liberar Acesso VIP
-              </button>
-            </div>
-          </div>
-        </div>
-      `;
-
-      document.body.appendChild(modalEl);
-    }
-
-    setPaymentMethod(method) {
-      this.paymentMethod = method;
-      const tabs = document.querySelectorAll('.payment-tabs .tab-btn');
-      tabs.forEach(t => t.classList.remove('active'));
-      const activeTab = method === 'pix' ? tabs[0] : tabs[1];
-      if (activeTab) activeTab.classList.add('active');
-
-      const view = document.getElementById('payment-details-view');
-      if (view) view.innerHTML = this.renderPaymentMethodDetails();
-    }
-
-    renderPaymentMethodDetails() {
-      if (this.paymentMethod === 'pix') {
-        const pixPayload = '00020126580014BR.GOV.BCB.PIX0136netoinvest.contato@pagamentos.com.br520400005303986540' + (this.selectedPlan.price || 358.80) + '5802BR5925NETO INVEST PLATAFORMA6009SAO PAULO62070503***6304E2B1';
-        return `
-          <div class="pix-payment-box">
-            <div class="pix-qr-fake">
-              <svg viewBox="0 0 100 100" style="width:90px;height:90px;">
-                <rect x="0" y="0" width="100" height="100" fill="#fff"/>
-                <rect x="10" y="10" width="25" height="25" fill="#0B1F3A"/>
-                <rect x="15" y="15" width="15" height="15" fill="#fff"/>
-                <rect x="18" y="18" width="9" height="9" fill="#0B1F3A"/>
-                
-                <rect x="65" y="10" width="25" height="25" fill="#0B1F3A"/>
-                <rect x="70" y="15" width="15" height="15" fill="#fff"/>
-                <rect x="73" y="18" width="9" height="9" fill="#0B1F3A"/>
-                
-                <rect x="10" y="65" width="25" height="25" fill="#0B1F3A"/>
-                <rect x="15" y="70" width="15" height="15" fill="#fff"/>
-                <rect x="18" y="73" width="9" height="9" fill="#0B1F3A"/>
-                
-                <circle cx="50" cy="50" r="10" fill="#1B5FB8"/>
-                <rect x="42" y="15" width="8" height="18" fill="#0B1F3A"/>
-                <rect x="42" y="68" width="8" height="18" fill="#0B1F3A"/>
-                <rect x="68" y="45" width="20" height="8" fill="#0B1F3A"/>
-                <rect x="12" y="45" width="20" height="8" fill="#0B1F3A"/>
-              </svg>
-            </div>
-            <div style="flex:1;min-width:0">
-              <span class="eyebrow" style="color:var(--good)">Aprovação Instantânea</span>
-              <p style="margin:4px 0 8px;font-size:12px;color:var(--muted)">Abra o app do seu banco, escolha Pix Copia e Cola e confirme o pagamento.</p>
-              <div style="display:flex;gap:6px">
-                <input type="text" readonly value="${pixPayload}" style="font-size:11px;padding:6px;background:var(--sunk);" id="pix-copy-input">
-                <button type="button" class="ghost" style="padding:6px 10px;font-size:11.5px;white-space:nowrap" onclick="window.Checkout.copyPixCode()">Copiar Código</button>
-              </div>
-            </div>
-          </div>
-        `;
-      } else {
-        return `
-          <div class="card-payment-form">
-            <div class="form-group">
-              <label>Número do Cartão</label>
-              <input type="text" placeholder="0000 0000 0000 0000" maxlength="19" id="card-num" value="4532 •••• •••• 8892">
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-              <div class="form-group">
-                <label>Validade</label>
-                <input type="text" placeholder="MM/AA" maxlength="5" id="card-exp" value="12/28">
-              </div>
-              <div class="form-group">
-                <label>CVV</label>
-                <input type="text" placeholder="123" maxlength="4" id="card-cvv" value="789">
-              </div>
-            </div>
-          </div>
-        `;
-      }
-    }
-
-    copyPixCode() {
-      const input = document.getElementById('pix-copy-input');
-      if (input) {
-        input.select();
-        document.execCommand('copy');
-        if (window.AppUI) window.AppUI.showToast('Código Pix copiado para a área de transferência!');
-      }
-    }
-
-    async processCheckout() {
-      const nameInput = document.getElementById('chk-name');
-      const emailInput = document.getElementById('chk-email');
-      const statusMsg = document.getElementById('checkout-status-msg');
-      const submitBtn = document.getElementById('chk-submit');
-
-      const name = nameInput ? nameInput.value.trim() : '';
-      const email = emailInput ? emailInput.value.trim() : '';
-
-      if (!name) {
-        if (statusMsg) statusMsg.innerHTML = '<span style="color:var(--bad)">Por favor, preencha seu nome.</span>';
-        return;
-      }
-      if (!email || !email.includes('@')) {
-        if (statusMsg) statusMsg.innerHTML = '<span style="color:var(--bad)">Por favor, insira um e-mail válido.</span>';
-        return;
-      }
-
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = 'Processando pagamento seguro…';
-      if (statusMsg) statusMsg.innerHTML = '<span style="color:var(--accent)">Processando pagamento seguro…</span>';
-
-      const orderData = {
-        id: 'PED-' + Date.now(),
-        plan: this.selectedPlan.id,
-        planName: this.selectedPlan.name,
-        total: this.selectedPlan.price,
-        customer: { name, email },
-        method: this.paymentMethod
-      };
-
-      // Dispara chamada para a API de Pagamento / Webhook
-      const response = await window.ApiService.processSubscriptionPayment(orderData);
-
-      if (response && response.success) {
-        // Se usuário não existia, cria ou atualiza no AuthService
-        let currentUser = window.AuthService.getCurrentUser();
-        if (!currentUser) {
-          const regRes = window.AuthService.register({
-            name,
-            email,
-            password: '123'
-          });
-          if (regRes.success) currentUser = regRes.user;
-          else {
-            window.AuthService.login(email, '123');
-            currentUser = window.AuthService.getCurrentUser();
-          }
-        }
-
-        // Ativa o plano VIP
-        window.AuthService.upgradeCurrentUser(this.selectedPlan.id);
-
-        if (statusMsg) {
-          statusMsg.innerHTML = '<span style="color:var(--good);font-weight:600">✓ Pagamento Aprovado com Sucesso!</span>';
-        }
-
-        setTimeout(() => {
-          this.closeModal();
-          if (window.AppUI) {
-            window.AppUI.showToast('🎉 Parabéns! Seu acesso à plataforma Neto Invest está 100% liberado!');
-            window.AppUI.navigateToSection('terminal-section');
-          }
-          if (window.NetoPlatform) {
-            window.NetoPlatform.render();
-          }
-        }, 1000);
-      } else {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Confirmar e Liberar Acesso VIP';
-        if (statusMsg) statusMsg.innerHTML = '<span style="color:var(--bad)">Erro ao processar: ' + (response?.error || 'Tente novamente.') + '</span>';
-      }
-    }
-  }
-
-  window.Checkout = new Checkout();
 })(window);
 
 
@@ -4142,28 +3881,64 @@ window.NETO_DATA = {
   }
 
   function renderLockedGate(viewId) {
-    const viewName = VIEWS.find(v => v.id === viewId)?.name || 'Recurso Exclusivo';
+    const viewName = VIEWS.find(v => v.id === viewId)?.name || 'Recurso da Plataforma';
+    const user = window.AuthService && window.AuthService.getCurrentUser();
+
+    if (!user) {
+      return `
+        <div class="panel locked-gate-panel" style="text-align:center;padding:54px 20px;max-width:640px;margin:24px auto;border-radius:var(--r-lg);box-shadow:var(--shadow-md);">
+          <div style="width:58px;height:58px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;margin:0 auto 16px;">
+            <svg viewBox="0 0 24 24" style="width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:2;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          </div>
+          <div class="eyebrow" style="color:var(--accent);margin-bottom:6px;">Área Exclusiva para Membros</div>
+          <h2 style="font-size:23px;margin:0 0 10px;color:var(--ink);">${viewName} Bloqueado</h2>
+          <p style="font-size:14px;color:var(--muted);line-height:1.6;margin:0 auto 22px;max-width:480px;">
+            Esta ferramenta é exclusiva para membros apoiadores do canal <b>Neto Invest</b> no YouTube. Entre com sua conta ou cadastre-se para ativar sua Chave de Membro de 30 dias.
+          </p>
+          <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+            <button class="pri" style="height:40px;padding:0 24px;font-size:13.5px;" onclick="window.AppUI.openAuthModal('login')">
+              Entrar na Minha Conta
+            </button>
+            <button class="ghost" style="height:40px;padding:0 20px;font-size:13.5px;border:1px solid var(--line);" onclick="window.AppUI.openAuthModal('register')">
+              Criar Conta Gratuita
+            </button>
+          </div>
+          <p style="margin-top:20px;font-size:12px;color:var(--muted);">
+            É membro no YouTube? A chave é publicada todo mês na 
+            <a href="https://www.youtube.com/@NetoInvest" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">Aba Comunidade</a>.
+          </p>
+        </div>
+      `;
+    }
+
     return `
-      <div class="panel locked-gate-panel" style="text-align:center;padding:54px 20px;max-width:640px;margin:24px auto;border-radius:var(--r-lg);box-shadow:var(--shadow-md);">
-        <div style="width:58px;height:58px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;margin:0 auto 16px;">
-          <svg viewBox="0 0 24 24" style="width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:2;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      <div class="panel locked-gate-panel" style="text-align:center;padding:50px 24px;max-width:620px;margin:24px auto;border-radius:var(--r-lg);box-shadow:var(--shadow-md);">
+        <div style="width:62px;height:62px;border-radius:50%;background:rgba(183,120,10,0.15);color:var(--accent);display:grid;place-items:center;margin:0 auto 16px;font-size:28px;">
+          🔑
         </div>
-        <div class="eyebrow" style="color:var(--accent);margin-bottom:6px;">Área Exclusiva para Membros</div>
-        <h2 style="font-size:23px;margin:0 0 10px;color:var(--ink);">${viewName} Bloqueado</h2>
-        <p style="font-size:14px;color:var(--muted);line-height:1.6;margin:0 auto 22px;max-width:480px;">
-          Este recurso é restrito aos membros da plataforma <b>Neto Invest</b>. Faça login para acessar as cotações ao vivo via BVMF (B3), preços teto e simuladores.
+        <div class="eyebrow" style="color:var(--accent);margin-bottom:6px;">Chave Mensal de Membro YouTube</div>
+        <h2 style="font-size:22px;margin:0 0 8px;color:var(--ink);">Ative seus 30 dias de acesso</h2>
+        <p style="font-size:13.5px;color:var(--muted);line-height:1.6;margin:0 auto 20px;max-width:460px;">
+          Olá, <b>${user.name.split(' ')[0]}</b>! Para liberar o Ranking BVMF, a Minha Carteira e os simuladores, insira o <b>Serial Key</b> do mês publicado na área de membros do YouTube.
         </p>
-        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-          <button class="pri" style="height:40px;padding:0 24px;font-size:13.5px;" onclick="window.AppUI.openAuthModal('login')">
-            Entrar com Minha Conta
-          </button>
-          <button class="ghost" style="height:40px;padding:0 20px;font-size:13.5px;border:1px solid var(--line);" onclick="document.getElementById('planos').scrollIntoView({behavior:'smooth'})">
-            Ver Planos de Acesso
-          </button>
+
+        <div style="max-width:400px;margin:0 auto;display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;gap:8px;">
+            <input type="text" id="gate-key-input" placeholder="NETO-XXXX-XXXX-XXXX"
+              style="flex:1;height:44px;font-size:14px;font-family:monospace;letter-spacing:1.5px;text-transform:uppercase;text-align:center;"
+              oninput="this.value=this.value.toUpperCase()"
+              onkeydown="if(event.key==='Enter') window.TerminalApp && window.TerminalApp.activateKeyFromGate()">
+            <button class="pri" onclick="window.TerminalApp && window.TerminalApp.activateKeyFromGate()" style="height:44px;padding:0 20px;white-space:nowrap;font-size:13.5px;">
+              Ativar
+            </button>
+          </div>
+          <div id="gate-key-error" style="display:none;color:var(--bad);font-size:12.5px;text-align:left;"></div>
         </div>
-        <p style="margin-top:16px;font-size:12px;color:var(--muted);">
-          Ainda não tem conta? <a href="javascript:void(0)" onclick="window.AppUI.openAuthModal('register')" style="color:var(--accent);font-weight:600;">Cadastre-se gratuitamente</a>
-        </p>
+
+        <div style="margin-top:22px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);">
+          A chave é renovada a cada 30 dias na aba Comunidade do 
+          <a href="https://www.youtube.com/@NetoInvest" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">Canal Neto Invest no YouTube</a>.
+        </div>
       </div>
     `;
   }
@@ -4183,11 +3958,10 @@ window.NETO_DATA = {
     const view = $('#view');
     if (!view) return;
 
-    const user = window.AuthService && window.AuthService.getCurrentUser();
-    const isLoggedIn = !!user;
+    const hasAccess = window.AuthService && window.AuthService.hasActiveAccess();
 
-    // Se NÃO estiver logado: bloqueia o acesso e exibe tela de login/membro
-    if (!isLoggedIn) {
+    // Se não tiver acesso ativo (chave válida de 30 dias ou admin), exibe tela de ativação
+    if (!hasAccess) {
       renderTabsHTML(false);
       syncActiveNav('');
       view.innerHTML = renderLockedGate(cur);
@@ -4231,6 +4005,25 @@ window.NETO_DATA = {
 
   // Objeto de controle global do Terminal e Navegação
   window.TerminalApp = {
+    activateKeyFromGate() {
+      const input = document.getElementById('gate-key-input');
+      const errEl = document.getElementById('gate-key-error');
+      const keyStr = input ? input.value.trim() : '';
+
+      if (!keyStr) {
+        if (errEl) { errEl.style.display = 'block'; errEl.textContent = 'Digite a chave de acesso.'; }
+        return;
+      }
+
+      const res = window.AuthService.activateKey(keyStr);
+      if (res.success) {
+        if (errEl) errEl.style.display = 'none';
+        window.AppUI && window.AppUI.showToast(`✅ Acesso liberado por mais ${res.daysAdded} dias (válido até ${res.expiresFormatted})!`);
+        render();
+      } else {
+        if (errEl) { errEl.style.display = 'block'; errEl.textContent = res.error; }
+      }
+    },
     goToTab(tabId) {
       const user = window.AuthService && window.AuthService.getCurrentUser();
       if (!user) {
@@ -4680,10 +4473,10 @@ window.BVMFFinanceService = {
 
 
 // ──────────────────────────────────────────────────────────────────────────────
-// Painel do Administrador (Gestão de Assinantes & Automação de Pagamentos)
+// Painel do Administrador (Gestão de Membros & Chaves Serial YouTube)
 // ──────────────────────────────────────────────────────────────────────────────
 window.AdminPanel = {
-  currentTab: 'subscribers', // 'subscribers' | 'payments' | 'webhook_sim'
+  currentTab: 'subscribers', // 'subscribers' | 'keys'
   searchTerm: '',
 
   open(initialTab = 'subscribers') {
@@ -4698,11 +4491,11 @@ window.AdminPanel = {
         <div class="admin-header">
           <div>
             <div style="display:flex;align-items:center;gap:8px;">
-              <span class="admin-badge">Painel de Controle</span>
+              <span class="admin-badge">Canal YouTube</span>
               <h2 style="font-size:22px;margin:0;">Administração Neto Invest</h2>
             </div>
             <p style="font-size:12.5px;color:var(--muted);margin-top:4px;">
-              Gestão de assinantes, controle de acessos VIP e integração com API de pagamentos.
+              Gestão de membros do canal e gerador de Chaves Seriais de 30 dias para a Área de Membros.
             </p>
           </div>
           <button class="x" onclick="window.AdminPanel.close()">✕</button>
@@ -4710,18 +4503,15 @@ window.AdminPanel = {
 
         <div class="admin-tabs">
           <button class="admin-tab-btn ${this.currentTab === 'subscribers' ? 'active' : ''}" onclick="window.AdminPanel.switchTab('subscribers')">
-            👥 Assinantes (${window.AuthService ? window.AuthService.getAllUsers().length : 0})
+            👥 Membros (${window.AuthService ? window.AuthService.getAllUsers().length : 0})
           </button>
-          <button class="admin-tab-btn ${this.currentTab === 'payments' ? 'active' : ''}" onclick="window.AdminPanel.switchTab('payments')">
-            💳 Gateway & Chaves de Pagamento
-          </button>
-          <button class="admin-tab-btn ${this.currentTab === 'webhook_sim' ? 'active' : ''}" onclick="window.AdminPanel.switchTab('webhook_sim')">
-            ⚡ Automação de Compras (Webhook)
+          <button class="admin-tab-btn ${this.currentTab === 'keys' ? 'active' : ''}" onclick="window.AdminPanel.switchTab('keys')">
+            🔑 Chaves de Acesso (${window.AuthService ? window.AuthService.loadKeys().length : 0})
           </button>
         </div>
 
         <div id="admin-tab-content">
-          ${this.renderTabContent()}
+          ${this.renderCurrentTab()}
         </div>
       </div>
     `;
@@ -4730,351 +4520,232 @@ window.AdminPanel = {
   },
 
   close() {
-    const modal = document.getElementById('admin-panel-modal');
-    if (modal) modal.remove();
+    const el = document.getElementById('admin-panel-modal');
+    if (el) el.remove();
   },
 
   switchTab(tab) {
     this.currentTab = tab;
-    document.querySelectorAll('.admin-tab-btn').forEach((b, i) => {
-      b.classList.toggle('active', (i === 0 && tab === 'subscribers') || (i === 1 && tab === 'payments') || (i === 2 && tab === 'webhook_sim'));
+    const content = document.getElementById('admin-tab-content');
+    if (content) content.innerHTML = this.renderCurrentTab();
+    document.querySelectorAll('.admin-tab-btn').forEach((btn, i) => {
+      btn.classList.toggle('active', (i === 0 && tab === 'subscribers') || (i === 1 && tab === 'keys'));
     });
-    const container = document.getElementById('admin-tab-content');
-    if (container) container.innerHTML = this.renderTabContent();
   },
 
-  renderTabContent() {
-    if (this.currentTab === 'subscribers') return this.renderSubscribersTab();
-    if (this.currentTab === 'payments') return this.renderPaymentsTab();
-    if (this.currentTab === 'webhook_sim') return this.renderWebhookTab();
+  renderCurrentTab() {
+    if (this.currentTab === 'subscribers') return this.renderSubscribers();
+    if (this.currentTab === 'keys') return this.renderKeys();
     return '';
   },
 
-  renderSubscribersTab() {
+  search(term) {
+    this.searchTerm = term;
+    const content = document.getElementById('admin-tab-content');
+    if (content) content.innerHTML = this.renderCurrentTab();
+  },
+
+  renderSubscribers() {
     const users = window.AuthService ? window.AuthService.getAllUsers() : [];
     const total = users.length;
-    const vips = users.filter(u => u.isVip).length;
-    const mensais = users.filter(u => u.isVip && u.plan === 'mensal').length;
-    const anuais = users.filter(u => u.isVip && u.plan === 'anual').length;
-    const mrr = (mensais * 39.90) + (anuais * 29.90);
-
-    const filtered = users.filter(u => {
-      if (!this.searchTerm) return true;
-      const term = this.searchTerm.toLowerCase();
-      return u.name.toLowerCase().includes(term) || u.email.toLowerCase().includes(term);
-    });
+    const now = Date.now();
+    const vips = users.filter(u => u.isAdmin || (u.isVip && (!u.expiresAt || new Date(u.expiresAt).getTime() > now))).length;
+    const filtered = this.searchTerm
+      ? users.filter(u => u.name.toLowerCase().includes(this.searchTerm.toLowerCase()) || u.email.toLowerCase().includes(this.searchTerm.toLowerCase()))
+      : users;
 
     return `
-      <div class="admin-kpis">
-        <div class="admin-kpi-card">
-          <small>Total Cadastrados</small>
-          <b>${total}</b>
-        </div>
-        <div class="admin-kpi-card">
-          <small>Assinantes VIP</small>
-          <b style="color:var(--good);">${vips}</b>
-        </div>
-        <div class="admin-kpi-card">
-          <small>Receita Recorrente</small>
-          <b style="color:var(--accent);">R$ ${mrr.toFixed(2).replace('.', ',')}/mês</b>
-        </div>
-        <div class="admin-kpi-card">
-          <small>Conversão VIP</small>
-          <b>${total > 0 ? Math.round((vips/total)*100) : 0}%</b>
-        </div>
+      <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+        <div style="background:var(--sunk);padding:10px 14px;border-radius:8px;border:1px solid var(--line);font-size:12.5px;">👥 <b>${total}</b> membros cadastrados</div>
+        <div style="background:rgba(107,255,176,0.1);color:#6bffb0;padding:10px 14px;border-radius:8px;border:1px solid rgba(107,255,176,0.25);font-size:12.5px;">✅ <b>${vips}</b> com acesso ativo</div>
+        <div style="background:var(--sunk);padding:10px 14px;border-radius:8px;border:1px solid var(--line);font-size:12.5px;">⏳ <b>${total - vips}</b> sem chave / expirados</div>
       </div>
 
       <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;">
         <input type="text" placeholder="Buscar por nome ou e-mail..." value="${this.searchTerm}" oninput="window.AdminPanel.search(this.value)" style="flex:1;max-width:320px;height:34px;font-size:12.5px;">
-        <button class="pri" style="height:34px;font-size:12.5px;" onclick="window.AdminPanel.openCreateUserModal()">
-          + Cadastrar Novo Assinante
-        </button>
+        <button class="pri" style="height:34px;font-size:12.5px;" onclick="window.AdminPanel.openCreateUserModal()">+ Adicionar Membro</button>
       </div>
 
-      <div class="admin-tbl-wrap">
-        <table class="admin-table">
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:12.5px;">
           <thead>
-            <tr>
-              <th>Usuário</th>
-              <th>E-mail</th>
-              <th>Plano</th>
-              <th>Status VIP</th>
-              <th>Expira em</th>
-              <th style="text-align:right;">Ações de Acesso</th>
+            <tr style="border-bottom:1px solid var(--border);">
+              <th style="text-align:left;padding:8px 6px;color:var(--muted);font-weight:600;">Membro</th>
+              <th style="text-align:left;padding:8px 6px;color:var(--muted);font-weight:600;">E-mail</th>
+              <th style="text-align:center;padding:8px 6px;color:var(--muted);font-weight:600;">Status</th>
+              <th style="text-align:left;padding:8px 6px;color:var(--muted);font-weight:600;">Validade</th>
+              <th style="text-align:center;padding:8px 6px;color:var(--muted);font-weight:600;">Ações</th>
             </tr>
           </thead>
           <tbody>
-            ${filtered.map(u => `
-              <tr>
-                <td>
-                  <b>${u.name}</b> ${u.isAdmin ? '<span class="admin-badge" style="font-size:9.5px;padding:1px 5px;">ADMIN</span>' : ''}
+            ${filtered.map(u => {
+              const isActive = u.isAdmin || (u.isVip && (!u.expiresAt || new Date(u.expiresAt).getTime() > now));
+              return `
+              <tr style="border-bottom:1px solid var(--border);transition:background .15s;" onmouseenter="this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background=''">
+                <td style="padding:8px 6px;">
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="width:28px;height:28px;border-radius:50%;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">${u.name.charAt(0).toUpperCase()}</span>
+                    <div>
+                      <div style="font-weight:600;">${u.name}</div>
+                      ${u.isAdmin ? '<div style="font-size:10px;color:#B7780A;">⚙️ Administrador Principal</div>' : ''}
+                      ${u.lastActivatedKey ? `<div style="font-size:10.5px;color:var(--muted);font-family:monospace;">Chave: ${u.lastActivatedKey}</div>` : ''}
+                    </div>
+                  </div>
                 </td>
-                <td style="color:var(--muted);">${u.email}</td>
-                <td>
-                  <span style="text-transform:capitalize;font-weight:500;">${u.plan || 'Nenhum'}</span>
+                <td style="padding:8px 6px;color:var(--muted);">${u.email}</td>
+                <td style="padding:8px 6px;text-align:center;">
+                  <span class="plan-pill ${isActive ? 'vip' : 'free'}">${isActive ? '✅ Ativo' : '🔒 Sem Chave'}</span>
                 </td>
-                <td>
-                  <span class="status-badge ${u.isVip ? 'vip' : 'free'}">
-                    ${u.isVip ? '● VIP Ativo' : '○ Bloqueado'}
-                  </span>
+                <td style="padding:8px 6px;color:var(--muted);font-size:11.5px;">
+                  ${u.isAdmin ? '∞ Vitalício' : (u.expiresAt ? new Date(u.expiresAt).toLocaleDateString('pt-BR') : '—')}
                 </td>
-                <td style="font-size:11.5px;color:var(--muted);">
-                  ${u.expiresAt ? new Date(u.expiresAt).toLocaleDateString('pt-BR') : '—'}
-                </td>
-                <td style="text-align:right;">
-                  <button class="${u.isVip ? 'ghost' : 'pri'}" style="padding:4px 8px;font-size:11px;height:26px;" onclick="window.AdminPanel.toggleVip('${u.id}')">
-                    ${u.isVip ? 'Bloquear Acesso' : 'Liberar VIP'}
-                  </button>
-                  <button class="ghost" style="padding:4px 8px;font-size:11px;height:26px;" onclick="window.AdminPanel.changePlan('${u.id}')">
-                    Plano
-                  </button>
+                <td style="padding:8px 6px;text-align:center;">
                   ${!u.isAdmin ? `
-                    <button class="ghost" style="padding:4px 6px;font-size:11px;height:26px;color:var(--bad);" onclick="window.AdminPanel.deleteUser('${u.id}')" title="Excluir">
-                      ✕
+                    <button onclick="window.AdminPanel.grantDays('${u.id}', 30)" style="font-size:11px;padding:3px 8px;height:24px;border-radius:4px;cursor:pointer;background:#1a3a2a;color:#6bffb0;border:1px solid #6bffb044;font-weight:600;" title="Adicionar 30 dias de acesso">+30 Dias</button>
+                    <button onclick="window.AdminPanel.toggleVip('${u.id}')" style="font-size:11px;padding:3px 8px;height:24px;border-radius:4px;cursor:pointer;background:transparent;color:${isActive ? '#ff6b6b' : 'var(--accent)'};border:1px solid var(--border);margin-left:4px;">
+                      ${isActive ? 'Revogar' : 'Liberar'}
                     </button>
-                  ` : ''}
+                    <button onclick="window.AdminPanel.confirmDeleteUser('${u.id}', '${u.name.replace(/'/g, "\'")}')" style="font-size:11px;padding:3px 8px;height:24px;border-radius:4px;cursor:pointer;background:transparent;color:var(--muted);border:1px solid var(--border);margin-left:4px;" title="Remover usuário">
+                      🗑
+                    </button>
+                  ` : '<span style="color:var(--muted);font-size:11px;">Admin</span>'}
                 </td>
               </tr>
-            `).join('')}
+            `}).join('')}
           </tbody>
         </table>
+        ${filtered.length === 0 ? '<p style="text-align:center;color:var(--muted);padding:24px;">Nenhum membro encontrado.</p>' : ''}
       </div>
     `;
   },
 
-  renderPaymentsTab() {
-    const cfg = window.ApiService ? window.ApiService.getConfig() : {};
+  renderKeys() {
+    const keys = window.AuthService ? window.AuthService.loadKeys() : [];
+    const active = keys.filter(k => k.active);
+
     return `
-      <div style="background:var(--sunk);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:18px;">
-        <h3 style="font-size:15px;margin:0 0 6px;">Configuração do Gateway de Pagamento</h3>
-        <p style="font-size:12.5px;color:var(--muted);margin:0;">
-          Defina sua conta do Asaas, Mercado Pago, Stripe ou Kiwify para processar vendas e receber direto via PIX.
-        </p>
+      <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+        <div style="background:var(--sunk);padding:10px 14px;border-radius:8px;border:1px solid var(--line);font-size:12.5px;">🔑 <b>${keys.length}</b> chaves criadas</div>
+        <div style="background:rgba(107,255,176,0.1);color:#6bffb0;padding:10px 14px;border-radius:8px;border:1px solid rgba(107,255,176,0.25);font-size:12.5px;">✅ <b>${active.length}</b> ativas</div>
+        <div style="background:var(--sunk);padding:10px 14px;border-radius:8px;border:1px solid var(--line);font-size:12.5px;">👤 <b>${keys.reduce((a,k) => a + (k.uses||0), 0)}</b> ativações totais</div>
       </div>
 
-      <form onsubmit="window.AdminPanel.savePaymentConfig(event)" style="display:flex;flex-direction:column;gap:14px;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-          <div class="form-group">
-            <label>Plataforma de Pagamento</label>
-            <select id="adm-provider" style="width:100%">
-              <option value="asaas" ${cfg.paymentProvider === 'asaas' ? 'selected' : ''}>Asaas (Recomendado para PIX & Boletos)</option>
-              <option value="mercadopago" ${cfg.paymentProvider === 'mercadopago' ? 'selected' : ''}>Mercado Pago</option>
-              <option value="kiwify" ${cfg.paymentProvider === 'kiwify' ? 'selected' : ''}>Kiwify Webhook</option>
-              <option value="stripe" ${cfg.paymentProvider === 'stripe' ? 'selected' : ''}>Stripe</option>
-              <option value="custom" ${cfg.paymentProvider === 'custom' ? 'selected' : ''}>Webhook Próprio</option>
-            </select>
+      <div style="background:rgba(183,120,10,0.1);border:1px solid rgba(183,120,10,0.3);border-radius:8px;padding:16px;margin-bottom:18px;">
+        <h3 style="margin:0 0 6px;font-size:15px;color:var(--ink);">⚡ Gerar Nova Chave Mensal para o YouTube</h3>
+        <p style="font-size:12px;color:var(--muted);margin:0 0 12px;">Crie uma chave serial e cole na aba Comunidade / Membros do seu canal para que todos os membros tenham 30 dias de acesso.</p>
+        
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;">
+          <div style="flex:1;min-width:200px;">
+            <label style="font-size:11.5px;color:var(--muted);display:block;margin-bottom:4px;">Descrição da Chave</label>
+            <input id="new-key-label" type="text" placeholder="Ex: Membros Novembro 2026" style="width:100%;height:36px;font-size:12.5px;">
           </div>
-
-          <div class="form-group">
-            <label>Ambiente de Operação</label>
-            <select id="adm-env" style="width:100%">
-              <option value="production" ${cfg.environment === 'production' ? 'selected' : ''}>Produção (Vendas Reais)</option>
-              <option value="sandbox" ${cfg.environment === 'sandbox' ? 'selected' : ''}>Sandbox (Modo Teste)</option>
-            </select>
+          <div style="width:120px;">
+            <label style="font-size:11.5px;color:var(--muted);display:block;margin-bottom:4px;">Duração (dias)</label>
+            <input id="new-key-days" type="number" value="30" min="1" max="365" style="width:100%;height:36px;font-size:12.5px;text-align:center;">
           </div>
+          <button class="pri" onclick="window.AdminPanel.genKey()" style="height:36px;padding:0 18px;white-space:nowrap;font-size:13px;">⚡ Gerar Chave</button>
         </div>
 
-        <div class="form-group">
-          <label>Chave de API / Token Secreto da sua Conta</label>
-          <input type="text" id="adm-key" value="${cfg.apiKey || ''}" placeholder="Cole seu token gerado no painel da plataforma">
-        </div>
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-          <div class="form-group">
-            <label>Sua Chave Pix para Recebimentos</label>
-            <input type="text" id="adm-pix" value="${cfg.pixKey || 'netoinvest.contato@pagamentos.com.br'}" placeholder="CNPJ, E-mail ou Telefone">
-          </div>
-
-          <div class="form-group">
-            <label>URL de Notificação / Webhook</label>
-            <input type="url" id="adm-endpoint" value="${cfg.endpointUrl || ''}" placeholder="https://seusite.com.br/api/webhook">
+        <div id="new-key-result" style="display:none;margin-top:14px;background:rgba(0,0,0,0.35);border:1px solid rgba(183,120,10,0.4);border-radius:6px;padding:14px;">
+          <p style="font-size:11.5px;color:var(--muted);margin:0 0 8px;">Chave gerada! Clique no botão abaixo para copiar e publicar no YouTube:</p>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <code id="new-key-value" style="font-size:20px;font-family:monospace;font-weight:700;color:var(--accent);letter-spacing:2px;background:rgba(0,0,0,0.5);padding:6px 12px;border-radius:4px;"></code>
+            <button class="pri" onclick="window.AdminPanel.copyKey()" style="font-size:12px;padding:0 14px;height:34px;">📋 Copiar para o YouTube</button>
           </div>
         </div>
+      </div>
 
-        <div id="adm-test-result" style="display:none;padding:10px;border-radius:6px;font-size:12.5px;"></div>
-
-        <div style="display:flex;gap:10px;margin-top:8px;">
-          <button type="button" class="ghost" style="flex:1;" onclick="window.AdminPanel.testConnection()">
-            Testar Conexão com Gateway
-          </button>
-          <button type="submit" class="pri" style="flex:1;">
-            Salvar Configurações de Pagamento
-          </button>
+      <h3 style="font-size:14px;margin:0 0 10px;color:var(--ink);">Histórico de Chaves Criadas</h3>
+      ${keys.length === 0 ? '<p style="color:var(--muted);font-size:13px;">Nenhuma chave criada ainda. Gere a primeira acima.</p>' : `
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          ${[...keys].map(k => `
+            <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--sunk);border:1px solid var(--line);border-radius:8px;flex-wrap:wrap;">
+              <div style="flex:1;min-width:180px;">
+                <div style="font-size:14px;font-weight:700;font-family:monospace;color:${k.active ? 'var(--accent)' : 'var(--muted)'};letter-spacing:1px;">${k.key}</div>
+                <div style="font-size:11.5px;color:var(--muted);">${k.label}</div>
+              </div>
+              <div style="display:flex;gap:12px;font-size:11.5px;color:var(--muted);">
+                <span>👤 <b>${k.uses || 0}</b> ativações</span>
+                <span>📅 ${new Date(k.createdAt).toLocaleDateString('pt-BR')}</span>
+                <span>⏱ <b>${k.durationDays}d</b></span>
+              </div>
+              <span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;background:${k.active ? 'rgba(107,255,176,0.1)' : 'rgba(255,107,107,0.1)'};color:${k.active ? '#6bffb0' : '#ff6b6b'};">
+                ${k.active ? '✅ Ativa' : '🔒 Revogada'}
+              </span>
+              ${k.active ? `
+                <button onclick="navigator.clipboard.writeText('${k.key}');window.AppUI.showToast('Chave copiada!');" style="font-size:11px;padding:3px 8px;height:26px;border-radius:4px;cursor:pointer;background:transparent;color:var(--accent);border:1px solid var(--accent-dim);">Copiar</button>
+                <button onclick="window.AdminPanel.revokeKey('${k.id}')" style="font-size:11px;padding:3px 8px;height:26px;border-radius:4px;cursor:pointer;background:transparent;color:#ff6b6b;border:1px solid #ff6b6b44;">Revogar</button>
+              ` : ''}
+            </div>
+          `).join('')}
         </div>
-      </form>
+      `}
     `;
   },
 
-  renderWebhookTab() {
-    return `
-      <div style="background:var(--accent-soft);border:1px solid rgba(27,95,184,0.2);border-radius:var(--r);padding:16px;margin-bottom:18px;">
-        <h3 style="font-size:15px;margin:0 0 6px;color:var(--accent);">Como Funciona a Automação de Compras?</h3>
-        <p style="font-size:13px;color:var(--ink);line-height:1.6;margin:0;">
-          Quando o cliente paga via PIX ou Cartão no checkout, a plataforma (Asaas/Kiwify/Mercado Pago) envia uma notificação automática chamada <b>Webhook</b>. O sistema reconhece o pagamento aprovado, cria o usuário e <b>libera o acesso VIP instantaneamente</b>.
-        </p>
-      </div>
-
-      <div class="panel" style="padding:18px;margin-bottom:16px;">
-        <h4 style="font-size:14px;margin:0 0 10px;">Simulador de Notificação de Compra Aprovada</h4>
-        <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">
-          Use este simulador para testar a liberação automática sem precisar gastar dinheiro real:
-        </p>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px;">
-          <div>
-            <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px;">E-mail do Comprador</label>
-            <input type="email" id="sim-email" placeholder="cliente@teste.com" style="width:100%;font-size:12.5px;">
-          </div>
-          <div>
-            <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px;">Nome do Comprador</label>
-            <input type="text" id="sim-name" placeholder="Nome do Cliente" style="width:100%;font-size:12.5px;">
-          </div>
-          <div>
-            <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px;">Plano Comprado</label>
-            <select id="sim-plan" style="width:100%;font-size:12.5px;">
-              <option value="anual">Anual PRO (R$ 358,80)</option>
-              <option value="mensal">Mensal (R$ 39,90)</option>
-              <option value="vitalicio">Vitalício VIP (R$ 890,00)</option>
-            </select>
-          </div>
-        </div>
-
-        <button class="pri" style="height:36px;font-size:13px;width:100%;" onclick="window.AdminPanel.simulateWebhook()">
-          ⚡ Disparar Webhook e Liberar Acesso Automaticamente
-        </button>
-
-        <div id="sim-webhook-result" style="display:none;margin-top:12px;padding:12px;border-radius:6px;font-size:12.5px;"></div>
-      </div>
-    `;
+  genKey() {
+    const label = document.getElementById('new-key-label')?.value.trim() || '';
+    const days = parseInt(document.getElementById('new-key-days')?.value) || 30;
+    const newKey = window.AuthService.createKey(label, days);
+    const resultEl = document.getElementById('new-key-result');
+    const valueEl = document.getElementById('new-key-value');
+    if (resultEl) resultEl.style.display = 'block';
+    if (valueEl) valueEl.textContent = newKey.key;
+    const tabBtns = document.querySelectorAll('.admin-tab-btn');
+    if (tabBtns && tabBtns[1]) tabBtns[1].textContent = `🔑 Chaves de Acesso (${window.AuthService.loadKeys().length})`;
   },
 
-  search(val) {
-    this.searchTerm = val;
-    const content = document.getElementById('admin-tab-content');
-    if (content) content.innerHTML = this.renderSubscribersTab();
+  copyKey() {
+    const key = document.getElementById('new-key-value')?.textContent;
+    if (key && navigator.clipboard) {
+      navigator.clipboard.writeText(key).then(() => {
+        window.AppUI && window.AppUI.showToast('✅ Chave copiada! Cole na aba Membros do seu canal do YouTube.');
+      });
+    }
+  },
+
+  revokeKey(keyId) {
+    if (!confirm('Deseja realmente revogar esta chave? Novos membros não conseguirão mais ativá-la.')) return;
+    window.AuthService.revokeKey(keyId);
+    this.switchTab('keys');
+    window.AppUI && window.AppUI.showToast('Chave revogada.');
+  },
+
+  grantDays(userId, days = 30) {
+    const res = window.AuthService.grantDays(userId, days);
+    if (res.success) {
+      this.switchTab('subscribers');
+      window.AppUI && window.AppUI.showToast(`+${days} dias concedidos para ${res.user.name}!`);
+    }
   },
 
   toggleVip(userId) {
     const res = window.AuthService.toggleUserVip(userId);
     if (res.success) {
-      window.AppUI.showToast(`Status VIP atualizado para: ${res.user.name}`);
       this.switchTab('subscribers');
+      window.AppUI && window.AppUI.showToast(`Acesso ${res.user.isVip ? 'liberado' : 'revogado'} para ${res.user.name}.`);
     }
   },
 
-  changePlan(userId) {
-    const newPlan = prompt('Escolha o plano (mensal, anual ou vitalicio):', 'anual');
-    if (newPlan && ['mensal', 'anual', 'vitalicio'].includes(newPlan.toLowerCase())) {
-      const res = window.AuthService.setUserPlan(userId, newPlan.toLowerCase());
-      if (res.success) {
-        window.AppUI.showToast(`Plano alterado para ${newPlan} com sucesso!`);
-        this.switchTab('subscribers');
-      }
-    }
-  },
-
-  deleteUser(userId) {
-    if (confirm('Tem certeza que deseja excluir este usuário?')) {
-      const res = window.AuthService.deleteUser(userId);
-      if (res.success) {
-        window.AppUI.showToast('Usuário excluído!');
-        this.switchTab('subscribers');
-      } else {
-        alert(res.error);
-      }
-    }
+  confirmDeleteUser(userId, name) {
+    if (!confirm(`Remover o membro "${name}"? Esta ação não pode ser desfeita.`)) return;
+    window.AuthService.deleteUser(userId);
+    this.switchTab('subscribers');
+    window.AppUI && window.AppUI.showToast(`Membro ${name} removido.`);
   },
 
   openCreateUserModal() {
-    const name = prompt('Nome completo do assinante:');
-    if (!name) return;
-    const email = prompt('E-mail do assinante:');
+    const email = prompt('E-mail do novo membro:');
     if (!email) return;
-    const password = prompt('Senha de acesso:', '123456');
-    const isVip = confirm('Deseja liberar acesso VIP imediatamente?');
-    const plan = isVip ? (prompt('Plano (mensal, anual ou vitalicio):', 'anual') || 'anual') : null;
-
-    const res = window.AuthService.adminCreateUser({ name, email, password, plan, isVip });
+    const name = prompt('Nome do novo membro:');
+    if (!name) return;
+    const password = prompt('Senha inicial (o membro pode alterar depois):') || 'neto123';
+    const res = window.AuthService.adminCreateUser({ name, email, password, isVip: true, days: 30 });
     if (res.success) {
-      window.AppUI.showToast(`Assinante ${name} cadastrado com sucesso!`);
       this.switchTab('subscribers');
+      window.AppUI && window.AppUI.showToast(`✅ Membro ${name} adicionado com 30 dias de acesso!`);
     } else {
-      alert(res.error);
-    }
-  },
-
-  savePaymentConfig(e) {
-    e.preventDefault();
-    const provider = document.getElementById('adm-provider')?.value;
-    const key = document.getElementById('adm-key')?.value;
-    const pix = document.getElementById('adm-pix')?.value;
-    const endpoint = document.getElementById('adm-endpoint')?.value;
-    const env = document.getElementById('adm-env')?.value;
-
-    window.ApiService && window.ApiService.saveConfig({
-      paymentProvider: provider,
-      apiKey: key,
-      pixKey: pix,
-      endpointUrl: endpoint,
-      environment: env
-    });
-
-    window.AppUI.showToast('Configurações de pagamento salvas!');
-  },
-
-  async testConnection() {
-    const resBox = document.getElementById('adm-test-result');
-    if (!resBox) return;
-    resBox.style.display = 'block';
-    resBox.style.background = 'var(--sunk)';
-    resBox.style.color = 'var(--ink)';
-    resBox.textContent = 'Testando conexão com a plataforma de pagamentos...';
-
-    const res = window.ApiService ? await window.ApiService.testConnection() : { success: false, message: 'ApiService indisponível' };
-    if (res.success) {
-      resBox.style.background = 'var(--good-soft)';
-      resBox.style.color = 'var(--good)';
-      resBox.textContent = `✓ ${res.message}`;
-    } else {
-      resBox.style.background = 'var(--bad-soft)';
-      resBox.style.color = 'var(--bad)';
-      resBox.textContent = `✕ ${res.message}`;
-    }
-  },
-
-  simulateWebhook() {
-    const email = (document.getElementById('sim-email')?.value || '').trim();
-    const name = (document.getElementById('sim-name')?.value || '').trim();
-    const plan = document.getElementById('sim-plan')?.value || 'anual';
-    const resBox = document.getElementById('sim-webhook-result');
-
-    if (!email) {
-      alert('Informe o e-mail para simular o pagamento.');
-      return;
-    }
-
-    const res = window.AuthService.processWebhookPayment({
-      email,
-      name: name || 'Cliente Webhook',
-      plan,
-      provider: 'asaas_webhook',
-      transactionId: 'tx_' + Date.now()
-    });
-
-    if (res.success) {
-      resBox.style.display = 'block';
-      resBox.style.background = 'var(--good-soft)';
-      resBox.style.color = 'var(--good)';
-      resBox.innerHTML = `
-        <b>✓ Pagamento Aprovado com Sucesso!</b><br>
-        O acesso VIP para <b>${res.user.email}</b> foi liberado automaticamente no plano <b>${res.user.plan.toUpperCase()}</b>.<br>
-        <span style="font-size:11px;color:var(--muted);">Expira em: ${new Date(res.user.expiresAt).toLocaleDateString('pt-BR')}</span>
-      `;
-      window.AppUI.showToast(`Acesso VIP liberado para ${res.user.email}!`);
-      // Atualiza aba se estiver aberta
-      setTimeout(() => {
-        const btn = document.querySelector('.admin-tab-btn');
-        if (btn) btn.textContent = `👥 Assinantes (${window.AuthService.getAllUsers().length})`;
-      }, 300);
+      alert('Erro: ' + res.error);
     }
   }
 };
@@ -5129,12 +4800,23 @@ window.AdminPanel = {
       if (!userArea) return;
 
       if (user) {
-        const isVip = !!user.isVip;
+        const hasAccess = window.AuthService.hasActiveAccess();
+        const expDate = user.expiresAt ? new Date(user.expiresAt).toLocaleDateString('pt-BR') : null;
         userArea.innerHTML = `
           <div class="user-profile-badge">
             <span class="user-avatar">${user.name.charAt(0).toUpperCase()}</span>
             <span style="font-weight:600;font-size:12.5px;">${user.name.split(' ')[0]}</span>
-            <span class="plan-pill ${isVip ? 'vip' : 'free'}">${isVip ? 'VIP' : 'Grátis'}</span>
+            <span class="plan-pill ${hasAccess ? 'vip' : 'free'}">
+              ${user.isAdmin ? 'Admin' : (hasAccess ? 'Membro Ativo' : 'Pendente')}
+            </span>
+            ${!user.isAdmin && hasAccess && expDate ? `
+              <span style="font-size:10.5px;color:var(--muted);white-space:nowrap;">(até ${expDate})</span>
+            ` : ''}
+            ${!user.isAdmin ? `
+              <button class="ghost" onclick="window.AppUI.openKeyModal()" style="padding:2px 7px;height:24px;font-size:11px;color:var(--accent);border-color:var(--accent-dim);" title="Inserir nova chave de membro">
+                🔑 Chave
+              </button>
+            ` : ''}
             ${user.isAdmin ? `
               <button class="pri" onclick="window.AdminPanel && window.AdminPanel.open()" style="padding:3px 9px;height:24px;font-size:11px;background:#B7780A;border-color:#B7780A;" title="Painel do Administrador">
                 ⚙️ Admin
@@ -5150,6 +4832,92 @@ window.AdminPanel = {
           <button class="ghost nav-login-btn" onclick="window.AppUI.openAuthModal('login')">Entrar</button>
           <button class="pri nav-register-btn" onclick="window.AppUI.openAuthModal('register')">Cadastre-se</button>
         `;
+      }
+    }
+
+    // Modal para Membros Ativarem a Chave Serial
+    openKeyModal() {
+      this.closeKeyModal();
+      const user = window.AuthService && window.AuthService.getCurrentUser();
+      const modalEl = document.createElement('div');
+      modalEl.id = 'key-modal';
+      modalEl.className = 'modal-backdrop';
+      modalEl.innerHTML = `
+        <div class="modal-card" style="max-width:460px;width:92%;" role="dialog" aria-modal="true">
+          <div class="modal-header">
+            <div>
+              <span class="eyebrow" style="color:var(--accent);">Área de Membros</span>
+              <h2 style="font-size:20px;margin:2px 0 0;">Ativar Chave de Acesso</h2>
+            </div>
+            <button class="x" onclick="window.AppUI.closeKeyModal()">✕</button>
+          </div>
+
+          <p style="font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:16px;">
+            Digite a Chave Mensal divulgada na aba <b>Comunidade / Membros</b> do canal Neto Invest no YouTube para liberar ou renovar seus 30 dias de acesso.
+          </p>
+
+          ${!user ? `
+            <div style="background:var(--sunk);border:1px solid var(--line);border-radius:8px;padding:14px;margin-bottom:16px;text-align:center;">
+              <p style="font-size:12.5px;color:var(--ink);margin-bottom:10px;">Você precisa estar conectado à sua conta para vincular a chave.</p>
+              <div style="display:flex;gap:8px;justify-content:center;">
+                <button class="pri" style="height:34px;font-size:12px;padding:0 14px;" onclick="window.AppUI.closeKeyModal();window.AppUI.openAuthModal('login');">Fazer Login</button>
+                <button class="ghost" style="height:34px;font-size:12px;padding:0 14px;" onclick="window.AppUI.closeKeyModal();window.AppUI.openAuthModal('register');">Criar Conta</button>
+              </div>
+            </div>
+          ` : `
+            <div style="margin-bottom:16px;">
+              <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:600;">CHAVE SERIAL (30 DIAS)</label>
+              <input type="text" id="modal-key-input" placeholder="NETO-XXXX-XXXX-XXXX"
+                style="width:100%;height:44px;font-size:15px;font-family:monospace;letter-spacing:1.5px;text-transform:uppercase;text-align:center;"
+                oninput="this.value=this.value.toUpperCase()"
+                onkeydown="if(event.key==='Enter') window.AppUI.handleActivateKeyModal()">
+              <div id="modal-key-error" style="display:none;color:var(--bad);font-size:12px;margin-top:6px;"></div>
+            </div>
+
+            <button class="pri" style="width:100%;height:42px;font-size:13.5px;" onclick="window.AppUI.handleActivateKeyModal()">
+              ⚡ Ativar 30 Dias de Acesso
+            </button>
+          `}
+
+          <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted);text-align:center;">
+            Ainda não é membro no YouTube? 
+            <a href="https://www.youtube.com/@NetoInvest" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600;">Seja Membro do Canal</a>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modalEl);
+      setTimeout(() => {
+        const inp = document.getElementById('modal-key-input');
+        if (inp) inp.focus();
+      }, 100);
+    }
+
+    closeKeyModal() {
+      const el = document.getElementById('key-modal');
+      if (el) el.remove();
+    }
+
+    handleActivateKeyModal() {
+      const inp = document.getElementById('modal-key-input');
+      const err = document.getElementById('modal-key-error');
+      const keyVal = inp ? inp.value.trim() : '';
+
+      if (!keyVal) {
+        if (err) { err.style.display = 'block'; err.textContent = 'Digite a chave de acesso.'; }
+        return;
+      }
+
+      const res = window.AuthService.activateKey(keyVal);
+      if (res.success) {
+        this.closeKeyModal();
+        this.showToast(`✅ Acesso liberado por mais ${res.daysAdded} dias (válido até ${res.expiresFormatted})!`);
+        if (window.NetoPlatform) {
+          window.NetoPlatform.render();
+        }
+        const term = document.getElementById('terminal-section');
+        if (term) term.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        if (err) { err.style.display = 'block'; err.textContent = res.error; }
       }
     }
 
